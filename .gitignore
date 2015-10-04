@@ -1,0 +1,11 @@
+packrat/lib*/
+.Rproj.user
+.RData
+.Rhistory
+.Rprofile
+merging_components.bbl
+merging_components.log
+merging_components.pdf
+merging_components.synctex.gz
+tex/partition-example-pars.tex
+packrat/src/
