@@ -1,9 +1,201 @@
 PackratFormat: 1.4
 PackratVersion: 0.4.3
-RVersion: 3.1.2
-Repos: CRAN=https://cran.rstudio.com/
+RVersion: 3.2.2
+Repos: CRAN=https://cran.rstudio.com/,
+    BioCsoft=http://bioconductor.org/packages/3.2/bioc,
+    BioCann=http://bioconductor.org/packages/3.2/data/annotation,
+    BioCexp=http://bioconductor.org/packages/3.2/data/experiment,
+    BioCextra=http://bioconductor.org/packages/3.2/extra
+
+Package: BH
+Source: CRAN
+Version: 1.58.0-1
+Hash: e85f8550fd05942d46bc4ac2d6172779
+
+Package: DBI
+Source: CRAN
+Version: 0.3.1
+Hash: 3a9e85b26ec3ab570266bccb3f9de055
+
+Package: Formula
+Source: CRAN
+Version: 1.2-1
+Hash: e805e52d4a9b5d07e721862da02764d5
+
+Package: Hmisc
+Source: CRAN
+Version: 3.16-0
+Hash: 4e4823cef1ae86a8a074212589303f9c
+Requires: Formula, acepack, ggplot2, gridExtra, gtable, lattice,
+    latticeExtra, proto, rpart, scales
+
+Package: MixSim
+Source: CRAN
+Version: 1.1-1
+Hash: 624450c34126f770fd797ec45b73ba5d
+
+Package: R6
+Source: CRAN
+Version: 2.1.1
+Hash: cdf3067300135b335655c9502c393c00
+
+Package: RColorBrewer
+Source: CRAN
+Version: 1.1-2
+Hash: 5203278413b09be06483c5ac1920bb05
+
+Package: Rcpp
+Source: CRAN
+Version: 0.12.0
+Hash: 7f7d6c3ee78244db39fa07c49bbdf3ed
+
+Package: Rmixmod
+Source: CRAN
+Version: 2.0.2
+Hash: e48b288e2f16af9665d407265ff7a669
+Requires: Rcpp
+
+Package: acepack
+Source: CRAN
+Version: 1.3-3.3
+Hash: e42d3814a877cf587e6a5225486323c3
+
+Package: assertthat
+Source: CRAN
+Version: 0.1
+Hash: 4b419cfdc33a3019a7f3c6f0cdea6c38
+
+Package: colorspace
+Source: CRAN
+Version: 1.2-6
+Hash: a53ddc5a49706984d234ea5cc209c8f0
+
+Package: dichromat
+Source: CRAN
+Version: 2.0-0
+Hash: 42be2136555fa4b6167605df56d8cd7c
+
+Package: digest
+Source: CRAN
+Version: 0.6.8
+Hash: 89dc4c8734dad5322bb3c5c2af09056f
+
+Package: dplyr
+Source: CRAN
+Version: 0.4.3
+Hash: 6dfa63b5d497a6e266fe4f2a26bd399f
+Requires: BH, DBI, R6, Rcpp, assertthat, lazyeval, magrittr
+
+Package: ggplot2
+Source: CRAN
+Version: 1.0.1
+Hash: 06a8e5faacfd76c9e4ab11a5b7ad94d6
+Requires: digest, gtable, plyr, proto, reshape2, scales
+
+Package: gridExtra
+Source: CRAN
+Version: 2.0.0
+Hash: ecd2f6b839625abd4f8c277b49b2fe98
+Requires: gtable
+
+Package: gtable
+Source: CRAN
+Version: 0.1.2
+Hash: 0cf4a2b54c02b35dec7e74a8ebed12a0
+
+Package: labeling
+Source: CRAN
+Version: 0.3
+Hash: 568a992912caf7eeddfb121924154047
+
+Package: latex2exp
+Source: CRAN
+Version: 0.3.3
+Hash: 6494c38f390250cc3c20b1f688f833d8
+Requires: magrittr, stringr
+
+Package: lattice
+Source: CRAN
+Version: 0.20-33
+Hash: 4554b51aed36fd41ec96fb77fd547f00
+
+Package: latticeExtra
+Source: CRAN
+Version: 0.6-26
+Hash: 2c59a30bb9d9d4651b913b828dca2640
+Requires: RColorBrewer, lattice
+
+Package: lazyeval
+Source: CRAN
+Version: 0.1.10
+Hash: 7f88a453d0b52e36ea46d9d33c6dcf90
+
+Package: magrittr
+Source: CRAN
+Version: 1.5
+Hash: 38d492cf072bc9f3c73bda2aee3d0e23
+
+Package: mixpack
+Source: github
+Version: 0.1
+Hash: d9f11b41d6f7e3a8bcbd16b015f35fe46d668a4f
+Requires: mvtnorm
+GithubRepo: mixpack
+GithubUsername: mcomas
+GithubRef: simple
+GithubSha1: d9f11b41d6f7e3a8bcbd16b015f35fe46d668a4f
+
+Package: munsell
+Source: CRAN
+Version: 0.4.2
+Hash: fa8af6d040041439b249351e9d16ae9a
+Requires: colorspace
+
+Package: mvtnorm
+Source: CRAN
+Version: 1.0-3
+Hash: b57bb72bb5bd49520f2eb657c87f1ff3
 
 Package: packrat
 Source: CRAN
 Version: 0.4.3
 Hash: 16c72d5c802629fae5a4abca901e0199
+
+Package: plyr
+Source: CRAN
+Version: 1.8.3
+Hash: fe30317b340ecef5a1524ac94664aca7
+Requires: Rcpp
+
+Package: proto
+Source: CRAN
+Version: 0.3-10
+Hash: 668a9e87cedbdc5f56c396edf1bd2648
+
+Package: reshape2
+Source: CRAN
+Version: 1.4.1
+Hash: a6438df48740c184298390a97a664bc6
+Requires: Rcpp, plyr, stringr
+
+Package: rpart
+Source: CRAN
+Version: 4.1-10
+Hash: aa9743a358edce0a410f5125834c09c2
+
+Package: scales
+Source: CRAN
+Version: 0.3.0
+Hash: cadf3c6f13dd0e46a51382c49524d462
+Requires: RColorBrewer, Rcpp, dichromat, labeling, munsell, plyr
+
+Package: stringi
+Source: CRAN
+Version: 0.5-5
+Hash: 0a188df0d11aeb417f1e10f2ebdd14cd
+
+Package: stringr
+Source: CRAN
+Version: 1.0.0
+Hash: 513045488dcf8019cc2f4305dc7d1f90
+Requires: magrittr, stringi
