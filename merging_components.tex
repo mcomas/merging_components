@@ -49,7 +49,7 @@
 
 
 % Mixture models
-The most standard parametric approach in cluster analysis assumes data can be modelled by a \emph{finite mixture of distributions} or a \emph{finite mixture model} (\fmm). A \fmm is a probability distribution with probability density function (pdf) defined as the linear combination of pdf from distributions with domain $\mathbb{X}$. In general, the pdf $f$ of a \fmm is
+A common approach in parametric cluster analysis assumes data can be modelled by means of a \emph{finite mixture of distributions} or a \emph{finite mixture model} (\fmm). A \fmm is a probability distribution with probability density function (pdf) defined as the linear combination of pdf from distributions with domain $\mathbb{X}$. In general, the pdf $f$ of a \fmm is
 \begin{equation}\label{mixt}
 f(\;\cdot\; ; \pi_1, \dots, \pi_k, \m\theta_1, \dots, \m\theta_k) = \pi_1 f_1(\;\cdot\; ; \m\theta_1) + \dots + \pi_k f_k(\;\cdot\; ; \m\theta_k),
 \end{equation}
@@ -114,12 +114,15 @@ c= \argmax_{p=1}^s \{ \hat{\tau}_{i I_p} \}
 
 \subsection{Example}
 
-Consider the following Gaussian mixture
+Consider following Gaussian mixture with 6 components
 \[
 \hat{f} = \sum_{j=1}^6 \hat{\pi}_j \phi(\;\cdot\; ; \hat{\m\mu}_j, \hat{\m\Sigma}_j)
 \]
-with parameters
+and parameters given by
 {\small \input{tex/partition-example-pars.tex} }
+
+
+A random generation of numbers following mixture $\hat{f}$ is represented in Figure~\ref{ex_mixture}. Note that although the finite mixture has 6 components, the data suggest to define 3 different cluster.
 
 
 \begin{figure}[thbp]
