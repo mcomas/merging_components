@@ -49,13 +49,13 @@
 
 
 % Mixture models
-A common approach in parametric cluster analysis assumes data can be modelled by means of a \emph{finite mixture of distributions} or a \emph{finite mixture model} (\fmm). A \fmm is a probability distribution with probability density function (pdf) defined as the linear combination of pdf from distributions with domain $\mathbb{X}$. In general, the pdf $f$ of a \fmm is
+A common approach in parametric cluster analysis assumes data can be modelled by means of a \emph{finite mixture of distributions}, also called \emph{finite mixture model} (\fmm). A \fmm is a probability distribution with probability density function (pdf) defined as the linear combination of pdf from distributions with same domain $\mathbb{X}$. In general, the pdf $f$ of a \fmm is
 \begin{equation}\label{mixt}
 f(\;\cdot\; ; \pi_1, \dots, \pi_k, \m\theta_1, \dots, \m\theta_k) = \pi_1 f_1(\;\cdot\; ; \m\theta_1) + \dots + \pi_k f_k(\;\cdot\; ; \m\theta_k),
 \end{equation}
-where $\m\theta_1, \dots,  \m\theta_k$ are the parameters of the pdf $f_1, \dots, f_k$ respectively and, because $\int_{\mathbb{X}}f = 1$ the restriction $\sum_{\ell = 1}^k \pi_\ell = 1$ holds. The pdf $f_1, \dots, f_k$ are called the \emph{components} of the \fmm, or simply the \emph{mixture components}. When model-based clustering is based on a \fmm the clustering usually approach consist of two steps:
+where $\m\theta_1, \dots,  \m\theta_k$ are the parameters of the pdf $f_1, \dots, f_k$ respectively and, because $\int_{\mathbb{X}}f = 1$ the restriction $\sum_{\ell = 1}^k \pi_\ell = 1$ holds. The pdf $f_1, \dots, f_k$ are called the \emph{components} of the \fmm, or simply the \emph{mixture components}. When model-based clustering is based on \fmm's, the clustering approach follows two steps:
 \begin{enumerate}
-\item to find a suitable estimators $\hat{\pi}_1, \dots, \hat{\pi}_k,$ $\hat{\m\theta}_1, \dots, \hat{\m\theta}_k$ of parameters $\pi_1, \dots, \pi_k,$ $\m\theta_1, \dots, \m\theta_k$, and
+\item to find suitable estimators $\hat{\pi}_1, \dots, \hat{\pi}_k,$ $\hat{\m\theta}_1, \dots, \hat{\m\theta}_k$ of parameters $\pi_1, \dots, \pi_k,$ $\m\theta_1, \dots, \m\theta_k$, and
 \item to classify each observation according to the maximum a posteriori criteria, i.e., one observation $\m x_i \in \mathbb{X}$ is classified to cluster $c$ if and only if
 \begin{equation}\label{map_criteria}
 c=\argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m x_i ; \hat{\m\theta}_j) }{\sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m x_i ; \hat{\m\theta}_\ell) }.
@@ -63,7 +63,7 @@ c=\argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m x_i ; \hat{\m\theta}_j) }{\sum_{\ell
 \end{enumerate}
 Note that in this process, the number of clusters $k$ is fixed in advance. 
 
-\cite{lee2004combining,hennig2010methods,baudry2010combining,melnykov2013distribution,pastore2013merging} noted that associating one mixture component to one cluster can be misleading because different mixture components can be not separated enough to be considered as a unique cluster. Instead, they proposed that one cluster can be formed by the combination of different mixture components. Therefore, one crucial point of this clustering method is how to decide which components have to be merged, the focus of this article.
+\cite{lee2004combining,hennig2010methods,baudry2010combining,melnykov2013distribution,pastore2013merging} noted that associating one mixture component to one cluster can be misleading because different mixture components can be not separated enough to be considered as a unique cluster. Instead, they proposed one cluster could be formed by the combination of different mixture components. Therefore, one crucial point of this clustering method is how to decide which components have to be merged, the focus of this article.
 
 
 We introduce a generic approach to decide which two components should be merged, the approach we introduce depends on two different functions $\lambda$ and $\omega$ which should be defined a priori. For different choices of this functions our approach contains the proposals given by \cite{baudry2010combining}, the DEMP approach introduced by \cite{hennig2010methods} and \cite{longford2014}. Once the criterion for merging component is adopted, from the initial \fmm we can build a hierarchy over the set of components and see which components are more likely to form a single cluster.
@@ -74,14 +74,12 @@ The paper is organised as follows: $\dots$
 \section{Definitions and notation}
 
 %
-
-
 A \emph{partition} of $\{1, \dots, k\}$, $\mathcal{P}_s$,  is a set of subsets $I_p$ of $\{1, \dots, k\}$, $1\leq p \leq s$, called $parts$, such that $\bigcup_{I_p \in \mathcal{P}_s} I_p = \{1, \dots, k\}$ and for any two parts $I_a, I_b \in \mathcal{P}_s$ with $a \neq b$, $I_a \cap I_b = \emptyset$ holds. It is important to note that for any partition  $\mathcal{P}_s$ the pdf $f$ of a \fmm (Eq.~\ref{mixt}) can be rewritten as
 \begin{equation}
 f = \pi_{I_1} f_{I_1} + \dots + \pi_{I_s} f_{I_s},
 \label{mixt_part}
 \end{equation}
-where $f_{I_p} = \sum_{j \in I_p} \frac{\pi_j}{\pi_{I_p}} f_j(\;\cdot\; ; \m\theta_j)$ and $\pi_{I_p} = \sum_{\ell \in I_p} \pi_\ell$. Moreover, note that $f_{I_p}$ is again a \fmm.
+where $f_{I_p} = \sum_{j \in I_p} \frac{\pi_j}{\pi_{I_p}} f_j(\;\cdot\; ; \m\theta_j)$ and $\pi_{I_p} = \sum_{\ell \in I_p} \pi_\ell$. Moreover, note that using this notation $f_{I_p}$ is also a \fmm.
 
 
 
@@ -96,11 +94,11 @@ A \emph{hierarchical sequence of partitions of $\{1,...,k\}$}, is a sequence of 
 
 
 
-One can extend Eq.~\ref{map_criteria} in terms of partitions. Indeed, let $\rm X = \{\m x_1,\dots, \m x_n\}$ be a sample defined in $\mathbb{X}$. Given a partition $\mathcal{P}_s = \{ I_1, \dots, I_s \}$ the posterior probability of $\m x_i$ being classified to $I_p\in \mathcal{P}_{s}$ is
+One can extend Eq.~\ref{map_criteria} in terms of partitions. Indeed, let $\rm X = \{\m x_1,\dots, \m x_n\}$ be a sample defined in $\mathbb{X}$. Given a partition $\mathcal{P}_s = \{ I_1, \dots, I_s \}$ the posterior probability of $\m x_i$ being classified to part $I_p\in \mathcal{P}_{s}$ is
 \[
 \hat{\tau}_{i I_p} =  \frac{ \hat{\pi}_{I_p} \hat{f}_{I_p}(\m x_i) }{\sum_{\ell=1}^s \hat{\pi}_{I_\ell} \hat{f}_{I_\ell}(\m x_i)}.
 \]
-where $\hat{\pi}_{I_p} = \sum_{\ell \in I_p} \hat{\pi}_\ell$ and $\hat{f}_{I_p}(\m x_i) = f_{I_p}(\m x_i; \hat{\theta})$. To simply, from now on, if there is no confusion, we use this notation. 
+where $\hat{\pi}_{I_p} = \sum_{\ell \in I_p} \hat{\pi}_\ell$ and $\hat{f}_{I_p}(\m x_i) = f_{I_p}(\m x_i; \hat{\theta})$. From now on, if there is now confusion with parameter $\hat{\theta}$, we are going to use this simplified notation. 
 
 For the partition  $\mathcal{P}_s$, we define the posterior probability vector as
 \[
@@ -122,7 +120,7 @@ and parameters given by
 {\small \input{tex/partition-example-pars.tex} }
 
 
-A random generation of numbers following mixture $\hat{f}$ is represented in Figure~\ref{ex_mixture}. Note that although the finite mixture has 6 components, the data suggest to define 3 different cluster.
+A random generation of numbers following mixture $\hat{f}$ is represented in Figure~\ref{ex_mixture}. Note that although the finite mixture has 6 components, in the plot 3 clusters are suggested.
 
 
 \begin{figure}[thbp]
