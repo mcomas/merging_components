@@ -74,7 +74,7 @@ The paper is organised as follows: $\dots$
 \section{Definitions and notation}
 
 %
-A \emph{partition} of $\{1, \dots, k\}$, $\mathcal{P}_s$,  is a set of subsets $I_p$ of $\{1, \dots, k\}$, $1\leq p \leq s$, called $parts$, such that $\bigcup_{I_p \in \mathcal{P}_s} I_p = \{1, \dots, k\}$ and for any two parts $I_a, I_b \in \mathcal{P}_s$ with $a \neq b$, $I_a \cap I_b = \emptyset$ holds. It is important to note that for any partition  $\mathcal{P}_s$ the pdf $f$ of a \fmm (Eq.~\ref{mixt}) can be rewritten as
+A \emph{partition} of $\{1, \dots, k\}$, $\mathcal{P}_s$,  is a set of subsets $I_p$ of $\{1, \dots, k\}$, $1\leq p \leq s$, called $parts$, such that $\bigcup_{I_p \in \mathcal{P}_s} I_p = \{1, \dots, k\}$ and for any two parts $I_a, I_b \in \mathcal{P}_s$ with $a \neq b$, $I_a \cap I_b = \emptyset$ holds. It is important to note that for any partition  $\mathcal{P}_s$ the pdf $f$ of a \fmm (Equation~\ref{mixt}) can be rewritten as
 \begin{equation}
 f = \pi_{I_1} f_{I_1} + \dots + \pi_{I_s} f_{I_s},
 \label{mixt_part}
@@ -94,34 +94,32 @@ A \emph{hierarchical sequence of partitions of $\{1,...,k\}$}, is a sequence of 
 
 
 
-One can extend Eq.~\ref{map_criteria} in terms of partitions. Indeed, let $\rm X = \{\m x_1,\dots, \m x_n\}$ be a sample defined in $\mathbb{X}$. Given a partition $\mathcal{P}_s = \{ I_1, \dots, I_s \}$ the posterior probability of $\m x_i$ being classified to part $I_p\in \mathcal{P}_{s}$ is
+One can extend Equation~\ref{map_criteria} in terms of partitions. Indeed, let $\rm X = \{\m x_1,\dots, \m x_n\}$ be a sample defined in $\mathbb{X}$. Given a partition $\mathcal{P}_s = \{ I_1, \dots, I_s \}$ the posterior probability of $\m x_i$ being classified to part $I_p\in \mathcal{P}_{s}$ is
 \[
-\hat{\tau}_{i I_p} =  \frac{ \hat{\pi}_{I_p} \hat{f}_{I_p}(\m x_i) }{\sum_{\ell=1}^s \hat{\pi}_{I_\ell} \hat{f}_{I_\ell}(\m x_i)}.
+\tau_{i I_p} =  \frac{ \hat{\pi}_{I_p} \hat{f}_{I_p}(\m x_i) }{\sum_{\ell=1}^s \hat{\pi}_{I_\ell} \hat{f}_{I_\ell}(\m x_i)}.
 \]
 where $\hat{\pi}_{I_p} = \sum_{\ell \in I_p} \hat{\pi}_\ell$ and $\hat{f}_{I_p}(\m x_i) = f_{I_p}(\m x_i; \hat{\theta})$. From now on, if there is now confusion with parameter $\hat{\theta}$, we are going to use this simplified notation. 
 
 For the partition  $\mathcal{P}_s$, we define the posterior probability vector as
-\[
-\hat{\m\tau}_{i \mathcal{P}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right).
-\]
-Note that because of $\mathcal{P}_s$ is a partition, $\sum_{p=1}^s \hat{\tau}_{i I_p} = 1$ for $1 \leq i \leq n$.
+\begin{equation}\label{ppv}
+\m\tau_{i \mathcal{P}_s} = \left(\tau_{i I_1} , \dots, \tau_{i I_s}  \right).
+\end{equation}
+Note that because of $\mathcal{P}_s$ is a partition, $\sum_{p=1}^s \tau_{i I_p} = 1$ for $1 \leq i \leq n$.
 Moreover, $\m x_i \in \rm X$ is classified to the cluster $c$ if and only if
 \begin{equation}\label{cluster_criteria}
-c= \argmax_{p=1}^s \{ \hat{\tau}_{i I_p} \}
+c= \argmax_{p=1}^s \{ \tau_{i I_p} \}
 \end{equation}
 
 \subsection{Example}
 
 Consider following Gaussian mixture with 6 components
 \[
-\hat{f} = \sum_{j=1}^6 \hat{\pi}_j \phi(\;\cdot\; ; \hat{\m\mu}_j, \hat{\m\Sigma}_j)
+f= \sum_{j=1}^6 \pi_j \phi(\;\cdot\; ;  \m\mu_j, \m\Sigma_j)
 \]
 and parameters given by
 {\small \input{tex/partition-example-pars.tex} }
 
-
-A random generation of numbers following mixture $\hat{f}$ is represented in Figure~\ref{ex_mixture}. Note that although the finite mixture has 6 components, in the plot 3 clusters are suggested.
-
+Suppose we want to cluster a random sample coming from mixture $f$. For such purpose, we have generated a sample $X$ with 500 observations. In  Figure~\ref{ex_mixture} the sample is represented together with the iso-density curves of the estimated finite mixture.
 
 \begin{figure}[thbp]
 \begin{center}
@@ -129,13 +127,66 @@ A random generation of numbers following mixture $\hat{f}$ is represented in Fig
  %   6 toy mixture
   \includegraphics[width=0.7\textwidth]{figures/partition-example-mixture.pdf} \\
  \end{tabular}
- \caption{Density of a Gaussian mixture with 6 component adjusted to a data set generated from a 3 component Gaussian mixture using R \textsc{MixSim} package with max overlapping of $\check{\omega} = 0.01$. Sample mean of each component is represented by '+'.}\label{ex_mixture}
+ \caption{Density of an adjusted Gaussian mixture with 6 component fitted to data generated from Gaussian mixture. Sample mean estimated of each component is represented by '+'.}\label{ex_mixture}
+\end{center}
+\end{figure}
+
+Using Equation~\ref{map_criteria} or Equation~\ref{cluster_criteria} with partition $\mathcal{P}_6 = \{ \{1\},\{2\}, \{3\}, \{4\}, \{5\}, \{6\} \}$ yields to a 6 clusters were each component is associated to one cluster as shown in Figure~\ref{ex_one_one}.
+
+\begin{figure}[h]
+\begin{center}
+\begin{tabular}{cc}
+ %   6 toy mixture
+  \includegraphics[width=\textwidth]{figures/partition-example-part6.pdf} \\
+ \end{tabular}
+ \caption{One cluster corresponds to one component}\label{ex_one_one}
+\end{center}
+\end{figure}
+
+If we consider partition $\mathcal{P}_4 = \{ \{1, 4\},\{2\}, \{5\}, \{6, 3\} \}$, component 1 and 4 define a single cluster, as well as components 3 and 6. In Figure~\ref{ex_two_one} we observe the clustering with the iso-density curves defining each component. Note that in this case, clusters labeled $\{1,4\}$ and $\{6, 3\}$ are modelled with the mixture of two components.
+
+\begin{figure}[h]
+\begin{center}
+\begin{tabular}{cc}
+ %   6 toy mixture
+  \includegraphics[width=0.65\textwidth]{figures/partition-example-part4.pdf} \\
+ \end{tabular}
+ \caption{One cluster corresponds to one or more components}\label{ex_two_one}
 \end{center}
 \end{figure}
 
 
+A possible hierarchical sequence of partitions of $\{1, 2, 3, 4, 5, 6\}$ is given by the sequence of partition
+
+\begin{equation}
+\begin{array}{r c l}
+\mathcal{H}(\mathcal{P}) &=& \{ \{\{1, 2, 3, 4, 5, 6\}\}, \\
+   & & \;\; \{ \{1, 4, 2, 5\}, \{6, 3\} \},  \\
+    & & \;\; \{ \{1, 4, 2\}, \{5\}, \{6, 3\} \}, \\
+   & & \;\; \{ \{1, 4\},\{2\}, \{5\}, \{6, 3\} \}, \\
+   & & \;\;  \{\{1\},\{2\},\{4\},\{5\},\{6,3\} \},\\
+   & &  \;\;  \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\} \}.
+\end{array}
+\label{hier_ex}
+\end{equation}
+
+It is straightforward to verify that if a part $I_p \in \mathcal{P}_{s-1}$ then either there is a part $I_a \in \mathcal{P}_{s}$ with $I_p = I_a$ or there are two parts $I_a, I_b \in \mathcal{P}_s$ with $I_p = I_a \cup I_b$.
 
 
+\section{Building a hierarchical sequence of partitions using posterior probability vectors}
+
+Let $X = \{\m x_1,\dots,\m x_n \}$ be a sample defined in some sample space $\mathbb{X}$ and let $f$ be a \fmm with $k$ components defined on $\mathbb{X}$ as defined in Equation~\ref{mixt}. Given a partition $\mathcal{P}_s = \{I_1, \dots, I_s\}$, for $i$, $1\leq i \leq n $, let $\m\tau_{i \mathcal{P}_s}$ be the posterior probability vector as defined in Equation~\ref{ppv}.  For a fixed $i$, the vector $\m\tau_{i \mathcal{P}_s} =  \left( \tau_{i I_1} , \dots, \tau_{i I_s}  \right)$ is measuring the chances that observation $x_i$ was generated by components $f_{I_p}$, $1 \leq p \leq s$.
+
+In this section we introduce a general approach to build a hierarchical sequence of partitions using only the information contained on the posterior probability vectors $\{\m\tau_{i \mathcal{P}_s}\}_{1\leq i \leq n}$ obtained after fitting a \fmm.
+
+
+Let $\lambda(\m\tau_{i \mathcal{P}_s}, a, b)$ be a function measuring how likely is to merge the mixture component $\hat{f}_{I_a}$ by the mixture component $\hat{f}_{I_b}$ when $\m \tau_{i \mathcal{P}_s}$ is known. Let $\omega(\m\tau_{i \mathcal{P}_s}, a)$ be a function measuring the relevance $\m\tau_{i \mathcal{P}_s}$ to measure the chances of mixing up  the mixture component $\hat{f}_{I_a}$. 
+
+
+For a partition $\mathcal{P}_s = \{ I_1, \dots, I_s\}$ and with functions $\lambda(\m\tau_{i \mathcal{P}_s}, a, b)$ and $\omega(\m\tau_{i \mathcal{P}_s}, a)$ fixed, we propose to build a hierarchical sequence of partitions as follows: if $\m\tau_{i \mathcal{P}_s} = \left( \tau_{i I_1} , \dots, \tau_{i I_s}  \right)$ are the posterior probability vectors of observation $x_i$, $1 \leq i \leq n$,  merge those two parts $I_a$ and $I_b$, into one part $I_a \cup I_b$ which maximise
+\begin{equation}\label{unifying_equation}
+S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s}, a, b) = \frac{\sum_{i=1}^n \omega(\tau_{i \mathcal{P}_s}, I_a) \lambda(\tau_{i \mathcal{P}_s}, I_a, I_b)}{\sum_{i=1}^n \omega(\tau_{i \mathcal{P}_s}, I_a) }.
+\end{equation}
 
 
 
