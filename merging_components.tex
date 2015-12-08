@@ -180,15 +180,132 @@ Let $X = \{\m x_1,\dots,\m x_n \}$ be a sample defined in some sample space $\ma
 In this section we introduce a general approach to build a hierarchical sequence of partitions using only the information contained on the posterior probability vectors $\{\m\tau_{i \mathcal{P}_s}\}_{1\leq i \leq n}$ obtained after fitting a \fmm.
 
 
-Let $\lambda(\m\tau_{i \mathcal{P}_s}, a, b)$ be a function measuring how likely is to merge the mixture component $\hat{f}_{I_a}$ by the mixture component $\hat{f}_{I_b}$ when $\m \tau_{i \mathcal{P}_s}$ is known. Let $\omega(\m\tau_{i \mathcal{P}_s}, a)$ be a function measuring the relevance $\m\tau_{i \mathcal{P}_s}$ to measure the chances of mixing up  the mixture component $\hat{f}_{I_a}$. 
+Let $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ be a function measuring how likely is to merge the mixture component $\hat{f}_{I_a}$ by the mixture component $\hat{f}_{I_b}$ when $\m \tau_{i \mathcal{P}_s}$ is known. Let $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ be a function measuring the relevance $\m\tau_{i \mathcal{P}_s}$ to measure the chances of mixing up  the mixture component $\hat{f}_{I_a}$ and  $\hat{f}_{I_b}$. 
 
 
-For a partition $\mathcal{P}_s = \{ I_1, \dots, I_s\}$ and with functions $\lambda(\m\tau_{i \mathcal{P}_s}, a, b)$ and $\omega(\m\tau_{i \mathcal{P}_s}, a)$ fixed, we propose to build a hierarchical sequence of partitions as follows: if $\m\tau_{i \mathcal{P}_s} = \left( \tau_{i I_1} , \dots, \tau_{i I_s}  \right)$ are the posterior probability vectors of observation $x_i$, $1 \leq i \leq n$,  merge those two parts $I_a$ and $I_b$, into one part $I_a \cup I_b$ which maximise
+For a partition $\mathcal{P}_s = \{ I_1, \dots, I_s\}$ and with functions $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ and $\omega(\m\tau_{i \mathcal{P}_s},  I_a, I_b)$ fixed, we propose to build a hierarchical sequence of partitions as follows: if $\m\tau_{i \mathcal{P}_s} = \left( \tau_{i I_1} , \dots, \tau_{i I_s}  \right)$ are the posterior probability vectors of observation $x_i$, $1 \leq i \leq n$,  merge those two parts $I_a$ and $I_b$, into one part $I_a \cup I_b$ which maximise
+
 \begin{equation}\label{unifying_equation}
-S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s}, a, b) = \frac{\sum_{i=1}^n \omega(\tau_{i \mathcal{P}_s}, I_a) \lambda(\tau_{i \mathcal{P}_s}, I_a, I_b)}{\sum_{i=1}^n \omega(\tau_{i \mathcal{P}_s}, I_a) }.
+S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{\sum_{i=1}^n \omega(\tau_{i \mathcal{P}_s}, I_a, I_b) \lambda(\tau_{i \mathcal{P}_s}, I_a, I_b)}{\sum_{i=1}^n \omega(\tau_{i \mathcal{P}_s}, I_a) }.
 \end{equation}
 
+Using algorithm describe above we can build a hierarchical sequence of partitions in terms of function $\omega$ and $\lambda$. 
+The role played by function $\lambda$ in function $S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b)$ is to measure the degree of similarity between component $f_{I_a}$ and $f_{I_b}$, while the role played by function $\omega$ is to weight this differences depending on the relation with respect $f_{I_a}$ and $f_{I_b}$.
 
+\section{Some examples for functions $\omega$ and $\lambda$}
+
+\subsection{Minimising the final entropy}
+
+The Entropy of a posterior probability vector $\m\tau_{i \mathcal{I}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ is
+\[
+\text{Ent}( \m\tau_{i \mathcal{P}_s} ) = \sum_{j=1}^s \tau_{i I_j}  \log(\tau_{i I_j} ).
+\]
+
+
+\cite{baudry2010combining} proposed an algorithm to build a hierarchical sequence of partitions. Starting from partition $\mathcal{P}_s = \{ I_1, \dots, I_s\}$ the algorithm iteratively merges two parts. If we denote $\m\tau_{i \mathcal{P}_s(I_a\cup I_b)}$ the partition obtained after merging part $I_a$ and $I_b$. The two parts $I_a$ and $I_b$ the algorithm merges are those two parts that minimises the overall entropy after merging them, that is the two parts $I_a$ and $I_b$ minimising
+
+\[
+\sum_{i=1}^n \text{Ent}( \m\tau_{i \mathcal{P}_s(I_a\cup I_b)} ).
+\]
+
+
+In fact, \cite{baudry2010combining}  argue that equivalent to minimise previous expression is to maximise the difference
+
+\[
+\sum_{i=1}^n \text{Ent}( \m\tau_{i \mathcal{P}_s} ) - \text{Ent}( \m\tau_{i \mathcal{P}_s(I_a\cup I_b)} ).
+\]
+
+which can be rewritten in terms of $\m\tau_{i \mathcal{I}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ as
+
+\begin{equation}\label{entropy}
+\sum_{i=1}^n  (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left\{ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right\}.
+\end{equation}
+
+The last maximisation problem suggests to define function $\lambda$ as
+
+\[
+\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left\{ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right\}.
+\]
+
+which calculates the entropy increment given by each observation. Because in Equation~\ref{entropy} is the sum of $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ for $1 \leq i \leq n$, to do $S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) $ equivalent to the approach presented by \cite{baudry2010combining}, we can define $\omega$ to be constant, for example 
+
+\[
+\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = 1.
+\]
+
+Equation~\ref{unifying_equation} takes the form
+
+\[
+S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{1}{n} \sum_{i=1}^n (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left\{ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right\}
+\]
+
+
+\subsection{Maximising the misclassification probability}
+
+A different approach is introduced in \cite{hennig2010methods}. It is proposed to combine the two parts $I_a$ and $I_b$ from $ \mathcal{I}_s$ such that \emph{the probability of classifying an observation generated from component $\hat{f}_{I_a}$ to component $\hat{f}_{I_b}$} is maximum.
+
+To estimate that probability,  \cite{hennig2010methods} suggested to use a consistent estimator, the Directed Estimated misclassification Probabilities (DEMP). Using the notation previously introduced, the estimator is written as
+
+\[
+\frac{ \frac{1}{n} \sum_{i=1}^n {\tau_{iI_a} \mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right)}}{ \hat{\pi}_{I_a}},
+\]
+
+where $\mathbbm{1}\left( \cdot \right)$ is the indicator function. Moreover, because $ \hat{\pi}_{I_a} = \frac{1}{n} \sum_{i=1}^n \tau_{iI_a}$, the estimator can be rewritten in terms of the posterior probability vector as
+\begin{equation}\label{demp_criteria}
+\frac{ \sum_{i=1}^n {\tau_{iI_a} \mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right)}}{\sum_{i=1}^n \tau_{iI_a} }.
+\end{equation}
+
+This approach directly suggest to define
+
+\begin{equation}\label{lambda_demp}
+\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right)
+\end{equation}
+
+and
+
+\[
+\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  \tau_{iI_a}.
+\]
+
+A variation of \cite{hennig2010methods} approach is proposed by \cite{longford2014}. Instead of considering function $\lambda$ given by Equation~\ref{lambda_demp} they proposed to measure the chances of confusing $f_{I_b}$ by $f_{I_a}$ with function $\lambda$ given by
+
+\[
+\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \frac{\tau_{iI_b}}{\tau_{iI_a} + \tau_{iI_b}},
+\]
+
+giving another definition for function function $S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b)$.
+
+
+\subsection{Extending function $\omega$}
+
+We have seen different approaches to define function $\omega$ and $\lambda$. For function $\omega$:
+
+\begin{itemize}
+\item $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = 1$ and
+\item $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_a}$.
+\end{itemize}
+
+For function $\lambda$:
+
+\begin{itemize}
+\item $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left\{ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right\}$,
+\item $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right)$ and
+\item $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_b} (\tau_{iI_a} + \tau_{iI_b})^{-1}$.
+\end{itemize}
+
+The motivation behind function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_a}$ is to weight higher those observations close more related to partition $I_a$. A more extremal weighting can be introduced considering only those observation having $ \tau_{iI_a}$ maximum, i.e.
+
+\[
+\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \mathbbm{1}\left( \forall j\; \tau_{i I_{a}} \geq \tau_{iI_j} \right)
+\]
+
+Another very simple function measuring how likely is to classify observation into $I_b$ is to consider the posterior probability $\tau_{i I_{b}}$, i.e.
+
+\[
+\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_b}.
+\]
+
+\section{The logratio approach}
 
 %%% BIBLIOGRAPHY
 \newpage
