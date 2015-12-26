@@ -195,6 +195,7 @@ The role played by function $\lambda$ in function $S_{\omega, \lambda}( \m\tau_{
 \section{Some examples for functions $\omega$ and $\lambda$}
 
 \subsection{Minimising the final entropy}
+\label{entropy_section}
 
 The Entropy of a posterior probability vector $\m\tau_{i \mathcal{I}_s} = \left( \hat{\tau}_{i I_1} , \dots, \hat{\tau}_{i I_s}  \right)$ is
 \[
@@ -241,6 +242,7 @@ S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{1}{n} \sum_{i=1
 
 
 \subsection{Maximising the misclassification probability}
+\label{missclassification_section}
 
 A different approach is introduced in \cite{hennig2010methods}. It is proposed to combine the two parts $I_a$ and $I_b$ from $ \mathcal{I}_s$ such that \emph{the probability of classifying an observation generated from component $\hat{f}_{I_a}$ to component $\hat{f}_{I_b}$} is maximum.
 
@@ -306,6 +308,11 @@ Another very simple function measuring how likely is to classify observation int
 \]
 
 \section{The logratio approach}
+
+In example from Section~\ref{entropy_section} the motivation of function $\lambda$ is that the closer the posterior probability vector are from $(\frac{1}{s}, \dots, \frac{1}{s})$ more similar are components $f_{I_a}$ and $f_{I_b}$. In contrast, in Section~\ref{missclassification_section} the examples are motivated by  the probability of classifying an observation to one component $f_{I_b}$ when the observation was generated from another component $f_{I_a}$.
+
+
+
 
 %%% BIBLIOGRAPHY
 \newpage
