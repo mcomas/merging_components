@@ -1,0 +1,185 @@
+---
+title: "Pigs example"
+author: "Marc Comas-Cufí, Josep Antoni Martín-Fernandez and Glòria Mateu-Figueras"
+date: "31 Dec 2015"
+output: 
+  html_document: 
+    toc: yes
+---
+
+
+```{r, message=FALSE}
+library(mixtools)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(mixpack)
+```
+
+# Data preprocessing
+
+Pigs data has recorder the number of times different pigs were in bed, passaging or feedeing.
+
+```{r}
+if(!file.exists('Pigs.rda')){
+  download.file('https://github.com/cran/zCompositions/blob/master/data/Pigs.rda?raw=true',
+                destfile='Pigs.rda')
+}
+load('Pigs.rda')
+Pigs %>% tbl_df
+```
+
+To fit a mixture of multinomial distributions and not to have problems of identifiability, we are going to restrict our analysis categories `BED`, `PASSAGE` and `FEEDER`.
+
+```{r}
+(pigs <- Pigs %>% dplyr::select(BED, PASSAGE, FEEDER)) %>% tbl_df
+```
+
+# Analysis
+
+## Fitting the mixture of multinomial distributions
+
+To fit the mixture of multinomial distributions we are going to use function `multmixEM()` from package `mixtools`.
+
+```{r, results='hide'}
+bic = function(loglik, k, n, dim) -2 * loglik + (k * dim - 1) * log(n)
+set.seed(2)
+suppressMessages(
+  FITs <- lapply(2:15, function(K){
+    FIT <- lapply(1:200, function(it, K){
+      multmixEM(as.matrix(pigs), k = K)
+      }, K)
+    FIT[[which.min(sapply(FIT, function(fit) bic(fit$loglik, K, NROW(pigs), NCOL(pigs))))]]
+  })
+)
+```
+
+```{r, fig.width=5, fig.height=4}
+df = lapply(FITs, function(fit){
+  data.frame(
+    K = length(fit$lambda),
+    BIC = bic(fit$loglik, length(fit$lambda), NROW(pigs), NCOL(pigs))
+  )
+}) %>% bind_rows
+plot(df, xlab='Number of components', ylab='BIC value', main='BIC value for different number of components')
+```
+
+We can see how the minimum BIC is obtained using a mixture of 9 multinomial distributions.
+
+```{r}
+df
+```
+
+The parameters of this mixtures are:
+
+```{r}
+fit = FITs[[5]]
+fit$lambda
+fit$theta
+```
+
+The groups can be represented by
+
+```{r, fig.width=7, fig.height=4.5}
+d = (pigs.g <- pigs %>% mutate(
+  TOTAL = BED+PASSAGE+FEEDER,
+  Comp = as.character(apply(fit$posterior, 1, which.max)))) %>%
+  group_by(Comp) %>%
+  summarise(
+    BED = mean(BED/TOTAL),
+    PASSAGE = mean(PASSAGE/TOTAL),
+    FEEDER = mean(FEEDER/TOTAL)) %>%
+  gather(key=Variable, value=Proportion, -Comp)
+
+ggplot() +
+  geom_bar(data = d, aes(x=Variable, y=Proportion, fill=Comp), stat = 'identity') +
+  facet_wrap(~Comp, ncol=3) +
+  theme(legend.position="none") + xlab("")
+```
+
+## Merging components
+
+We continue our analyisis by building a sequential hierarchical partition. We consider $\omega = \tau_{i I_a}$ and $\lambda = \log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)$. The obtained sequential hiearchical partition is given by
+
+```{r}
+hp = get_hierarchical_partition(fit$posterior, omega = 'prop', lambda = 'coda.norm')
+seq_partition = lapply(rev(hp), sapply, paste, collapse=',')
+cat(paste(sapply(seq_partition, function(partition) paste(sprintf('{%s}', partition), collapse=',')), collapse='\n'))
+```
+
+In next figure, we can see the $S$-value's obtained in each step
+
+```{r, fig.width=5, fig.height=4}
+plot(attr(hp, 'S.value'), xlab='Clusters', ylab='S-value', main = 'S-values during the merging process')
+```
+
+Looking at $S$-value figure we can see that the drop in $S$-value happens between when considering 2 clusters instead of 3. This fact suggests that when merging from 3 to 2 clusters we are losing valuable information, and therefore, it seems reasonable to stop at 3 clusters.
+
+  * 5 clusters
+
+In the next figure we can see that components 5 and 6 are the first candidates to be merged. They both share the property that the pigs modeled by those two component have higher number in `BED` component and lower number in `FEEDER`.
+
+```{r, fig.width=7, fig.height=4.5}
+K = 5
+clusters = mixpack::cluster_partition(fit$posterior, partition = hp[[K]] %>% setNames(., sapply(., function(lbl) paste(lbl, collapse='-'))))
+d = pigs.g %>%
+  mutate(
+    Cluster = clusters
+  ) %>% group_by(Cluster, Comp) %>%
+  summarise(
+    BED = mean(BED/TOTAL),
+    PASSAGE = mean(PASSAGE/TOTAL),
+    FEEDER = mean(FEEDER/TOTAL)) %>%
+  gather(key=Variable, value=Proportion, -Cluster, -Comp)
+
+ggplot() +
+  geom_bar(data = d, aes(x=Variable, y=Proportion, fill=Comp), stat = 'identity', position=position_dodge()) +
+  facet_wrap(~Cluster, ncol=3) +
+  theme(legend.position="none") + xlab("")
+```
+
+  * 4 clusters
+
+In the next figure we can see that components 3 and 4 are the second candidates to be merged. They both share the property that the pigs modeled by those two component have higher number in `FEEDER` component and lower number in `BED`.
+
+```{r, fig.width=7, fig.height=4.5}
+K = 4
+clusters = mixpack::cluster_partition(fit$posterior, partition = hp[[K]] %>% setNames(., sapply(., function(lbl) paste(lbl, collapse='-'))))
+d = pigs.g %>%
+  mutate(
+    Cluster = clusters
+  ) %>% group_by(Cluster, Comp) %>%
+  summarise(
+    BED = mean(BED/TOTAL),
+    PASSAGE = mean(PASSAGE/TOTAL),
+    FEEDER = mean(FEEDER/TOTAL)) %>%
+  gather(key=Variable, value=Proportion, -Cluster, -Comp)
+
+ggplot() +
+  geom_bar(data = d, aes(x=Variable, y=Proportion, fill=Comp), stat = 'identity', position=position_dodge()) +
+  facet_wrap(~Cluster, ncol=3) +
+  theme(legend.position="none") + xlab("")
+```
+
+  * 3 clusters
+  
+As suggested by $S$-values, it seems reasonable to stop at 3 clusters. In next figure we can see three classes of pigs. The first with higher proportion in `FEEDER`, the second with higher proportion in `BED` and the third with higher amount in `PASSAGE`.
+
+```{r, fig.width=7, fig.height=2}
+K = 3
+clusters = mixpack::cluster_partition(fit$posterior, partition = hp[[K]] %>% setNames(., sapply(., function(lbl) paste(lbl, collapse='-'))))
+d = pigs.g %>%
+  mutate(
+    Cluster = clusters
+  ) %>% group_by(Cluster, Comp) %>%
+  summarise(
+    BED = mean(BED/TOTAL),
+    PASSAGE = mean(PASSAGE/TOTAL),
+    FEEDER = mean(FEEDER/TOTAL)) %>%
+  gather(key=Variable, value=Proportion, -Cluster, -Comp)
+
+ggplot() +
+  geom_bar(data = d, aes(x=Variable, y=Proportion, fill=Comp), stat = 'identity', position=position_dodge()) +
+  facet_wrap(~Cluster, ncol=3) +
+  theme(legend.position="none") + xlab("")
+```

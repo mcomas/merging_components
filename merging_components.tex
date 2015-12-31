@@ -15,6 +15,7 @@
 \usepackage{setspace}
 \usepackage[normalem]{ulem}
 \usepackage{xspace}
+\usepackage{svg}
 %Add line numbering
 %Line numbering can be incorporated by using the lineno package. Add these statements in the preamble:
 \usepackage{lineno}
@@ -340,7 +341,59 @@ In Section~\ref{missclassification_section} the notion of confusion between two 
 \lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \log( \tau_{i I_b}/\tau_{i I_a}).
 \]
 
+\section{Merging components in a mixture of multinomial distributions}
 
+Merging approaches presented in this article rely on the vector of posterior probabilities this can be calculated by any finite mixture model. In this section we present the scenario where a finite mixture of multinomial is considered.
+
+Pigs dataset can be obtained from package \textsc{zCompositions} R package. The dataset contains a dataset of 29 sows. In different moments the pigs were recorder during 5 minutes and the current activity they were performing was registered. For each pig six locations were considered: straw bed (BED), half in the straw bed (HALF.BED), dunging passage (PASSAGE), half in the dunging passage (HALF.PASS), feeder (FEEDER) and half in the feeder (HALF.FEED). Although the original dataset has 6 different activities, to avoid identifiability problems (Teicher, 1960; Blischke, 1964; Titterington et al., 1985) we eliminate the HALF.PASS, HALF.FEED, HALF.BED which have a very small number of events.
+
+We have used \textsc{mixtools} to fit the mulitinomial mixture. 9 components seems optimum according to BIC criterion. In Figure~\ref{multinomial_mixture} the bar plot for each cluster considering a cluster for each component. That is considering Equation~\ref{map_criteria} or Equation~\ref{cluster_criteria} with partition $\{\{1\}, \{2\}, \{3\}, \{4\}, \{5\}, \{6\}, \{7\}, \{8\}, \{9\} \}$.
+
+\begin{figure}[t]
+\begin{center}
+\begin{tabular}{cc}
+  \includegraphics[width=0.95\textwidth]{figures/multinomial_mixt.pdf} \\
+ \end{tabular}
+ \caption{Components after adjusting a 9 mixture of multinomial distributions}\label{multinomial_mixture}
+\end{center}
+\end{figure}
+
+Considering $\omega = \tau_{i I_a}$ and $\lambda = \log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)$ we obtained the sequential hierarchical partition given by
+
+
+\begin{equation}
+\begin{array}{r c l}
+\mathcal{H}(\mathcal{P}) &=& \{ \{ \{1,2,3,4,5,6\}\}, \\ 
+ & & \;\; \{\{1,2,4\},\{3,5,6\}\}, \\ 
+ & & \;\; \{\{1,2,4\},\{3,5\},\{6\}\}, \\ 
+ & & \;\; \{\{1,4\},\{2\},\{3,5\},\{6\}\}, \\ 
+ & & \;\; \{\{1\},\{2\},\{3,5\},\{4\},\{6\}\}, \\ 
+ & & \;\; \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\} \} \}.
+\end{array}
+\label{hier_ex_multinomial}
+\end{equation}
+
+In next Figure~\ref{multinomial_Svalues} we can see the $S$-value's (Equation~\ref{unifying_equation}) obtained in each step, the drop in $S$-value happens between when considering 2 clusters instead of 3. This fact suggests that when merging from 3 to 2 clusters we are losing valuable information, and therefore, it seems reasonable to stop at 3 clusters.
+
+\begin{figure}[t]
+\begin{center}
+\begin{tabular}{cc}
+  \includegraphics[width=0.65\textwidth]{figures/multinomial_Svalues.pdf} \\
+ \end{tabular}
+ \caption{S-values obatined}\label{multinomial_Svalues}
+\end{center}
+\end{figure}
+
+In Figure~\ref{multinomial_clust3} we can see that components 3 and 9 are the first candidates to be merged. They both share the property that the pigs modelled by those two component have higher number in `BED` component and lower number in `FEEDER`.
+
+\begin{figure}[t]
+\begin{center}
+\begin{tabular}{cc}
+  \includegraphics[width=0.95\textwidth]{figures/multinomial_clust3.pdf} \\
+ \end{tabular}
+ \caption{Components after adjusting a 9 mixture of multinomial distributions}\label{multinomial_clust3}
+\end{center}
+\end{figure}
 
 %%% BIBLIOGRAPHY
 \newpage
