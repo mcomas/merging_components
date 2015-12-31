@@ -109,8 +109,26 @@ p.all <- ggplot() +
   scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40))
 ggsave(p.all, filename = 'figures/partition-example-part6.pdf', width = 10, height=2.5)
 
+library(tidyr)
+
 HP = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'cnst', lambda = 'entr')
+HP2 = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'dich', lambda = 'demp.mod')
+df = data.frame(
+  K = 1:6,
+  'Entropy' = attr(HP,'S.value'),
+  'DEMP' = attr(HP2, 'S.value')
+) %>% gather(key=method, value=S.value, -K)
+
 HP = lapply(HP, lapply, function(v) ord[v])
+HP2 = lapply(HP2, lapply, function(v) ord[v])
+
+ggplot() +
+  geom_point(data=df, aes(x=K, y=S.value)) +
+  facet_wrap(~method, scales = 'free') +
+  theme_classic() +
+  xlab('Clusters') + ylab('S-value') +
+  ggtitle('S-value during the merging process')
+ggsave(filename = 'figures/gaussian_Svalues.pdf', height = 3.25)
 
 partition = HP[[3]]
 names(partition) = sapply(partition, function(v) paste(sort(v), collapse=','))

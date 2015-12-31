@@ -111,7 +111,7 @@ Moreover, $\m x_i \in \rm X$ is classified to the cluster $c$ if and only if
 c= \argmax_{p=1}^s \{ \tau_{i I_p} \}
 \end{equation}
 
-\subsection{Example}
+\subsection{Example} \label{example}
 
 Consider following Gaussian mixture with 6 components
 \[
@@ -341,6 +341,36 @@ In Section~\ref{missclassification_section} the notion of confusion between two 
 \lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \log( \tau_{i I_b}/\tau_{i I_a}).
 \]
 
+\section{Merging components in a mixture of Gaussian distributions}
+
+In Section~\ref{example} we have a sample of 500 observations coming from a mixture with 6 components. 
+
+We have fitted a gaussian mixture. 6 components seems optimum according to BIC criterion. In Figure~\ref{ex_one_one} the scatter plot for each cluster is shown with its corresponding component. That is considering Equation~\ref{map_criteria} or Equation~\ref{cluster_criteria} with partition $\{\{1\}, \{2\}, \{3\}, \{4\}, \{5\}, \{6\}\}$.
+
+Considering $\omega = 1$ and $\lambda = (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left\{ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right\}$ as the approach proposed by \cite{baudry2010combining} we obtained the sequential hierarchical partition given by Equation~\ref{hier_ex}. If instead of using \cite{baudry2010combining}  approach, we consider  the DEMP approach introduced in \citep{hennig2010methods}, i.e. $\omega = \tau_{i I_a}$ and $\lambda = \mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right)$ the sequential hierarchical partition only changes in level 5
+
+\begin{equation}
+\begin{array}{r c l}
+\mathcal{H}(\mathcal{P}) &=& \{ \{\{1, 2, 3, 4, 5, 6\}\}, \\
+   & & \;\; \{ \{1, 4, 2, 5\}, \{6, 3\} \},  \\
+    & & \;\; \{ \{1, 4, 2\}, \{5\}, \{6, 3\} \}, \\
+   & & \;\; \{ \{1, 4\},\{2\}, \{5\}, \{6, 3\} \}, \\
+   & & \;\;  \{\{1, 4\},\{2\}, \{3\},\{5\},\{6\} \},\\
+   & &  \;\;  \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\} \}.
+\end{array}
+\end{equation}
+
+In Figure~\ref{gaussian_Svalues} we can see that using both approaches the value of function $S$ given by equation Equation~\ref{unifying_equation} drops from considering 4 clusters to consider 3 clusters. This reduction suggests that the correct number of clusters is given by 4 clusters.
+
+\begin{figure}[t]
+\begin{center}
+\begin{tabular}{cc}
+  \includegraphics[width=0.85\textwidth]{figures/gaussian_Svalues.pdf} \\
+ \end{tabular}
+ \caption{S-values obtained using the approaches presented by Baudry et al. and Hennig labeled Entropy and DEMP respectively.}\label{gaussian_Svalues}
+\end{center}
+\end{figure}
+
 \section{Merging components in a mixture of multinomial distributions}
 
 Merging approaches presented in this article rely on the vector of posterior probabilities this can be calculated by any finite mixture model. In this section we present the scenario where a finite mixture of multinomial is considered.
@@ -394,6 +424,8 @@ In Figure~\ref{multinomial_clust3} we can see that components 3 and 9 are the fi
  \caption{Components after adjusting a 9 mixture of multinomial distributions}\label{multinomial_clust3}
 \end{center}
 \end{figure}
+
+\section{Conclusions}
 
 %%% BIBLIOGRAPHY
 \newpage
