@@ -46,9 +46,19 @@ hp = get_hierarchical_partition(fit$posterior, omega = 'prop', lambda = 'coda.no
 seq_partition = lapply(hp, sapply, paste, collapse=',')
 cat(paste(sapply(seq_partition, function(partition) paste(sprintf('\\{%s\\}', partition), collapse=',')), collapse='\\}, \\\\ \n & & \\;\\; \\{'))
 
-pdf(file = 'figures/multinomial_Svalues.pdf', height=5.5)
-plot(attr(hp, 'S.value'), xlab='Clusters', ylab='S-value', main = 'S-values during the merging process')
-dev.off()
+df = data.frame(
+  Clusters = 1:6,
+  S.values = attr(hp, 'S.value')
+)
+ggplot() +
+  geom_point(data=df, aes(x=Clusters, y=S.values),size=2) + 
+  theme_classic() +
+  ggtitle('S-values during the merging process') +
+  xlab('Clusters') + ylab('S-value')
+ggsave(filename = 'figures/multinomial_Svalues.pdf', width = 7, height=4.5)
+# pdf(file = 'figures/multinomial_Svalues.pdf', height=5.5)
+# plot(attr(hp, 'S.value'), xlab='Clusters', ylab='S-value', main = 'S-values during the merging process')
+# dev.off()
 
 K = 3
 clusters = mixpack::cluster_partition(fit$posterior, partition = hp[[K]] %>% setNames(., sapply(., function(lbl) paste(lbl, collapse='-'))))
