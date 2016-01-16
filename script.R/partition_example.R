@@ -75,7 +75,7 @@ yrange = round(1.1*range(df$X2))
   geom_point(data=data.frame(M), aes(x=X1, y=X2), col = 'black', shape = 3, size=7) + 
   coord_fixed(xlim=xrange, ylim=yrange) + 
   theme_bw() +
-  xlab(latex2exp('x_1')) + ylab(latex2exp('x_2')))
+  xlab(TeX('x_1')) + ylab(TeX('x_2')))
 
 
 
@@ -113,7 +113,7 @@ library(tidyr)
 
 HP = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'cnst', lambda = 'entr')
 HP2 = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'dich', lambda = 'demp.mod')
-df = data.frame(
+df2 = data.frame(
   K = 1:6,
   'Entropy' = attr(HP,'S.value'),
   'DEMP' = attr(HP2, 'S.value')
@@ -123,7 +123,7 @@ HP = lapply(HP, lapply, function(v) ord[v])
 HP2 = lapply(HP2, lapply, function(v) ord[v])
 
 ggplot() +
-  geom_point(data=df, aes(x=K, y=S.value)) +
+  geom_point(data=df2, aes(x=K, y=S.value)) +
   facet_wrap(~method, scales = 'free') +
   theme_classic() +
   xlab('Clusters') + ylab('S-value') +
