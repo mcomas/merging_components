@@ -65,6 +65,20 @@ cat('\\end{array}\n')
 cat('\\]\n')
 sink()
 
+library(xtable)
+
+sink(file = 'tex/partition-example-pars-table.tex')
+d.pars = data.frame(
+  'prop' = P,
+  'mean.x1' = M[,1],
+  'mean.x2' = M[,2],
+  'var.x1' = sapply(S, function(s) s[1,1]),
+  'var.x2' = sapply(S, function(s) s[2,2]),
+  'cor.x1x2' = sapply(S, function(s) cov2cor(s)[1,2]))
+print(xtable(d.pars, digits=4, display = c('s', 'f', 'd', 'd', 'd', 'd', 'd')))
+sink()
+
+
 library(ggplot2)
 library(latex2exp)
 
