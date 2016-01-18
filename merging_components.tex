@@ -51,7 +51,7 @@
 
 
 % Mixture models
-A common approach in parametric cluster analysis assumes data can be modelled by means of a \emph{finite mixture of distributions} (McLachlan), also called \emph{finite mixture model} (\fmm). A \fmm is a probability distribution whose probability density function (pdf) is a linear combination of different distributions with same domain $\mathbb{X}$. More precisely, the pdf $f$ of a \fmm is
+A common approach in parametric cluster analysis assumes data can be modelled by means of a \emph{finite mixture of distributions} \citep{fraley2002model}, also called \emph{finite mixture model} (\fmm). A \fmm is a probability distribution whose probability density function (pdf) is a linear combination of different distributions with same domain $\mathbb{X}$. More precisely, the pdf $f$ of a \fmm is
 \begin{equation}\label{mixt}
 f(\;\cdot\; ; \pi_1, \dots, \pi_k, \m\theta_1, \dots, \m\theta_k) = \pi_1 f_1(\;\cdot\; ; \m\theta_1) + \dots + \pi_k f_k(\;\cdot\; ; \m\theta_k),
 \end{equation}
@@ -74,7 +74,7 @@ More recently, \cite{lee2004combining,hennig2010methods,baudry2010combining,meln
 The crucial point of this clustering method is how to decide which components have to be merged.
 
 
-In this article we introduce a generic approach that contains the methods given by \cite{baudry2010combining}, \cite{hennig2010methods} and \cite{longford2014}. In addition, our approach permits to define its own criteria. As illustration we introduce a criteria based in log-ratio transformations (citar aitchison 1986). Using this approach for merging components one can build a hierarchy over the set of mixture components. From this hierarchical structure, the analyst can decide the final classification.
+In this article we introduce a generic approach that contains the methods given by \cite{baudry2010combining}, \cite{hennig2010methods} and \cite{longford2014}. In addition, our approach permits to define its own criteria. As illustration we introduce a criteria based in log-ratio transformations \citep{aitchison1986statistical}. Using this approach for merging components one can build a hierarchy over the set of mixture components. From this hierarchical structure, the analyst can decide the final classification.
 
 The paper is organised as follows: in Section~\ref{definitions} some definitions and notations used throughout this paper are introduced and specified using a simple example. In Section~\ref{generic_merging} the generic merging approach is presented. In Section~\ref{function_examples} is shown how different examples from literature reduce to the generic approach presented in the previous section. Section~\ref{logratio_section} presents a new family ofcriteria based on log-ratio approach. Finally, in Section~\ref{merging_examples_dist}, we present two examples to illustrate the algorithm with different types of mixture distributions.
 
@@ -118,7 +118,7 @@ c= \argmax_{p=1}^s \{ \tau_{i I_p} \}
 
 \subsection{Example} \label{example}
 
-Following [citar baudry et al. 2010] consider the Gaussian mixture of 6 components
+Following \cite{baudry2010combining} consider the Gaussian mixture of 6 components
 \[
 f= \sum_{j=1}^6 \pi_j \phi(\;\cdot\; ;  \m\mu_j, \m\Sigma_j)
 \]
@@ -311,17 +311,17 @@ The generic expression of $S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I
 In this section we are interested in different approaches to measure the chances of merging two parts $I_a$ and $I_b$ taking into an account that the posterior probability vector are observations in the Simplex space. In other words we are interested in defining functions $\lambda$ which takes into an account the geometric structure of $\mathcal{S}^d$. We are going to define two new measures, the first ones is motivated by the Entropy notion introduced in \ref{entropy_section}, the second is based on the misclassification definition given in Section~\ref{missclassification_section}.
 
 
-In (citar Baudry et al(2010) confusion between components is measured using the notion that the closer the posterior probability vector is from $(\frac{1}{s}, \dots, \frac{1}{s})$ the more confused are the components (higher is the Entropy).Therefore, to measure the chances of confusing $I_b$ with $I_a$ we can measure how different is $(\frac{\tau_{i I_a}}{\tau_{i I_a} +\tau_{i I_b}}, \frac{\tau_{i I_b}}{\tau_{i I_a} + \tau_{i I_b}})$ from $(\frac{1}{2}, \frac{1}{2})$. That is, we restrict only on the probabilities associated to the components to be merged. To measure this difference we use the squared norm defined in the Simplex space. The squared norm of a posterior probability vector, $\| (\tau_{iI_a}, \tau_{iI_b}) \|^2$  defined by \cite{aitchison2002simplicial} is 
+In \cite{baudry2010combining} confusion between components is measured using the notion that the closer the posterior probability vector is from $(\frac{1}{s}, \dots, \frac{1}{s})$ the more confused are the components (higher is the Entropy).Therefore, to measure the chances of confusing $I_b$ with $I_a$ we can measure how different is $(\frac{\tau_{i I_a}}{\tau_{i I_a} +\tau_{i I_b}}, \frac{\tau_{i I_b}}{\tau_{i I_a} + \tau_{i I_b}})$ from $(\frac{1}{2}, \frac{1}{2})$. That is, we restrict only on the probabilities associated to the components to be merged. To measure this difference we use the squared norm defined in the Simplex space. The squared norm of a posterior probability vector, $\| (\tau_{iI_a}, \tau_{iI_b}) \|^2$  defined by \cite{aitchison2002simplicial} is 
 \[
 \lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \left\| (\tau_{iI_a}, \tau_{iI_b}) \right\|^2 = -\log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right).
 \]
 
-In Section (Hennig 2010) the notion of confusion between two components $I_a$ and $I_b$ is measured  using the value $\mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{i I_j} \right)$. Conditioning that the observation is generated by $I_a$ we propose to measure how likely is to classify an observation to $I_b$ by measuring the relative difference between $\tau_{i I_b}$ and $\tau_{i I_a}$, that is 
+In \cite{hennig2010methods} the notion of confusion between two components $I_a$ and $I_b$ is measured  using the value $\mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{i I_j} \right)$. Conditioning that the observation is generated by $I_a$ we propose to measure how likely is to classify an observation to $I_b$ by measuring the relative difference between $\tau_{i I_b}$ and $\tau_{i I_a}$, that is 
 \[
 \lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \log \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right).
 \]
 
-Due the two different methods use logratios they take into an account the geometric properties of the Simplex space (Referencia Aitchison 2002).  Moreover, doing so, we can guarantee \emph{subcompositional coherence} in this measurement \citep{aitchison1986statistical}. Another interesting feature when logratio approach is used is the \emph{scale invariance} property, that is, the approach is not restricted to posterior probability vectors but to any other kind of vector giving relative information between each mixture component. Therefore, the methods considered here are suitable to be applied in more general scenarios such that those were instead of posterior probability vectors different weights are given to each part (e.g. weights in fuzzy clustering).
+Due the two different methods use logratios they take into an account the geometric properties of the Simplex space \citep{aitchison2002simplicial}.  Moreover, doing so, we can guarantee \emph{subcompositional coherence} in this measurement \citep{aitchison1986statistical}. Another interesting feature when logratio approach is used is the \emph{scale invariance} property, that is, the approach is not restricted to posterior probability vectors but to any other kind of vector giving relative information between each mixture component. Therefore, the methods considered here are suitable to be applied in more general scenarios such that those were instead of posterior probability vectors different weights are given to each part (e.g. weights in fuzzy clustering).
 
 The selection of $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ is of special importance in the logratio approach. When we are considering to merge two components $I_a$ and $I_b$, the ratio for observations that are not representative of this two components (observations far from been classidied into $I_a$ or $I_b$) should be unweight. The main reason is that this posterior probabilitites are subject to a high amount of variability due the small posterior probabilities $\tau_{iI_a}$ and $\tau_{iI_b}$.
 
@@ -364,9 +364,9 @@ This sequence only differs from the Baudry's in the partition $\mathcal{P}_5$.  
 
 Merging approaches presented in this article rely on the vector of posterior probabilities this can be calculated for any finite mixture model. In this section we present the case of a finite mixture of multinomial distribution.
 
-Pigs dataset can be obtained from package \pkg{zCompositions} R package (referència). The dataset contains data of 29 sows. In different moments the pigs were recorder during 5 minutes and its current activity was registered. For each pig six locations were considered: straw bed (BED), half in the straw bed (HALF.BED), dunging passage (PASSAGE), half in the dunging passage (HALF.PASS), feeder (FEEDER) and half in the feeder (HALF.FEED). Although the original dataset has 6 different activities, to avoid identifiability problems (Teicher, 1960; Blischke, 1964; Titterington et al., 1985) we eliminate the HALF.PASS, HALF.FEED, HALF.BED which have a very small number of events.
+Pigs dataset can be obtained from package \pkg{zCompositions} R package \citep{palarea2012zcompositions}. The dataset contains data of 29 sows. In different moments the pigs were recorder during 5 minutes and its current activity was registered. For each pig six locations were considered: straw bed (BED), half in the straw bed (HALF.BED), dunging passage (PASSAGE), half in the dunging passage (HALF.PASS), feeder (FEEDER) and half in the feeder (HALF.FEED). Although the original dataset has 6 different activities, to avoid identifiability problems (Teicher, 1960; Blischke, 1964; Titterington et al., 1985) we eliminate the HALF.PASS, HALF.FEED, HALF.BED which have a very small number of events.
 
-We have used \pkg{mixtools} (referència) to fit the mulitinomial mixture. 9 components were identified as optimum according to BIC criterion. In Figure~\ref{multinomial_mixture} the bar plot for each component. That is considering Equation~\ref{map_criteria} or Equation~\ref{cluster_criteria} with partition $\mathcal{P}_9 = \{\{1\}, \{2\}, \{3\}, \{4\}, \{5\}, \{6\}, \{7\}, \{8\}, \{9\} \}$.
+We have used \pkg{mixtools} \citep{benaglia2009mixtools} to fit the mulitinomial mixture. 9 components were identified as optimum according to BIC criterion. In Figure~\ref{multinomial_mixture} the bar plot for each component. That is considering Equation~\ref{map_criteria} or Equation~\ref{cluster_criteria} with partition $\mathcal{P}_9 = \{\{1\}, \{2\}, \{3\}, \{4\}, \{5\}, \{6\}, \{7\}, \{8\}, \{9\} \}$.
 
 \begin{figure}[t]
 \begin{center}
@@ -399,7 +399,7 @@ Figure~\ref{multinomial_Svalues} shows the $S$-value's (Equation~\ref{unifying_e
 \begin{tabular}{cc}
   \includegraphics[width=0.65\textwidth]{figures/multinomial_Svalues.pdf} \\
  \end{tabular}
- \caption{S-values obatined}\label{multinomial_Svalues}
+ \caption{S-values obtained using the Aitchison $\lambda = -\log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)$ and $\omega = \tau_{i I_a}$ in the multinomial example.}\label{multinomial_Svalues}
 \end{center}
 \end{figure}
 
@@ -445,8 +445,13 @@ Aitchison, J. (2002).
 \newblock {\em Algebraic Methods in Statistics anb Probability}, 287: 1--22.
 
 \bibitem[Baudry et~al., 2010]{baudry2010combining}
-Baudry, J.-P., Raftery, A.~E., Celeux, G., Lo, K., and Gottardo, R. (2010).
+Baudry, J.P., Raftery, A.~E., Celeux, G., Lo, K., and Gottardo, R. (2010).
 \newblock {Combining Mixture Components for Clustering}.
+
+\bibitem[Fraley, 2002]{fraley2002model}
+Fraley, C. and Raftery, A. E. (2002).
+\newblock {Model-Based Clustering, Discriminant Analysis, and Density Estimation}.
+\newblock {\em Journal of the American Statistical Association}, 97(458): 611–631.
 
 \bibitem[Hennig, 2010]{hennig2010methods}
 Hennig, C. (2010).
@@ -454,7 +459,7 @@ Hennig, C. (2010).
 \newblock {\em Advances in Data Analysis and Classification}, 4(1):3--34.
 
 \bibitem[Lee and Cho, 2004]{lee2004combining}
-Lee, H.-j. and Cho, S. (2004).
+Lee, H.J. and Cho, S. (2004).
 \newblock {Combining Gaussian Mixture Models}.
 \newblock In Yang, Z., Yin, H., and Everson, R., editors, {\em Intelligent Data
   Engineering and Automated Learning – IDEAL 2004 SE - 98}, volume 3177 of
@@ -477,15 +482,25 @@ Melnykov, V. (2013).
   Models with Application in Clustering}.
 \newblock {\em Journal of Multivariate Analysis}, 122:175--189.
 
-\bibitem[Melnykov et~al., 2012]{melnikov2012mixsim}
-Melnykov, V. and Chen, W.C. and Maitra, R. (2012).
-\newblock {MixSim: An R Package for Simulating Data to Study Performance of Clustering Algorithms}.
-\newblock {\em Journal of Statistical Software}, 51(12).
+%\bibitem[Melnykov et~al., 2012]{melnikov2012mixsim}
+%Melnykov, V. and Chen, W.C. and Maitra, R. (2012).
+%\newblock {MixSim: An R Package for Simulating Data to Study Performance of Clustering Algorithms}.
+%\newblock {\em Journal of Statistical Software}, 51(12).
+
+\bibitem[Palarea-Albaladejo and Martin-Fernandez (2012)]{palarea2012zcompositions}
+Palarea-Albaladejo J. and Martin-Fernandez J.A. (2012).
+\newblock {zCompositions: Imputation of Zeros and Nondetects in Compositional Data Sets}.
+\newblock {\em R package version 1.0.3}.
 
 \bibitem[Pastore and Tonellato, 2013]{pastore2013merging}
 Pastore, A. and Tonellato, S.~F. (2013).
 \newblock {A Merging Algorithm for Gaussian Mixture Components}.
 \newblock {\em SSRN Electronic Journal}, (04).
+
+\bibitem[Benaglia et~al., 2009]{benaglia2009mixtools}
+Benaglia, T., Chauveau, D., Hunter, D.R. and Youn, R. (2009).
+\newblock {mixtools: An R Package for Analyzing Finite Mixture Models}.
+\newblock {\em Journal of Statistical Software}, 32(6), 1-29.
 
 \end{thebibliography}
 
