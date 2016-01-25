@@ -54,7 +54,7 @@ ggsave(filename = 'figures/multinomial_mixt_all.pdf', height=6)
 
 hp = get_hierarchical_partition(fit$posterior, omega = 'prop', lambda = 'coda.norm')
 seq_partition = lapply(hp, sapply, paste, collapse=',')
-cat(paste(sapply(seq_partition, function(partition) paste(sprintf('\\{%s\\}', partition), collapse=',')), collapse='\\}, \\\\ \n & & \\;\\; \\{'))
+cat(paste(sapply(seq_partition, function(partition) paste(sprintf('\\{%s\\}', partition), collapse=',')), collapse='\\}, \\\\ \n \\mathcal{P}_ &=& \\;\\; \\{'))
 
 df = data.frame(
   Clusters = 1:6,
