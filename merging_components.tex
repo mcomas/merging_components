@@ -1,4 +1,5 @@
-\documentclass[10pt, a4paper]{article}
+%\documentclass[10pt, a4paper]{article}
+\documentclass[submit]{smj}
 
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath, amssymb, amsthm, bbm}
@@ -9,16 +10,16 @@
 \usepackage{relsize}
 \usepackage{array}
 \usepackage{multirow}
-\usepackage{showlabels}
+%\usepackage{showlabels}
 \usepackage{setspace}
 \usepackage[normalem]{ulem}
 \usepackage{xspace}
 %Add line numbering
 %Line numbering can be incorporated by using the lineno package. Add these statements in the preamble:
-\usepackage{lineno}
-\linenumbers
+%\usepackage{lineno}
+%\linenumbers
 
-\usepackage[nomarkers,figuresonly]{endfloat}
+%\usepackage[nomarkers,figuresonly]{endfloat}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 
@@ -34,13 +35,37 @@
 
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}} 
 
-\title{Merging the components of a finite mixture using  posterior probabilities}
-\author{M. Comas-Cufí \and J.A. Martín-Fernández \and G. Mateu-Figueras}
+\Title{Merging the components of a finite mixture using  posterior probabilities}
+\TitleRunning{Merging the components of \fmm}
+\Author{Marc Comas-Cufí\Affil{1}, Josep A. Martín-Fernández\Affil{1}, Glòria Mateu-Figueras\Affil{1}}
+\AuthorRunning{Marc Comas-Cufí \textrm{et al.}}
 
-%\doublespacing
+\Affiliations{
+\item Department of Computer Sciences, Mathematics and Statistics, 
+      Polytechnic School, 
+      University of Girona,
+      Spain
+}
+
+\CorrAddress{Marc Comas Cufí, 
+             Department of Computer Sciences, Mathematics and Statistics, 
+      Polytechnic School, 
+      University of Girona,
+      Spain}
+\CorrEmail{mcomas@imae.udg.edu}
+\CorrPhone{(+34)\;972\; 418\;217}
+\CorrFax{(+34)\;972\;418\;792}
+
+\Abstract{
+Some text
+}
+
+\Keywords{
+keyword a; keyword b; keyword c; keyword d; keyword e
+}
 \begin{document}
 
-\begin{spacing}{1.9}
+%\begin{spacing}{1.9}
 %%%%%%% BEGIN SPACING
 
 
@@ -519,6 +544,6 @@ Benaglia, T., Chauveau, D., Hunter, D.R. and Youn, R. (2009).
 \end{thebibliography}
 
 %%%%%%%%%%% END SPACING
-\end{spacing}
+%\end{spacing}
 
 \end{document}
