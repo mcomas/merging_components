@@ -25,7 +25,8 @@
 \newtheorem{prob}{Problem}
 \newtheorem{prop}{Proposition}
 \newtheorem{definition}{Definition}
-
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
 %%%%% bold symbol in math enviornment
 \newcommand{\m}[1]{\boldsymbol{#1}}
 
@@ -112,93 +113,6 @@ Since $\mathcal{P}_s$ is a partition $\sum_{p=1}^s \tau_{i I_p} = 1$ holds  for 
 Moreover, an observation $\m x_i \in \rm X$ will be classified to the cluster $c$ if
 \begin{equation}\label{cluster_criteria}
 c= \argmax_{p=1}^s \{ \tau_{i I_p} \}
-\end{equation}
-
-\subsection{Example} \label{example}
-
-Following \cite{baudry2010combining} consider the bivariate Gaussian mixture of six components
-\[
-f= \sum_{j=1}^6 \pi_j \phi(\;\cdot\; ;  \m\mu_j, \m\Sigma_j)
-\]
-with parameters shown at Table~\ref{pars_table}.
-
-\begin{table}[t]
-\centering
-\begin{tabular}{rrrrrrr}
-  \hline
-$j$ & $\pi_j$ & $\mu_{j x_1}$ & $\mu_{j x_2}$ & $\sigma^2_{j x_1}$ & $\sigma^2_{j x_2}$ & $\rho_{j x_1 x_2}$ \\ 
-  \hline
-  1 &  $1/6$ &     0 &     0 &    50 &     5 &     0 \\ 
-  2 &  $1/6$  &     0 &    40 &     5 &    50 &     0 \\ 
-  3 &  $1/6$  &    40 &    40 &     5 &    50 &     0 \\ 
-  4 &  $1/6$  &     0 &     0 &     5 &    50 &     0 \\ 
-  5 &  $1/6$  &    40 &     0 &    50 &     5 &     0 \\ 
-  6 &  $1/6$  &    40 &    40 &    50 &     5 &     0 \\ 
-   \hline
-\end{tabular}
-\caption{Parameters defining a two dimensional Gaussian mixture with six components. The parameters $\m\mu_j$ and $\m\Sigma_j$ are expressed in terms of the univariate means $\mu_{j x_1}$, $\mu_{j x_2}$, the univariate variances $\sigma^2_{j x_1}$, $\sigma^2_{j x_2}$ and the correlation between $x_1$ and $x_2$, $\rho_{j x_1 x_2}$.}
-\label{pars_table}
-\end{table}
-
-%{\small \input{tex/partition-example-pars.tex} }
-
-Suppose we want to cluster a sample coming from the mixture $f$. For such purpose, we generate a sample \textbf{X} with 500 observations. Figure~\ref{ex_mixture} shows a random sample \textbf{X} together with the iso-density curves of the estimated \fmm.
-
-\begin{figure}[thbp]
-\begin{center}
-\begin{tabular}{cc}
- %   6 toy mixture
-  \includegraphics[width=0.7\textwidth]{figures/partition-example-mixture.pdf} \\
- \end{tabular}
- \caption{Density of Gaussian mixture of 6 components. Sample mean estimated of each component is represented by '+'.}\label{ex_mixture}
-\end{center}
-\end{figure}
-
-Equation~\ref{cluster_criteria} with partition $\mathcal{P}_6 = \{ \{1\},\{2\}, \{3\}, \{4\}, \{5\}, \{6\} \}$ yields to a six clusters were each component is associated to one cluster as shown in Figure~\ref{ex_one_one}.
-
-\begin{figure}[h]
-\begin{center}
-\begin{tabular}{cc}
- %   6 toy mixture
-  \includegraphics[width=\textwidth]{figures/partition-example-part6.pdf} \\
- \end{tabular}
- \caption{One cluster corresponds to one component}\label{ex_one_one}
-\end{center}
-\end{figure}
-
-In the partition $\mathcal{P}_4 = \{ \{1, 4\},\{2\}, \{5\}, \{3, 6\} \}$, the components 1 and 4 define a single cluster, as well as components 3 and 6. Figure~\ref{ex_two_one} shows the clustering with the iso-density curves defined by each component. In this case, clusters labeled $\{1,4\}$ and $\{3, 6\}$ are modelled by a mixture of two components. The \fmm with partition $\mathcal{P}_4$ is
-\begin{itemize}
-\item $f_{\{1,4\}} = \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_1, \m\Sigma_1) + \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_4, \m\Sigma_4)$, 
-\item $f_{\{2\}} = \phi(\;\cdot\; ;  \m\mu_2, \m\Sigma_2)$, 
-\item $f_{\{5\}} = \phi(\;\cdot\; ;  \m\mu_5, \m\Sigma_5)$ and
-\item $f_{\{6,3\}} = \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_6, \m\Sigma_6) + \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_3, \m\Sigma_3)$.
-\end{itemize}
-
-Using Equation~\ref{cluster_criteria} each observation $\m x_i$ is classified to one component (Figure~\ref{ex_two_one}).
-
-\begin{figure}[h]
-\begin{center}
-\begin{tabular}{cc}
- %   6 toy mixture
-  \includegraphics[width=0.65\textwidth]{figures/partition-example-part4.pdf} \\
- \end{tabular}
- \caption{One cluster corresponds to one or more components}\label{ex_two_one}
-\end{center}
-\end{figure}
-
-
-The hierarchical sequence of partitions of $\{1, 2, 3, 4, 5, 6\}$ is given by the sequence of partition
-
-\begin{equation}
-\begin{array}{r c l}
-\mathcal{P}_1 &=& \{\{1, 2, 3, 4, 5, 6\}\}, \\
-\mathcal{P}_2 &=& \{\{1, 4, 2, 5\}, \{6, 3\} \},  \\
-\mathcal{P}_3 &=& \{\{1, 4, 2\}, \{5\}, \{6, 3\} \}, \\
-\mathcal{P}_4 &=& \{\{1, 4\},\{2\}, \{5\}, \{6, 3\} \}, \\
-\mathcal{P}_5 &=& \{\{1\},\{2\},\{4\},\{5\},\{6,3\} \},\\
-\mathcal{P}_6 &=& \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}.
-\end{array}
-\label{hier_ex}
 \end{equation}
 
 \section{Generic approach}\label{generic_merging}
@@ -293,11 +207,20 @@ Finally, without restricting  the posterior probability of begin classified to c
 \[
 \lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_b}.
 \]
+If combined with $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  \tau_{iI_a}$ end ups with a very simple $S$ function.
 
 \subsection{$\omega$ function alternative}
-{ \color{red} Aquí estaria bé afegir tota la discusió sobre merging i absorció, de pasa es podria introduïr la nova funció $\omega$}
 
-Motivation behind function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_a}$ in \cite{hennig2010methods} and \cite{longford2014}  is to give more weight to those observations more related to partition $I_a$. A more extremal weighting can be introduced considering only those observation having maximum $ \tau_{iI_a}$, that is
+
+An important difference between the approach presented in Section~\ref{entropy_section} \citep{baudry2010combining} compared to the one presented in Section~\ref{missclassification_section} \citep{hennig2010methods} is that the former one is symetric, that is
+\[
+S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_b,  I_a).
+\]
+In contrast, DEMP approach has different values depending on the order of merging.
+
+Function $\omega$ plays an important role for the symetry of the method. In general, if $\omega$ is constant and $\lambda$ is symetric the resulting function $S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b)$ is symetric.
+
+Motivation behind function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_a}$ in \cite{hennig2010methods} and \cite{longford2014}  is to give more weight to those observations more related to partition $I_a$. A more extremal asymetric weighting can be introduced considering only those observation having maximum $ \tau_{iI_a}$, that is
 \[
 \omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \mathbbm{1}\left( \forall j\; \tau_{i I_{a}} \geq \tau_{iI_j} \right).
 \]
@@ -328,7 +251,18 @@ The second log-ratio approach is inspired in the notion of confusion \citep{henn
 \]
 
 
-Due the two different methods use logratios they take into an account the geometric properties of the Simplex space \citep{aitchison2002simplicial}.  Moreover, doing so, we can guarantee \emph{subcompositional coherence} in this measurement \citep{aitchison1986statistical}. Another interesting feature when logratio approach is used is the \emph{scale invariance} property, that is, the approach is not restricted to posterior probability vectors but to any other kind of vector giving relative information between each mixture component. Therefore, the methods considered here are suitable to be applied in more general scenarios such that those were instead of posterior probability vectors different weights are given to each part (e.g. weights in fuzzy clustering).
+Due the two different methods use logratios they take into an account the geometric properties of the Simplex space \citep{aitchison2002simplicial}.  Working with logratios between components we guarantee \emph{subcompositional coherence}  \citep{aitchison1986statistical}. Formally, in this scenario subcompositional coherence can be defined as:
+
+\begin{defn}
+Let $\mathcal{H}$ be a hierarchical sequence of partitions obtained from posterior probability vectors $\left\{ \left(\tau_{i1}, \dots, \tau_{ik} \right)\right\}_{1\leq i \leq n}$ using a merging approach $M$. Let $I = \{j_1, \dots, j_s\}$ be one part in one partition of $\mathcal{H}$. A method is \emph{subcompositional coherent} if the hierarchy sequence of partitions obtained  from posterior probability vectors $\left\{ \left(\tau_{ij_1}, \dots, \tau_{ij_s} \right)\right\}_{1\leq i \leq n}$ is contained in $\mathcal{H}$.
+\end{defn}
+
+Another interesting feature when logratio approach is used is the \emph{scale invariance} property, formally
+\[
+S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = S_{\omega, \lambda}(k\cdot \m\tau_{\mathcal{P}_s},  I_a,  I_b) \text{ for $k>0$.}
+\] 
+
+Meaning that the approach is not restricted to posterior probability vectors but to any other kind of vector giving relative information between each mixture component. Therefore, the methods considered here are suitable to be applied in more general scenarios such that those were instead of posterior probability vectors different weights are given to each part (e.g. weights in fuzzy clustering).
 
 The selection of $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ is of special importance in the logratio approach. When we are considering to merge two components $I_a$ and $I_b$, the ratio for observations that are not representative of this two components (observations far from been classidied into $I_a$ or $I_b$) should be unweight. The main reason is that this posterior probabilitites are subject to a high amount of variability due the small posterior probabilities $\tau_{iI_a}$ and $\tau_{iI_b}$.
 
@@ -342,10 +276,88 @@ For a fixed component $I_a$, the expression in the numerator has the flavour of 
 
 \subsection{Merging components in a mixture of Gaussian distributions}
 
-In Section~\ref{example} we generated a sample of 500 observations coming from a mixture with 6 components. 
+Following \cite{baudry2010combining} consider the bivariate Gaussian mixture of six components
+\[
+f= \sum_{j=1}^6 \pi_j \phi(\;\cdot\; ;  \m\mu_j, \m\Sigma_j)
+\]
+with parameters shown at Table~\ref{pars_table}. 
+
+\begin{table}[t]
+\centering
+\begin{tabular}{rrrrrrr}
+  \hline
+$j$ & $\pi_j$ & $\mu_{j x_1}$ & $\mu_{j x_2}$ & $\sigma^2_{j x_1}$ & $\sigma^2_{j x_2}$ & $\rho_{j x_1 x_2}$ \\ 
+  \hline
+  1 &  $1/6$ &     0 &     0 &    50 &     5 &     0 \\ 
+  2 &  $1/6$  &     0 &    40 &     5 &    50 &     0 \\ 
+  3 &  $1/6$  &    40 &    40 &     5 &    50 &     0 \\ 
+  4 &  $1/6$  &     0 &     0 &     5 &    50 &     0 \\ 
+  5 &  $1/6$  &    40 &     0 &    50 &     5 &     0 \\ 
+  6 &  $1/6$  &    40 &    40 &    50 &     5 &     0 \\ 
+   \hline
+\end{tabular}
+\caption{Parameters defining a two dimensional Gaussian mixture with six components. The parameters $\m\mu_j$ and $\m\Sigma_j$ are expressed in terms of the univariate means $\mu_{j x_1}$, $\mu_{j x_2}$, the univariate variances $\sigma^2_{j x_1}$, $\sigma^2_{j x_2}$ and the correlation between $x_1$ and $x_2$, $\rho_{j x_1 x_2}$.}
+\label{pars_table}
+\end{table}
 
 
-Considering $\omega = 1$ and $\lambda = (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left\{ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right\}$ that is themethod proposed by \cite{baudry2010combining} we obtained the sequential hierarchical partition given by Equation~\ref{hier_ex}. When we consider  the DEMP approach introduced in \cite{hennig2010methods}, i.e. $\omega = \tau_{i I_a}$ and $\lambda = \mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right)$ the sequential hierarchical obtained is
+Let the parameters of $f$ be known. Figure~\ref{ex_mixture} shows a random sample \textbf{X} together with the iso-density curves of the estimated \fmm. We are interested in clustering sample \textbf{X}.
+
+\begin{figure}[thbp]
+\begin{center}
+\begin{tabular}{cc}
+ %   6 toy mixture
+  \includegraphics[width=0.7\textwidth]{figures/partition-example-mixture.pdf} \\
+ \end{tabular}
+ \caption{Density of Gaussian mixture of 6 components. Sample mean estimated of each component is represented by '+'.}\label{ex_mixture}
+\end{center}
+\end{figure}
+
+The initial partition  $\mathcal{P}_6 = \{ \{1\},\{2\}, \{3\}, \{4\}, \{5\}, \{6\} \}$  by Equation~\ref{cluster_criteria} yields to a six clusters were each component is associated to one cluster as shown in Figure~\ref{ex_one_one}.
+
+\begin{figure}[h]
+\begin{center}
+\begin{tabular}{cc}
+ %   6 toy mixture
+  \includegraphics[width=\textwidth]{figures/partition-example-part6.pdf} \\
+ \end{tabular}
+ \caption{One cluster corresponds to one component}\label{ex_one_one}
+\end{center}
+\end{figure}
+
+ \cite{baudry2010combining} proposed the Entropy approach from Section~\ref{entropy_section} which is equivalent to consider \[\omega = 1\] and \[\lambda = (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left\{ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right\}.\] Following this approach we obtained the sequential hierarchical partition given by 
+
+\begin{equation}
+\begin{array}{r c l}
+\mathcal{P}_1 &=& \{\{1, 2, 3, 4, 5, 6\}\}, \\
+\mathcal{P}_2 &=& \{\{1, 4, 2, 5\}, \{6, 3\} \},  \\
+\mathcal{P}_3 &=& \{\{1, 4, 2\}, \{5\}, \{6, 3\} \}, \\
+\mathcal{P}_4 &=& \{\{1, 4\},\{2\}, \{5\}, \{6, 3\} \}, \\
+\mathcal{P}_5 &=& \{\{1\},\{2\},\{4\},\{5\},\{6,3\} \},\\
+\mathcal{P}_6 &=& \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}.
+\end{array}
+\label{hier_ex}
+\end{equation}
+
+In the partition $\mathcal{P}_4 = \{ \{1, 4\},\{2\}, \{5\}, \{3, 6\} \}$, the components 1 and 4 define a single cluster, as well as components 3 and 6. Using Equation~\ref{cluster_criteria} each observation $\m x_i$ is classified to one component. Figure~\ref{ex_two_one} shows the clustering with the iso-density curves defined by each component. In this case, clusters labeled $\{1,4\}$ and $\{3, 6\}$ are modelled by a mixture of two components. The \fmm with partition $\mathcal{P}_4$ is
+\begin{itemize}
+\item $f_{\{1,4\}} = \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_1, \m\Sigma_1) + \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_4, \m\Sigma_4)$, 
+\item $f_{\{2\}} = \phi(\;\cdot\; ;  \m\mu_2, \m\Sigma_2)$, 
+\item $f_{\{5\}} = \phi(\;\cdot\; ;  \m\mu_5, \m\Sigma_5)$ and
+\item $f_{\{6,3\}} = \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_6, \m\Sigma_6) + \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_3, \m\Sigma_3)$.
+\end{itemize}
+
+\begin{figure}[h]
+\begin{center}
+\begin{tabular}{cc}
+ %   6 toy mixture
+  \includegraphics[width=0.65\textwidth]{figures/partition-example-part4.pdf} \\
+ \end{tabular}
+ \caption{One cluster corresponds to one or more components}\label{ex_two_one}
+\end{center}
+\end{figure}
+
+If instead of using approach from Section~\ref{entropy_section} \citep{baudry2010combining} we consider DEMP approach from Section~\ref{missclassification_section} \citep{hennig2010methods}, we are setting \[\omega = \tau_{i I_a}\] and \[\lambda = \mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right).\] In this case, the sequential hierarchical obtained is
 \begin{equation}
 \begin{array}{r c l}
 \mathcal{P}_1 &=& \{\{1, 2, 3, 4, 5, 6\}\}, \\
@@ -356,6 +368,8 @@ Considering $\omega = 1$ and $\lambda = (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_
 \mathcal{P}_6 &=& \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}.
 \end{array}
 \end{equation}
+
+
 
 This sequence only differs from the Baudry's in the partition $\mathcal{P}_5$.  Figure~\ref{gaussian_Svalues} shows the value of function $S$ given by Equation~\ref{unifying_equation}. In these values the largest change is detected in the step from 4 clusters to consider 3 clusters. This reduction suggests that the correct number of clusters is given by 4 clusters.
 \begin{figure}[t]
@@ -371,14 +385,14 @@ This sequence only differs from the Baudry's in the partition $\mathcal{P}_5$.  
 
 Merging approaches presented in this article rely on the vector of posterior probabilities this can be calculated for any finite mixture model. In this section we present the case of a finite mixture of multinomial distribution.
 
-Pigs dataset can be obtained from package \pkg{zCompositions} R package \citep{palarea2012zcompositions}. The dataset contains data of 29 sows. In different moments the pigs were recorded during 5 minutes and its current activity was registered. For each pig six locations were considered: straw bed (BED), half in the straw bed (HALF.BED), dunging passage (PASSAGE), half in the dunging passage (HALF.PASS), feeder (FEEDER) and half in the feeder (HALF.FEED). Although the original dataset has 6 different activities, to avoid identifiability problems (Teicher, 1960; Blischke, 1964; Titterington et al., 1985) we eliminate the HALF.PASS, HALF.FEED, HALF.BED which have a very small number of events.
+Pigs dataset can be obtained from package \pkg{zCompositions} R package \citep{palarea2012zcompositions}. The dataset contains data of 29 sows. In different moments the pigs were recorded during 5 minutes and its current activity was registered. For each pig six locations were considered: straw bed (BED), half in the straw bed (HALF.BED), dunging passage (PASSAGE), half in the dunging passage (HALF.PASS), feeder (FEEDER) and half in the feeder (HALF.FEED).
 
 We have used \pkg{mixtools} \citep{benaglia2009mixtools} to fit the mulitinomial mixture. 6 components were identified as optimum according to BIC criterion. In Figure~\ref{multinomial_mixture} the bar plot for each component. That is considering Equation~\ref{map_criteria} or Equation~\ref{cluster_criteria} with partition $\mathcal{P}_6 = \{\{1\}, \{2\}, \{3\}, \{4\}, \{5\}, \{6\}\}$.
 
 \begin{figure}[t]
 \begin{center}
 \begin{tabular}{cc}
-  \includegraphics[width=0.95\textwidth]{figures/multinomial_mixt.pdf} \\
+  \includegraphics[width=0.95\textwidth]{figures/multinomial_mixt_all.pdf} \\
  \end{tabular}
  \caption{Components after adjusting a six mixture of multinomial distributions}\label{multinomial_mixture}
 \end{center}
@@ -399,12 +413,12 @@ Considering $\omega = \tau_{i I_a}$ and $\lambda = -\log^2 \left(\frac{ \tau_{iI
 \label{hier_ex_multinomial}
 \end{equation}
 
-Figure~\ref{multinomial_Svalues} shows the $S$-value's (Equation~\ref{unifying_equation}) obtained in each step. During step 5, 4 and 3 the score is close to 0 (-62, -74, -80 respectively). When merging from 3 to 2 component the score is reduced (-7966). This reduction suggests that when merging from 3 to 2 clusters we are losing valuable information, and therefore, it seems reasonable to stop at 3 clusters.
+Figure~\ref{multinomial_Svalues} shows the $S$-value's (Equation~\ref{unifying_equation}) obtained in each step. The S-value are -163.14,   -320.15,  -3792.3970,  -8400.80, -34218.18 for 5, 4, 3, 2 and 1 clusters respectively.
 
 \begin{figure}[t]
 \begin{center}
 \begin{tabular}{cc}
-  \includegraphics[width=0.65\textwidth]{figures/multinomial_Svalues.pdf} \\
+  \includegraphics[width=0.65\textwidth]{figures/multinomial_Svalues_all.pdf} \\
  \end{tabular}
  \caption{S-values obtained using the Aitchison $\lambda = -\log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)$ and $\omega = \tau_{i I_a}$ in the multinomial example.}\label{multinomial_Svalues}
 \end{center}
@@ -415,7 +429,7 @@ Figure~\ref{multinomial_clust3} shows the final 3 clusters. The first cluster co
 \begin{figure}[t]
 \begin{center}
 \begin{tabular}{cc}
-  \includegraphics[width=0.95\textwidth]{figures/multinomial_clust3.pdf} \\
+  \includegraphics[width=0.95\textwidth]{figures/multinomial_clust3_all.pdf} \\
  \end{tabular}
  \caption{Components after clustering the 9 mixture components in a 3-\fmm}\label{multinomial_clust3}
 \end{center}
@@ -427,12 +441,9 @@ When \fmm is used in clustering the question \textit{``is a cluster determined b
 
 In literature different approaches have been considered to merge the components of a \fmm. Some of them are specific to a particular type of mixture (methods related to gaussian mixtures) and some others are independent of the type of mixture (to cite generic approaches). The generic approach proposed in this articles only relies  on the posterior probability vectors is independent from the family of mixture and can be applied with any \fmm.
 
-We would like to notice that the approach presented in this article uses the posterior probability vectors which come from a finite mixture model. Some methods presented Because the methods only use information, it make sense to apply the methods presented here in other scenarios were a vector of posterior probabilities is given in advance.
-
-Not less important is to mention how simple it becomes to evaluate the $S$-values when function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_a}$ and $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_b}$ are considered. Also, we would like to highlight the guaranteed properties obtained if the logratio approaches are considered as introduced in Section~\ref{logratio_section}.
+We would like to highlight the guaranteed properties obtained if the logratio approaches are considered as introduced in Section~\ref{logratio_section}: Subcompositional coherence and scale invariance. With a fixed partition $\mathcal{P}$ inside the hierarchical sequence partition, the first property allows to apply the hierarchical method to the \fmm formed with each of part of $\mathcal{P}$ separately.
 
 Finally, in the examples shown in this article we have used descriptives criteria to stop the merging process by controlling the $S$-values. We notice here that different definitions of functions $\lambda$ and $\omega$ rises different way to interpret the $S$-values, therefore, it is mandatory to take into an account the interpretation of $S$-values before defining an stopping criteria.
-
 
 %%% BIBLIOGRAPHY
 \newpage
