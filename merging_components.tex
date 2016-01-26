@@ -81,7 +81,7 @@ A common approach in parametric cluster analysis assumes data can be modelled by
 \begin{equation}\label{mixt}
 f(\;\cdot\; ; \pi_1, \dots, \pi_k, \m\theta_1, \dots, \m\theta_k) = \pi_1 f_1(\;\cdot\; ; \m\theta_1) + \dots + \pi_k f_k(\;\cdot\; ; \m\theta_k),
 \end{equation}
-where $\m\theta_j$ is the set of parameters of the pdf $f_j$, $1\leq j \leq k$ and $\pi_j$ is the ``weight'' of component $f_j$. Note that taking $\sum_{\ell = 1}^k \pi_\ell = 1$ guarantees that  $\int_{\mathbb{X}}f = 1$. Originally, the clustering algorithm based on a \fmm follows two steps:
+where $\m\theta_j$ is the set of parameters of the pdf $f_j$, $1\leq j \leq k$ and $\pi_j$ is the ``weight'' of component $f_j$. Restricting $\sum_{\ell = 1}^k \pi_\ell = 1$ guarantees that  $\int_{\mathbb{X}}f = 1$. Originally, the clustering algorithm based on a \fmm follows two steps:
 \begin{enumerate}
 \item using the information provided by a sample $X=\{\m x_1, \dots, \m x_n\}$, to calculate estimates $\hat{\pi}_1, \dots, \hat{\pi}_k$ and $\hat{\m\Theta}=\{\hat{\m\theta}_1, \dots, \hat{\m\theta}_k\}$ of parameters $\pi_1, \dots, \pi_k$ and $\m\Theta=\{\m\theta_1, \dots, \m\theta_k\}$, and
 \item to classify each observation $\m x_i \in X$ according to the criterium of mazimizing the posterior probability, that is, one observation $\m x_i$ is classified to cluster $c$ if
@@ -99,14 +99,14 @@ More recently, \cite{lee2004combining,hennig2010methods,baudry2010combining,meln
 
 The crucial point of this clustering method is how to decide which components have to be merged. In this article we introduce a generic approach that contains the methods given by \cite{baudry2010combining}, \cite{hennig2010methods} and \cite{longford2014}. In addition, our approach permits the analyst  to define its own criteria, for example, a criteria based in log-ratio transformations of posterior probabilities \citep{aitchison1986statistical}.
 
-Using this approach for merging components one can build a hierarchy over the set of mixture components. From this hierarchical structure, the analyst can decide the final classification.
+Using this new generic approach for merging components one can build a hierarchy over the set of mixture components. From this hierarchical structure, the analyst can decide the final classification.
 
-The paper is organised as follows: in Section~\ref{definitions} some definitions and notations used throughout this paper are introduced. In Section~\ref{generic_merging} the generic merging approach is presented. It is shown how different examples from literature reduce to this generic approach presented in the previous section. Section~\ref{logratio_section} presents a new family ofcriteria based on log-ratio approach. In Section~\ref{merging_examples_dist}, we present two examples to illustrate the algorithm with different types of mixture distributions. Finally, final remark are provided in Section~\ref{remarks}.
+The paper is organised as follows: in Section~\ref{definitions} some definitions and notations used throughout this paper are introduced. In Section~\ref{generic_merging} the generic merging approach is presented. It is shown how different examples from literature reduce to this generic approach presented in the previous section. Section~\ref{logratio_section} presents a new family of criteria based on the log-ratio approach. In Section~\ref{merging_examples_dist}, we present two examples to illustrate the algorithm with different types of mixture distributions. Finally, final remarks are provided in Section~\ref{remarks}.
 
 \section{Definitions and notation}\label{definitions}
 
 %
-A \emph{partition} of $\{1, \dots, k\}$ of size $s$, $\mathcal{P}_s$,  is a set with $s$ subsets $I_p$ called $parts$ that $\bigcup_{I_p \in \mathcal{P}_s} I_p = \{1, \dots, k\}$ and for any two parts $I_a, I_b \in \mathcal{P}_s$ with $a \neq b$, $I_a \cap I_b = \emptyset$ holds. Any partition  $\mathcal{P}_s$ the pdf $f$ of a \fmm (Equation~\ref{mixt}) can be rewritten as
+A \emph{partition} of $\{1, \dots, k\}$ of size $s$, $\mathcal{P}_s$,  is a set with $s$ subsets $I_p$ called $parts$ that $\bigcup_{I_p \in \mathcal{P}_s} I_p = \{1, \dots, k\}$ and for any two parts $I_a, I_b \in \mathcal{P}_s$ with $a \neq b$, $I_a \cap I_b = \emptyset$ holds. Given a partition  $\mathcal{P}_s$, the pdf $f$ of a \fmm (Equation~\ref{mixt}) can be rewritten as
 \begin{equation}
 f = \pi_{I_1} f_{I_1}(\;\cdot\;; \m\Theta) + \dots + \pi_{I_s} f_{I_s}(\;\cdot\;; \m\Theta),
 \label{mixt_part}
@@ -128,7 +128,7 @@ One can extend Equation~\ref{map_criteria} in terms of partitions. Indeed, let $
 \[
 \tau_{i I_p} =  \frac{ \hat{\pi}_{I_p} f_{I_p}(\m x_i; \hat{\m\Theta}) }{\sum_{\ell=1}^s \hat{\pi}_{I_\ell} f_{I_\ell}(\m x_i; \hat{\m\Theta})}.
 \]
-where $\hat{\pi}_{I_p} = \sum_{\ell \in I_p} \hat{\pi}_\ell$.
+where $\hat{\pi}_{I_p} = \sum_{\ell \in I_p} \hat{\pi}_\ell$. Along the paper, if there is no confusion, we use $I_p$ refererring either to the part $I_p$ or to the component $\pi_{I_p} f_{I_p}$.
 
 For the partition  $\mathcal{P}_s$, we define the posterior probability vector as
 \begin{equation}\label{ppv}
@@ -144,16 +144,16 @@ c= \argmax_{p=1}^s \{ \tau_{i I_p} \}
 
 \subsection{General merging criteria}\label{merging_criteria}
 
-Let $\text{\textbf{X}} = \{\m x_1,\dots,\m x_n \}$ be a sample defined in  a domain $\mathbb{X}$ and let $f$ be a \fmm with $k$ components defined on $\mathbb{X}$ (Equation~\ref{mixt}). Given a partition $\mathcal{P}_s = \{I_1, \dots, I_s\}$, for $i$, $1\leq i \leq n $, let $\m\tau_{i \mathcal{P}_s}= \left( \tau_{i I_1} , \dots, \tau_{i I_s}  \right)$ be the posterior probability vector (Equation~\ref{ppv}) that respectively measures the chances that observation $\m x_i$ was generated by components $f_{I_1}, \dots, f_{I_s}$. In this section we introduce a generic approach to build a hierarchical sequence of partitions using only the information contained on the posterior probability vectors $\{\m\tau_{i \mathcal{P}_s}\}_{1\leq i \leq n}$.
+Let $\text{\textbf{X}} = \{\m x_1,\dots,\m x_n \}$ be a sample defined in  a domain $\mathbb{X}$ and let $f$ be a \fmm with $k$ components defined on $\mathbb{X}$ (Equation~\ref{mixt}). Given a partition $\mathcal{P}_s = \{I_1, \dots, I_s\}$, for $i$, $1\leq i \leq n $, let $\m\tau_{i \mathcal{P}_s}= \left( \tau_{i I_1} , \dots, \tau_{i I_s}  \right)$ be the posterior probability vector (Equation~\ref{ppv}) that respectively measures the chances that observation $\m x_i$ was generated by components $f_{I_1}, \dots, f_{I_s}$.
 
 
-Let $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ be a function measuring how likely is to merge mixture components $\hat{f}_{I_a}$ and $\hat{f}_{I_b}$ when $\m \tau_{i \mathcal{P}_s}$ is known for any observation $\m x_i$. Let $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ be a function measuring how reliable is the value $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$.  For a given partition $\mathcal{P}_s$ and functions $\lambda$ and $\omega$ we propose to merge those two parts $I_a, I_b \in \mathcal{P}_s$ maximising the weighed mean
+Let $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ be a function measuring how likely is to consider components $\pi_{I_a} f_{I_a}$ and $\pi_{I_b} f_{I_b}$ to model a single cluster as a unique mixture $f_{I_a \cup I_b}$ when $\m \tau_{i \mathcal{P}_s}$ is known for observation $\m x_i$. We call this process to merge the mixture components $I_a$ and $I_b$. Let $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ be a function measuring how reliable is the value $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$.  For a given partition $\mathcal{P}_s$ and functions $\lambda$ and $\omega$ we propose to merge those two parts $I_a, I_b \in \mathcal{P}_s$ maximising the weighed mean
 \begin{equation}\label{unifying_equation}
 S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{\sum_{i=1}^n \omega(\tau_{i \mathcal{P}_s}, I_a, I_b) \lambda(\tau_{i \mathcal{P}_s}, I_a, I_b)}{\sum_{i=1}^n \omega(\tau_{i \mathcal{P}_s}, I_a, I_b) }.
 \end{equation}
 
 
-Starting from partition $\mathcal{P}_k = \{ \{1\}, \dots, \{k\} \}$ and maximising repeatedly Equation~\ref{unifying_equation} yields to a hierarchical sequence of partitions. The process only depends on the posterior probability vectors and on the definition of functions $\omega$ and $\lambda$. This generic formulation includes a measure of similarity between two components $f_{I_a}$ and $f_{I_b}$ by the definition of function $\lambda$. Functions $\omega$ allows to define weight for the measurement $\lambda$ for an specific observation $\m x_i$.
+Starting from partition $\mathcal{P}_k = \{ \{1\}, \dots, \{k\} \}$ and maximising repeatedly Equation~\ref{unifying_equation} yields to an algoriuthm to build a hierarchical sequence of partitions. The process only depends on the posterior probability vectors and on the definition of functions $\omega$ and $\lambda$. %This generic formulation includes a measure of similarity between two components $f_{I_a}$ and $f_{I_b}$ by the definition of function $\lambda$. Functions $\omega$ allows to define weight for the measurement $\lambda$ for an specific observation $\m x_i$.
 
 \subsection{Minimising the final entropy}
 \label{entropy_section}
@@ -183,7 +183,7 @@ which can be rewritten in terms of $\m\tau_{i \mathcal{I}_s}$ as
 
 The last maximisation problem suggests to define function $\lambda$ as
 \[
-\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left[ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right].
+\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left[ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right],
 \]
 which calculates the entropy increment provided by each observation. The expression $S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) $ equivalent to the approach presented by \cite{baudry2010combining} is obtained when $\omega$ is constant, for example 
 \[
@@ -202,7 +202,7 @@ S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{1}{n} \sum_{i=1
 \subsection{Maximising the misclassification probability}
 \label{missclassification_section}
 
-A different approach is introduced by \cite{hennig2010methods}. He proposes to combine the components $I_a$ and $I_b$ from $ \mathcal{P}_s$ that \emph{the probability of classifying to component $I_b$ an observation generated from component $\hat{f}_{I_a}$ } is maximum.
+A different approach is introduced by \cite{hennig2010methods}. He proposes to merge the components $I_a$ and $I_b$ from $ \mathcal{P}_s$ that maximise \emph{the probability of classifying to component $I_b$ an observation generated from component $\hat{f}_{I_a}$ }.
 
 To estimate this probability,  \cite{hennig2010methods} uses a consistent estimator, the Directed Estimated Misclassification Probabilities (DEMP). The estimator is
 \[
@@ -222,7 +222,7 @@ and
 \omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  \tau_{iI_a}.
 \]
 
-A variation of \cite{hennig2010methods} approach is proposed by \cite{longford2014}. Instead of considering function $\lambda$ given by Equation~\ref{lambda_demp} they propose the of confusion between $f_{I_b}$ and $f_{I_a}$ with function $\lambda$ given by
+A variation of \cite{hennig2010methods} approach is proposed by \cite{longford2014}. Instead of considering function $\lambda$ given by Equation~\ref{lambda_demp} they propose to measure the confusion between $I_a$ and $I_b$ with function $\lambda$ given by
 \[
 \lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \frac{\tau_{iI_b}}{\tau_{iI_a} + \tau_{iI_b}},
 \]
@@ -232,7 +232,7 @@ Finally, without restricting  the posterior probability of begin classified to c
 \[
 \lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_b}.
 \]
-If combined with $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  \tau_{iI_a}$ end ups with a very simple $S$ function.
+If combined with $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  \tau_{iI_a}$ end ups with a very simple approach to build a hierarchy.
 
 \subsection{$\omega$ function alternative}
 
@@ -241,15 +241,15 @@ An important difference between the approach presented in Section~\ref{entropy_s
 \[
 S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_b,  I_a).
 \]
-In contrast, DEMP approach has different values depending on the order of merging.
+In contrast, DEMP approach has different values depending on the merging order.
 
 Function $\omega$ plays an important role for the symetry of the method. In general, if $\omega$ is constant and $\lambda$ is symetric the resulting function $S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b)$ is symetric.
 
-Motivation behind function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_a}$ in \cite{hennig2010methods} and \cite{longford2014}  is to give more weight to those observations more related to partition $I_a$. A more extremal asymetric weighting can be introduced considering only those observation having maximum $ \tau_{iI_a}$, that is
+Motivation behind function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_a}$ in \cite{hennig2010methods} is to give more weight to those observations more related to partition $I_a$. A more extremal asymetric weighting can be introduced considering only those observation having maximum $ \tau_{iI_a}$, that is
 \[
 \omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \mathbbm{1}\left( \forall j\; \tau_{i I_{a}} \geq \tau_{iI_j} \right).
 \]
-This approach emphasize those observations that in the current stage are classified to component $I_b$.
+This approach emphasize those observations that in the current stage are classified to component $I_a$.
 
 
 \section{The logratio approach}\label{logratio_section}
@@ -259,7 +259,7 @@ The generic expression of $S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I
 In this section we are interested in different approaches to measure the chances of merging two parts $I_a$ and $I_b$ taking into an account that the posterior probability vector are observations in the Simplex space. In other words we are interested in defining functions $\lambda$ which takes into an account the geometric structure of $\mathcal{S}^d$. We are going to define two new measures, the first ones is motivated by the Entropy notion introduced in \ref{entropy_section}, the second is based on the misclassification definition given in Section~\ref{missclassification_section}.
 
 
-In \cite{baudry2010combining} confusion between components is measured using the notion that the closer the posterior probability vector is from $(\frac{1}{s}, \dots, \frac{1}{s})$ the more confused are the components (higher is the Entropy). Therefore, to measure the chances of confusing $I_b$ with $I_a$ we can measure how different is $(\frac{\tau_{i I_a}}{\tau_{i I_a} +\tau_{i I_b}}, \frac{\tau_{i I_b}}{\tau_{i I_a} + \tau_{i I_b}})$ from $(\frac{1}{2}, \frac{1}{2})$. That is, we restrict only on the probabilities associated to the components to be merged. To measure this difference we use the squared norm defined in the Simplex space. The squared norm of a posterior probability vector, $\| (\tau_{iI_a}, \tau_{iI_b}) \|^2$  defined by \cite{aitchison2002simplicial} is 
+In \cite{baudry2010combining} confusion between components is measured using the notion that the closer the posterior probability vector is from $(\frac{1}{s}, \dots, \frac{1}{s})$ the more confused are the components (higher is the Entropy). To measure the chances of confusing $I_b$ with $I_a$ we can measure how different is $(\frac{\tau_{i I_a}}{\tau_{i I_a} +\tau_{i I_b}}, \frac{\tau_{i I_b}}{\tau_{i I_a} + \tau_{i I_b}})$ from $(\frac{1}{2}, \frac{1}{2})$. That is, to restrict only on the probabilities associated to the components to be merged. To measure this difference we use the squared norm defined in the Simplex space. The squared norm of a posterior probability vector, $\| (\tau_{iI_a}, \tau_{iI_b}) \|^2$  defined by \cite{aitchison2002simplicial} is 
 \[
 \left\| (\tau_{iI_a}, \tau_{iI_b}) \right\|^2 = \log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right).
 \]
@@ -289,9 +289,9 @@ S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = S_{\omega, \lambda}(k
 
 Meaning that the approach is not restricted to posterior probability vectors but to any other kind of vector giving relative information between each mixture component. Therefore, the methods considered here are suitable to be applied in more general scenarios such that those were instead of posterior probability vectors different weights are given to each part (e.g. weights in fuzzy clustering).
 
-The selection of $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ is of special importance in the logratio approach. When we are considering to merge two components $I_a$ and $I_b$, the ratio for observations that are not representative of this two components (observations far from been classidied into $I_a$ or $I_b$) should be unweight. The main reason is that this posterior probabilitites are subject to a high amount of variability due the small posterior probabilities $\tau_{iI_a}$ and $\tau_{iI_b}$.
+The selection of $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ is of special importance in the logratio approach. When we are considering to merge two components $I_a$ and $I_b$, the ratio for observations that are not representative of this two components (observations far from been classidied into $I_a$ or $I_b$) should be unweight. The main reason is that this posterior probabilitites are subject to a high amount of variability due the small posterior probabilities $\tau_{iI_a}$ and $\tau_{iI_b}$ involved.
 
-Noting that when $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  \tau_{iI_a}$ and $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \log \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)$ are considered, Equation~\ref{unifying_equation} results in
+Noting also that when $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  \tau_{iI_a}$ and $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \log \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)$ are considered, Equation~\ref{unifying_equation} results in
 \[
 S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{\sum_{i=1}^n\tau_{iI_a}  \log \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)}{\sum_{i=1}^n \tau_{iI_a}}.
 \]
@@ -328,7 +328,7 @@ $j$ & $\pi_j$ & $\mu_{j x_1}$ & $\mu_{j x_2}$ & $\sigma^2_{j x_1}$ & $\sigma^2_{
 
 Let the parameters of $f$ be known. Figure~\ref{ex_mixture} shows a random sample \textbf{X} together with the iso-density curves of the estimated \fmm. We are interested in clustering sample \textbf{X}.
 
-\begin{figure}[thbp]
+\begin{figure}[htbp]
 \begin{center}
 \begin{tabular}{cc}
  %   6 toy mixture
@@ -350,7 +350,7 @@ The initial partition  $\mathcal{P}_6 = \{ \{1\},\{2\}, \{3\}, \{4\}, \{5\}, \{6
 \end{center}
 \end{figure}
 
- \cite{baudry2010combining} proposed the Entropy approach from Section~\ref{entropy_section} which is equivalent to consider \[\omega = 1\] and \[\lambda = (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left\{ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right\}.\] Following this approach we obtained the sequential hierarchical partition given by 
+\cite{baudry2010combining} proposed the Entropy approach, in Section~\ref{entropy_section} we have seen the approach is equivalent to consider \[\omega = 1\] and \[\lambda = (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left\{ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right\}.\] Following this approach we obtained the sequential hierarchical partition given by 
 
 \begin{equation}
 \begin{array}{r c l}
@@ -364,7 +364,7 @@ The initial partition  $\mathcal{P}_6 = \{ \{1\},\{2\}, \{3\}, \{4\}, \{5\}, \{6
 \label{hier_ex}
 \end{equation}
 
-In the partition $\mathcal{P}_4 = \{ \{1, 4\},\{2\}, \{5\}, \{3, 6\} \}$, the components 1 and 4 define a single cluster, as well as components 3 and 6. Using Equation~\ref{cluster_criteria} each observation $\m x_i$ is classified to one component. Figure~\ref{ex_two_one} shows the clustering with the iso-density curves defined by each component. In this case, clusters labeled $\{1,4\}$ and $\{3, 6\}$ are modelled by a mixture of two components. The \fmm with partition $\mathcal{P}_4$ is
+In the partition $\mathcal{P}_4 = \{ \{1, 4\},\{2\}, \{5\}, \{3, 6\} \}$, the components 1 and 4 define a single cluster, as well as components 3 and 6. Using Equation~\ref{cluster_criteria} each observation $\m x_i$ is classified to one component. Figure~\ref{ex_two_one} shows the clustering with the iso-density curves defined by each component. In this case, clusters labeled $\{1,4\}$ and $\{3, 6\}$ are modelled by a mixture of two components. With partition $\mathcal{P}_4$ the clusters are modelled by $\fmm$s
 \begin{itemize}
 \item $f_{\{1,4\}} = \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_1, \m\Sigma_1) + \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_4, \m\Sigma_4)$, 
 \item $f_{\{2\}} = \phi(\;\cdot\; ;  \m\mu_2, \m\Sigma_2)$, 
@@ -408,11 +408,11 @@ This sequence only differs from the Baudry's in the partition $\mathcal{P}_5$.  
 
 \subsection{Merging components in a mixture of multinomial distributions}
 
-Merging approaches presented in this article rely on the vector of posterior probabilities this can be calculated for any finite mixture model. In this section we present the case of a finite mixture of multinomial distribution.
+Merging approaches presented in this article rely on the vector of posterior probabilities this can be calculated for any finite mixture model. Therefore, the merging generic approach introduced in Section~\ref{generic_merging} can be used for any family of \fmm, for example a finite mixture of multinomial distribution.
 
 Pigs dataset can be obtained from package \pkg{zCompositions} R package \citep{palarea2012zcompositions}. The dataset contains data of 29 sows. In different moments the pigs were recorded during 5 minutes and its current activity was registered. For each pig six locations were considered: straw bed (BED), half in the straw bed (HALF.BED), dunging passage (PASSAGE), half in the dunging passage (HALF.PASS), feeder (FEEDER) and half in the feeder (HALF.FEED).
 
-We have used \pkg{mixtools} \citep{benaglia2009mixtools} to fit the mulitinomial mixture. 6 components were identified as optimum according to BIC criterion. In Figure~\ref{multinomial_mixture} the bar plot for each component. That is considering Equation~\ref{map_criteria} or Equation~\ref{cluster_criteria} with partition $\mathcal{P}_6 = \{\{1\}, \{2\}, \{3\}, \{4\}, \{5\}, \{6\}\}$.
+We have used \pkg{mixtools} \citep{benaglia2009mixtools} to fit a mulitinomial mixture. 6 components were identified as optimum according to BIC criterion. In Figure~\ref{multinomial_mixture} the bar plot for each component is shown. That is considering Equation~\ref{map_criteria} or Equation~\ref{cluster_criteria} with partition $\mathcal{P}_6 = \{\{1\}, \{2\}, \{3\}, \{4\}, \{5\}, \{6\}\}$.
 
 \begin{figure}[t]
 \begin{center}
@@ -428,12 +428,12 @@ Considering $\omega = \tau_{i I_a}$ and $\lambda = -\log^2 \left(\frac{ \tau_{iI
 
 \begin{equation}
 \begin{array}{r c l}
-\mathcal{P}_1 &=& \{\{1,2,3,4,5,6\}\}, \\ 
-\mathcal{P}_2 &=& \{\{1,2,4\},\{3,5,6\}\}, \\ 
-\mathcal{P}_3 &=& \{\{1,2,4\},\{3,5\},\{6\}\}, \\ 
-\mathcal{P}_4 &=& \{\{1,4\},\{2\},\{3,5\},\{6\}\}, \\ 
-\mathcal{P}_5 &=& \{\{1\},\{2\},\{3,5\},\{4\},\{6\}\}, \\ 
-\mathcal{P}_6 &=& \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\} \}.
+ \mathcal{P}_1&=& \{\{1,2,3,4,5,6\}\}, \\ 
+ \mathcal{P}_2&=& \;\; \{\{1,2,3\},\{4,5,6\}\}, \\ 
+ \mathcal{P}_3&=& \;\; \{\{1,2,3\},\{4\},\{5,6\}\}, \\ 
+ \mathcal{P}_4&=& \;\; \{\{1,2\},\{3\},\{4\},\{5,6\}\}, \\ 
+ \mathcal{P}_5&=& \;\; \{\{1\},\{2\},\{3\},\{4\},\{5,6\}\}, \\ 
+ \mathcal{P}_6&=& \;\; \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}.
 \end{array}
 \label{hier_ex_multinomial}
 \end{equation}
