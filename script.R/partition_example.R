@@ -119,22 +119,23 @@ p.all <- ggplot() +
   stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
   stat_contour(data=CN, aes(x=X1, y=X2, z=z), alpha=0.6, col='blue') + 
-  facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none") +
+  facet_wrap(~id, nrow=2) + theme_bw() + theme(legend.position="none") +
   scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40))
-ggsave(p.all, filename = 'figures/partition-example-part6.pdf', width = 10, height=2.5)
+ggsave(p.all, filename = 'figures/partition-example-part6.pdf', width = 7.8, height=5.4)
 
 library(tidyr)
 
 HP = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'cnst', lambda = 'entr')
-HP2 = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'dich', lambda = 'demp.mod')
+HP2 = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'prop', lambda = 'demp')
+HP3 = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'prop', lambda = 'prop')
+HP4 = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'dich', lambda = 'coda')
 df2 = data.frame(
-  K = 1:6,
-  'Entropy' = attr(HP,'S.value'),
-  'DEMP' = attr(HP2, 'S.value')
+  K = factor(1:5, rev(1:5)),
+  'Entropy' = attr(HP,'S.value')[1:5],
+  'DEMP' = attr(HP2, 'S.value')[1:5]#,
+#   'Prop' = attr(HP3, 'S.value'),
+#   'Log' = boot::inv.logit(attr(HP4, 'S.value'))
 ) %>% gather(key=method, value=S.value, -K)
-
-HP = lapply(HP, lapply, function(v) ord[v])
-HP2 = lapply(HP2, lapply, function(v) ord[v])
 
 ggplot() +
   geom_point(data=df2, aes(x=K, y=S.value)) +
@@ -143,6 +144,12 @@ ggplot() +
   xlab('Clusters') + ylab('S-value') +
   ggtitle('S-value during the merging process')
 ggsave(filename = 'figures/gaussian_Svalues.pdf', height = 3.25)
+
+
+HP = lapply(HP, lapply, function(v) ord[v])
+HP2 = lapply(HP2, lapply, function(v) ord[v])
+
+
 
 partition = HP[[3]]
 names(partition) = sapply(partition, function(v) paste(sort(v), collapse=','))

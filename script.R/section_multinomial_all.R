@@ -50,22 +50,43 @@ ggplot() +
 ggsave(filename = 'figures/multinomial_mixt_all.pdf', height=6)
 
 
+xlogx = function(x) ifelse(x == 0, 0, x*log(x))
+  
+library(robCompositions)
+step_merging = function(post, omega, lambda, f_omega = NULL, f_lambda = NULL){
+  S.values = merge_step(post, omega, lambda, f_omega, f_lambda)
 
+  S.values = S.values + diag(-Inf, NROW(S.values))
+  ind = which(S.values == max(S.values), arr.ind = TRUE)
+  new_post = merge_components(post, ind[1], ind[2])
+  entr = -sum(xlogx(new_post))
+  list('S.values' = S.values, 'post' = new_post, 'entropy' = entr)
+}
 
-hp = get_hierarchical_partition(fit$posterior, omega = 'prop', lambda = 'coda.norm')
+L = list()
+L[[1]] = step_merging(fit$posterior, omega = 'prop', lambda = 'coda.norm')
+L[[2]] = step_merging(L[[1]]$post, omega = 'prop', lambda = 'coda.norm')
+L[[3]] = step_merging(L[[2]]$post, omega = 'prop', lambda = 'coda.norm')
+L[[4]] = step_merging(L[[3]]$post, omega = 'prop', lambda = 'coda.norm')
+L[[5]] = step_merging(L[[4]]$post, omega = 'prop', lambda = 'coda.norm')
+entropy = lapply(L, function(l) data.frame('k' = NCOL(l$post), 'entr' = l$entropy)) %>% bind_rows
+
+hp = get_hierarchical_partition(post6, omega = 'prop', lambda = 'coda.norm')
 seq_partition = lapply(hp, sapply, paste, collapse=',')
 cat(paste(sapply(seq_partition, function(partition) paste(sprintf('\\{%s\\}', partition), collapse=',')), collapse='\\}, \\\\ \n \\mathcal{P}_ &=& \\;\\; \\{'))
 
 df = data.frame(
-  Clusters = 1:6,
-  S.values = attr(hp, 'S.value')
-)
+  Clusters = factor(1:5, levels=rev(1:5)),
+  S.values = attr(hp, 'S.value')[1:5],
+  Entropy = entropy$entr[match(1:5, entropy$k)]
+) %>% gather(key = criteria, value = value, -Clusters)
 ggplot() +
-  geom_point(data=df, aes(x=Clusters, y=S.values),size=2) + 
+  geom_point(data=df, aes(x=Clusters, y=value),size=2) + 
+  facet_wrap(~criteria, nrow = 1, scales = 'free') +
   theme_classic() +
-  ggtitle('S-values during the merging process') +
-  xlab('Clusters') + ylab('S-value')
-ggsave(filename = 'figures/multinomial_Svalues_all.pdf', width = 7, height=4.5)
+  ggtitle('S-values and Entropy during the merging process') +
+  xlab('Clusters') + ylab('value')
+ggsave(filename = 'figures/multinomial_Svalues_all.pdf', height=3.25)
 # pdf(file = 'figures/multinomial_Svalues.pdf', height=5.5)
 # plot(attr(hp, 'S.value'), xlab='Clusters', ylab='S-value', main = 'S-values during the merging process')
 # dev.off()

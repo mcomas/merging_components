@@ -390,10 +390,9 @@ If instead of using approach from Section~\ref{entropy_section} \citep{baudry201
 \mathcal{P}_6 &=& \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}.
 \end{array}
 \end{equation}
+This sequence only differs from the Baudry's in the partition $\mathcal{P}_5$.  
 
-
-
-This sequence only differs from the Baudry's in the partition $\mathcal{P}_5$.  Figure~\ref{gaussian_Svalues} shows the value of function $S$ given by Equation~\ref{unifying_equation}. In these values the largest change is detected in the step from 4 clusters to consider 3 clusters. This reduction suggests that the correct number of clusters is given by 4 clusters.
+To detect the final number of clusters \cite{baudry2010combining} proposed to monitorize the values of function $S$ given by Equation~\ref{unifying_equation}. We refer to them as the $S$-values. Figure~\ref{gaussian_Svalues} shows the $S$-values using the Entropy and DEMP apporach. The largest change is detected in the step from 4 clusters to consider 3 clusters. Following \cite{baudry2010combining}, this reduction suggests that the correct number of clusters is given by 4 clusters.
 
 \begin{figure}[t]
 \begin{center}
@@ -404,7 +403,7 @@ This sequence only differs from the Baudry's in the partition $\mathcal{P}_5$.  
 \end{center}
 \end{figure}
 
-\subsection{Merging components in a mixture of multinomial distributions}
+\subsection{Merging components in a mixture of multinomial distributions}\label{multinom_example}
 
 Merging approaches presented in this article rely on the vector of posterior probabilities this can be calculated for any finite mixture model. Therefore, the merging generic approach introduced in Section~\ref{generic_merging} can be used for any family of \fmm, for example a finite mixture of multinomial distribution.
 
@@ -436,12 +435,12 @@ Considering $\omega = \tau_{i I_a}$ and $\lambda = -\log^2 \left(\frac{ \tau_{iI
 \label{hier_ex_multinomial}
 \end{equation}
 
-Figure~\ref{multinomial_Svalues} shows the $S$-value's (Equation~\ref{unifying_equation}) obtained in each step. The S-value are -163.14,   -320.15,  -3792.3970,  -8400.80, -34218.18 for 5, 4, 3, 2 and 1 clusters respectively.
+Left panel of Figure~\ref{multinomial_Svalues} shows the $S$-value's obtained in each step. The $S$-values decrease with the number of clusters. In this example, with the $S$-values, it is difficult to decide the final number of clusters. To decide the final number of clusters, we used the Entropy calculated using the posterior probability vector in each step, $\sum_{i=1}^n\text{Ent}(\m\tau_{i\mathcal{P}_s})$. Using the Entropy to decide the final cluster was already suggested in \cite{baudry2010combining}. Right panel of Figure~\ref{multinomial_Svalues} shows the Entropy calculated in each step. From the plot it seems reasonable stop the merging with 3 clusters. 
 
 \begin{figure}[t]
 \begin{center}
 \begin{tabular}{cc}
-  \includegraphics[width=0.65\textwidth]{figures/multinomial_Svalues_all.pdf} \\
+  \includegraphics[width=0.85\textwidth]{figures/multinomial_Svalues_all.pdf} \\
  \end{tabular}
  \caption{S-values obtained using the Aitchison $\lambda = -\log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)$ and $\omega = \tau_{i I_a}$ in the multinomial example.}\label{multinomial_Svalues}
 \end{center}
@@ -466,7 +465,8 @@ In literature different approaches have been considered to merge the components 
 
 We would like to highlight the guaranteed properties obtained if the logratio approaches are considered as introduced in Section~\ref{logratio_section}: Subcompositional coherence and scale invariance. With a fixed partition $\mathcal{P}$ inside the hierarchical sequence partition, the first property allows to apply the hierarchical method to the \fmm formed with each of part of $\mathcal{P}$ separately.
 
-Finally, in the examples shown in this article we have used descriptives criteria to stop the merging process by controlling the $S$-values. We notice here that different definitions of functions $\lambda$ and $\omega$ rises different way to interpret the $S$-values, therefore, it is mandatory to take into an account the interpretation of $S$-values before defining an stopping criteria.
+Finally, the $S$-values are a reasonable measure to decide the final number of clusters when $\omega$ is constant and $\lambda = (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left\{ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right\}$ \citep{baudry2010combining}. But the $S$-values can be missleading when other approaches are considered (Section~\ref{multinom_example}). We suggest to decide the final number of clusters using the Entropy criterion \citep{baudry2010combining}.
+
 
 %%% BIBLIOGRAPHY
 \newpage
