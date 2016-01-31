@@ -32,7 +32,7 @@
 \newcommand{\m}[1]{\boldsymbol{#1}}
 
 \newcommand{\fmm}{\textsc{fmm}\xspace}
-
+\newcommand{\X}{\text{\textbf{X}}}
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}} 
 
 \Title{Merging the components of a finite mixture using  posterior probabilities}
@@ -41,20 +41,20 @@
 \AuthorRunning{Marc Comas-Cufí \textrm{et al.}}
 
 \Affiliations{
-\item Department of Computer Sciences, Mathematics and Statistics, 
+\item Department of Computer Sciences, Applied Mathematics and Statistics, 
       Polytechnic School, 
       University of Girona,
       Spain
 }
 
-\CorrAddress{Marc Comas Cufí, Department of Computer Science, Applied Mathematics and Statistics,
-      University of Girona, P4-Campus Montilivi, 17071 Girona, Spain}
-\CorrEmail{mcomas@imae.udg.edu}
-\CorrPhone{(+34)\;972\; 418\;217}
+\CorrAddress{Josep A. Martín-Fernández, Department of Computer Science, Applied Mathematics and Statistics,
+      University of Girona, P-IV, Campus Montilivi, E-17071 Girona, Spain}
+\CorrEmail{jamf@imae.udg.edu}
+\CorrPhone{(+34)\;972\; 418\;426}
 \CorrFax{(+34)\;972\;418\;792}
 
 \Abstract{
-A common approach in parametric cluster analysis assumes data can be modelled by means of a finite mixture of distributions. Different authors have shown that associating each mixture component to one cluster can be misleading because frequently two different mixture components are so overlapped that they can be considered as a unique cluster. In other words, one cluster could be formed by the result of merging two different mixture components. In this article we present a generic approach to build a hierarchy of components in such a way that those components that are more reliable to form a single cluster a merged earlier. The presented approach generalize methods presented by other authors. Using the generic approach we introduce a new approach based in the log-ratio of posterior probabilities.
+Methods in parametric cluster analysis commonly assume that data can be modelled by means of a finite mixture of distributions. Different authors show that associating each mixture component to one cluster is frequently misleading because different mixture components overlap forming a unique cluster. A generic approach to build a hierarchy of mixture components generalises the most important techniques earlier proposed in the literature. Using the information provided by the posterior probabilities an iterative merging process constructs the clusters. The generic approach permits to define other merging indices. A new approach based in the log-ratio of posterior probabilities is introduced. Simulated and real datasets are used to illustrate the performance.
 }
 
 \Keywords{
@@ -74,68 +74,75 @@ Model-based clustering; Mixture model; Hierarchical clustering; Multilayer mixtu
 
 
 % Mixture models
-A common approach in parametric cluster analysis assumes data can be modelled by means of a \emph{finite mixture of distributions} \citep{fraley2002model}, also called \emph{finite mixture model} (\fmm). A \fmm is a probability distribution whose probability density function (pdf) is a linear combination of different distributions with same domain $\mathbb{X}$. More precisely, the pdf $f$ of a \fmm is
+A common approach in parametric cluster analysis assumes data can be modelled by means of a \emph{finite mixture of distributions} \citep{fraley2002model, punzo2014flexible}, also called \emph{finite mixture model} (\fmm). A \fmm is a probability distribution whose probability density function (pdf) is a linear combination of different distributions with same domain $\mathbb{X}$. More precisely, the pdf $f$ of a \fmm is
 \begin{equation}\label{mixt}
-f(\;\cdot\; ; \pi_1, \dots, \pi_k, \m\theta_1, \dots, \m\theta_k) = \pi_1 f_1(\;\cdot\; ; \m\theta_1) + \dots + \pi_k f_k(\;\cdot\; ; \m\theta_k),
+f(\;\cdot\; ; \pi_1, \dots, \pi_k, \m\Theta) = \pi_1 f_1(\;\cdot\; ; \m\theta_1) + \dots + \pi_k f_k(\;\cdot\; ; \m\theta_k),
 \end{equation}
-where $\m\theta_j$ is the set of parameters of the pdf $f_j$, $1\leq j \leq k$ and $\pi_j$ is the ``weight'' of component $f_j$. Restricting $\sum_{\ell = 1}^k \pi_\ell = 1$ guarantees that  $\int_{\mathbb{X}}f = 1$. Originally, the clustering algorithm based on a \fmm follows two steps:
+where $\m\Theta =\{ \m\theta_1, \dots, \m\theta_k\}$, $\m\theta_j$ are the parameters of pdf $f_j$, $1\leq j \leq k$, and $\pi_j$ is the ``weight'' of component $f_j$. Restriction $\sum_{\ell = 1}^k \pi_\ell = 1$ guarantees that  $\int_{\mathbb{X}}f = 1$. Originally, the clustering algorithm based on a \fmm follows two steps:
 \begin{enumerate}
-\item using the information provided by a sample $X=\{\m x_1, \dots, \m x_n\}$, to calculate estimates $\hat{\pi}_1, \dots, \hat{\pi}_k$ and $\hat{\m\Theta}=\{\hat{\m\theta}_1, \dots, \hat{\m\theta}_k\}$ of parameters $\pi_1, \dots, \pi_k$ and $\m\Theta=\{\m\theta_1, \dots, \m\theta_k\}$, and
-\item to classify each observation $\m x_i \in X$ according to the criterium of mazimizing the posterior probability, that is, one observation $\m x_i$ is classified to cluster $c$ if
+\item using the information provided by a sample $\X=\{\m x_1, \dots, \m x_n\}$, to calculate estimates $\hat{\pi}_1, \dots, \hat{\pi}_k$ and $\hat{\m\Theta}$ of parameters $\pi_1, \dots, \pi_k$ and $\m\Theta$, and
+\item to classify each observation $\m x_i \in \X$ according to the criterium of maximizing the posterior probability
+\[
+\tau_{ij}= \frac{ \hat{\pi}_j f_j(\m x_i ; \hat{\m\theta}_j) }{\sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m x_i ; \hat{\m\theta}_\ell) },
+\]
+that is, one observation $\m x_i$ is classified to cluster $c$ if
 \begin{equation}\label{map_criteria}
-c=\argmax_{j=1}^k \frac{ \hat{\pi}_j f_j(\m x_i ; \hat{\m\theta}_j) }{\sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m x_i ; \hat{\m\theta}_\ell) }.
+c = \argmax_{j=1}^k \tau_{ij}.
 \end{equation}
 \end{enumerate}
-Note that in this process, the number of clusters $k$ is equal to the number of mixture components. The decision concerning the value of $k$ is analyzed using different approaches \citep{mclachlan2014components}.
+Note that in this process, the number of clusters $k$ is equal to the number of mixture components. \cite{mclachlan2014components} presents a recent review of different approaches used to decide the value of $k$. From the reviewed approaches, we use the Bayesian Information Criterion (BIC) to fit the number of mixture components.\footnote{Tenim la següent frase a Baudry, 2010 justificant la selecció del BIC: \emph{Keribin (1998, 2000) has shown that under certain regularity conditions
+the BIC consistently estimates the number of mixture components, and numerical experiments
+show that the BIC works well at a practical level (Fraley and Raftery 1998; Biernacki et al.
+2000; Steele 2002).}}
 
-More recently, \cite{lee2004combining,hennig2010methods,baudry2010combining,melnykov2013distribution,pastore2013merging} proposed to separate the concepts of cluster and mixture component. The authors show that associating each mixture component to one cluster can be misleading because frequently two different mixture components are so overlapped that they can be considered as a unique cluster. In other words, one cluster could be formed by the result of merging two different mixture components. According to this approach, the clustering algorithm is completed with a third step:
+On the other hand, \cite{lee2004combining,hennig2010methods,baudry2010combining,melnykov2013distribution,pastore2013merging} propose to separate the concepts of cluster and mixture component. The authors show that associating each mixture component to one cluster can be misleading because frequently different mixture components are so overlapped that they can be considered as a unique cluster. In other words, one cluster could be formed by the result of merging two different mixture components. According to this approach, the \fmm clustering algorithm is completed with a third step:
 
 \begin{itemize}
 \item[3.] to analyse which of the $k$ mixture components should be merged to form $k'$ clusters, $k' \leq k$.
 \end{itemize}
 
-The crucial point of this clustering method is how to decide which components have to be merged. In this article we introduce a generic approach that contains the methods given by \cite{baudry2010combining}, \cite{hennig2010methods} and \cite{longford2014}. In addition, our approach permits the analyst  to define its own criteria, for example, a criteria based in log-ratio transformations of posterior probabilities \citep{aitchison1986statistical}.
+The crucial point of this new step is how to decide which components have to be merged. In this article we introduce a generic approach that generalises methods given by \cite{baudry2010combining}, \cite{hennig2010methods} and \cite{longford2014}. With this approach, the analyst can define its own criteria, for example, a criteria based in log-ratio transformations of posterior probabilities \citep{aitchison1986statistical}. Using this new generic approach for merging components one can build a hierarchy over the set of mixture components. From this hierarchical structure, the analyst can decide the final classification.
 
-Using this new generic approach for merging components one can build a hierarchy over the set of mixture components. From this hierarchical structure, the analyst can decide the final classification.
-
-The paper is organised as follows: in Section~\ref{definitions} some definitions and notations used throughout this paper are introduced. In Section~\ref{generic_merging} the generic merging approach is presented. It is shown how different examples from literature reduce to this generic approach presented in the previous section. Section~\ref{logratio_section} presents a new family of criteria based on the log-ratio approach. In Section~\ref{merging_examples_dist}, we present two examples to illustrate the algorithm with different types of mixture distributions. Finally, final remarks are provided in Section~\ref{remarks}.
+The paper is organised as follows: in Section~\ref{definitions} some definitions and notations used throughout this paper are introduced. In Section~\ref{generic_merging} the generic merging approach is presented. It is shown how most important criteria from literature reduce to this generic approach. Section~\ref{logratio_section} presents a new family of criteria based on the log-ratio approach. In Section~\ref{merging_examples_dist}, we present two examples to illustrate the algorithm with different types of mixture distributions. To conclude, final remarks are given in Section~\ref{remarks}.
 
 \section{Definitions and notation}\label{definitions}
 
 %
-A \emph{partition} of $\{1, \dots, k\}$ of size $s$, $\mathcal{P}_s$,  is a set with $s$ subsets $I_p$ called $parts$ that $\bigcup_{I_p \in \mathcal{P}_s} I_p = \{1, \dots, k\}$ and for any two parts $I_a, I_b \in \mathcal{P}_s$ with $a \neq b$, $I_a \cap I_b = \emptyset$ holds. Given a partition  $\mathcal{P}_s$, the pdf $f$ of a \fmm (Equation~\ref{mixt}) can be rewritten as
+Let $\mathcal{I}^k = \{1, \dots, k\}$. A \emph{partition} of $\mathcal{I}^k$ of size $s$, $\mathcal{P}_s$, is the disjoint union of subsets $I_p$, called \emph{parts}. More formally, $\mathcal{P}_s$ is a set with $s$ subsets $I_p$  that $\bigcup_{I_p \in \mathcal{P}_s} I_p = \mathcal{I}^k$ and for any two parts $I_a, I_b \in \mathcal{P}_s$ with $a \neq b$, $I_a \cap I_b = \emptyset$ holds. Given a partition  $\mathcal{P}_s$, the pdf $f$ of a \fmm (Equation~\ref{mixt}) can be rewritten as
 \begin{equation}
 f = \pi_{I_1} f_{I_1}(\;\cdot\;; \m\Theta) + \dots + \pi_{I_s} f_{I_s}(\;\cdot\;; \m\Theta),
 \label{mixt_part}
 \end{equation}
-where $f_{I_p}(\;\cdot\;;  \m\Theta) = \sum_{j \in I_p} \frac{\pi_j}{\pi_{I_p}} f_j(\;\cdot\; ; \m\theta_j)$ and $\pi_{I_p} = \sum_{\ell \in I_p} \pi_\ell$. Note that using this notation each $f_{I_p}(\;\cdot\;;  \m\Theta)$ is also a \fmm.
+where $f_{I_p}(\;\cdot\;;  \m\Theta) = \sum_{j \in I_p} \frac{\pi_j}{\pi_{I_p}} f_j(\;\cdot\; ; \m\theta_j)$ and $\pi_{I_p} = \sum_{\ell \in I_p} \pi_\ell$. Note that using this notation each $f_{I_p}(\;\cdot\;;  \m\Theta)$ is also a \fmm. Because each part $I_p$ defines a single component $f_{I_p}$, if there is no confusion, we use $I_p$ referring either to the part $I_p$ or to the component $f_{I_p}$.
 
 
 
-A \emph{hierarchical sequence of partitions of $\{1,...,k\}$}, is a sequence $\mathcal{P}_1, \dots, \mathcal{P}_k$ verifying that
+A \emph{hierarchical sequence of partitions of $\mathcal{I}^k$}, is a sequence $\mathcal{P}_1, \dots, \mathcal{P}_k$ verifying that
 \begin{itemize}
-\item $\mathcal{P}_1$ is the one-part partition $\mathcal{P}_1 = \{ \{1, \dots, k\} \}$,
+\item $\mathcal{P}_1$ is the one-part partition $\mathcal{P}_1 = \{ \mathcal{I}^k \}$,
 \item if a part $I_p \in \mathcal{P}_{s-1}$ then either there is a part $I_a \in \mathcal{P}_{s}$ with $I_p = I_a$ or there are two parts $I_a, I_b \in \mathcal{P}_s$ with $I_p = I_a \cup I_b$, and
 \item $\mathcal{P}_k= \{ \{1\},\{2\}, \dots, \{k\} \}$.
 \end{itemize}
 
 
 
-One can extend Equation~\ref{map_criteria} in terms of partitions. Indeed, let $\rm X = \{\m x_1,\dots, \m x_n\}$ be a sample formed by observations of $\mathbb{X}$. Given a partition $\mathcal{P}_s = \{ I_1, \dots, I_s \}$ the posterior probability of $\m x_i$ being classified to part $I_p\in \mathcal{P}_{s}$ is
+One can extend Equation~\ref{map_criteria} in terms of partitions. Indeed, let $\X = \{\m x_1,\dots, \m x_n\}$ be a sample formed by observations of $\mathbb{X}$. Given a partition $\mathcal{P}_s = \{ I_1, \dots, I_s \}$, we define the posterior probability of $\m x_i$ being classified to part $I_p\in \mathcal{P}_{s}$ as
 \[
-\tau_{i I_p} =  \frac{ \hat{\pi}_{I_p} f_{I_p}(\m x_i; \hat{\m\Theta}) }{\sum_{\ell=1}^s \hat{\pi}_{I_\ell} f_{I_\ell}(\m x_i; \hat{\m\Theta})}.
+\tau_{i I_p} =  \frac{ \hat{\pi}_{I_p} f_{I_p}(\m x_i; \hat{\m\Theta}) }{\sum_{\ell=1}^s \hat{\pi}_{I_\ell} f_{I_\ell}(\m x_i; \hat{\m\Theta})}
 \]
-where $\hat{\pi}_{I_p} = \sum_{\ell \in I_p} \hat{\pi}_\ell$. Along the paper, if there is no confusion, we use $I_p$ refererring either to the part $I_p$ or to the component $\pi_{I_p} f_{I_p}$.
+where $\hat{\pi}_{I_p} = \sum_{\ell \in I_p} \hat{\pi}_\ell$.\footnote{No sé si caldria comentar-ho. A Hennig, 2010 es diu que no hi ha manera des d'un punt de vista freqüentista de decidir quina partició és millor. \emph{From a purely frequentist perspective, modelling f as the underlying data generating distribution and the $(\pi_i, \m \mu_i, \m\Sigma_i)$, $i = 1,\dots,s$, as fixed parameters, there is no statistical way to distinguish “true” cluster mixtures $f^*_1 ,\dots, f^*_k$ (aquí $f_{I_1} ,\dots, f_{I_k}$) from any others. It rather has to be decided by the statistician under which conditions different Gaussian mixture components should be regarded as a common cluster. This cannot be estimated from the data, but needs to take into account the (usually subject-matter dependent) cluster concept of interest. It is well known that there is no objective unique definition of what a “true cluster” is, so there is necessarily a subjective component in this decision.}}
 
-For the partition  $\mathcal{P}_s$, we define the posterior probability vector as
+For the partition  $\mathcal{P}_s$, we define the posterior probability vector associated to observation $\m x_i$ as
 \begin{equation}\label{ppv}
 \m\tau_{i \mathcal{P}_s} = \left(\tau_{i I_1} , \dots, \tau_{i I_s}  \right).
 \end{equation}
-Since $\mathcal{P}_s$ is a partition $\sum_{p=1}^s \tau_{i I_p} = 1$ holds  for $1 \leq i \leq n$.
-Moreover, an observation $\m x_i \in \rm X$ will be classified to the cluster $c$ if
+The posterior probability vector $\m \tau_{i \mathcal{P}_s}$ denotes the conditional probability that $\m x_i$ arises from mixture components $f_{I_1}, \dots, f_{I_s}$. Since $\mathcal{P}_s$ is a partition $\sum_{p=1}^s \tau_{i I_p} = 1$ holds  for $1 \leq i \leq n$. Similarly to Equation~\ref{map_criteria}, the posterior probability vectors $\m\tau_{i \mathcal{P}_s}$ can be used to classify, $\m x_i \in \X$ will be classified to the cluster $c$ if
 \begin{equation}\label{cluster_criteria}
-c= \argmax_{p=1}^s \{ \tau_{i I_p} \}
+c= \argmax_{p=1}^s \{ \tau_{i I_p} \}.
 \end{equation}
+
+Let $\text{\textbf{T}}_{\mathcal{P}_s}$ be the matrix with $n$ rows and $s$ columns formed by the vectors of posterior probabilities $\m \tau_{i\mathcal{P}_s}$ associated to partition $\mathcal{P}_s$. For example, $\text{\textbf{T}}_{\mathcal{P}_k}$ is the initial matrix, when the number of components and clusters are equal. Importantly, by Equation \ref{ppv}, any matrix $\text{\textbf{T}}_{\mathcal{P}_s}$ can be obtained from matrix $\text{\textbf{T}}_{\mathcal{P}_k}$ respectively aggregating the corresponding columns of part $I_1, \dots, I_s$.
+
 
 \section{Generic approach}\label{generic_merging}
 
@@ -534,10 +541,10 @@ Pastore, A. and Tonellato, S.~F. (2013).
 \newblock {A Merging Algorithm for Gaussian Mixture Components}.
 \newblock {\em SSRN Electronic Journal}, (04).
 
-\bibitem[Benaglia et~al., 2009]{benaglia2009mixtools}
-Benaglia, T., Chauveau, D., Hunter, D.R. and Youn, R. (2009).
-\newblock {mixtools: An R Package for Analyzing Finite Mixture Models}.
-\newblock {\em Journal of Statistical Software}, 32(6), 1-29.
+\bibitem[Punzo, 2014]{punzo2014flexible}
+Punzo, A. (2009).
+\newblock {Flexible mixture modelling with the polynomial Gaussian cluster-weighted model}.
+\newblock {\em Statistical Modelling}, 14(3):257-291.
 
 \end{thebibliography}
 
