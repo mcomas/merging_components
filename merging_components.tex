@@ -163,12 +163,12 @@ S_{\omega, \lambda}( \text{\textbf{T}}_{\mathcal{P}_s},  I_a,  I_b) = \frac{\sum
 where $\omega(\m\tau_{i \mathcal{P}_s}, I_a, I_b)$ is a non-negative function and $\lambda(\m\tau_{i \mathcal{P}_s}, I_a, I_b)$ is a function measuring the preferences for the researcher in merging component $I_a$ and $I_b$.
 
 
-Starting from partition $\mathcal{P}_k = \{ \{1\}, \dots, \{k\} \}$, where the number of clusters is equal to the number of components, we merge two parts according to the maximum of Equation~\ref{unifying_equation}. Iteratively repeating this process until partition $\mathcal{P}_1$ is obtained, the algorithm builds an agglomerative hierarchical sequence of partitions. Remarkably, by the definition of functions $\omega$ and $\lambda$, the process only depends on the posterior probability vectors $\text{\textbf{T}}_{\mathcal{P}_s}$. Indeed, the behaviour of function $S$ is completely determined by the choice of function $\omega$ and $\lambda$.
+Starting from partition $\mathcal{P}_k = \{ \{1\}, \dots, \{k\} \}$, where the number of clusters is equal to the number of components, two parts are merged according to the maximum of Equation~\ref{unifying_equation}. Iteratively repeating this process until partition $\mathcal{P}_1$ is obtained, the algorithm builds an agglomerative hierarchical sequence of partitions. Remarkably, by the definition of functions $\omega$ and $\lambda$, the process only depends on the posterior probability vectors $\text{\textbf{T}}_{\mathcal{P}_s}$. Indeed, the behaviour of function $S$ is completely determined by the choice of function $\omega$ and $\lambda$.
 
 
-Function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ is a weigh function. It permits to modify the influence each posterior probability vector $\m\tau_{i \mathcal{P}_s}$ has to calculate Equation~\ref{unifying_equation} for parts $I_a$ and $I_b$, we call the value of Equation~\ref{unifying_equation} \emph{the $S$-value from $I_a$ to $I_b$}. Function $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ is an utility function. It measures our preferences to consider components $f_{I_a}$ and $f_{I_b}$ as a single component, and therefore, to model a single cluster by means of a single component $f_{I_a \cup I_b}$.
+Function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ is a weigh function. It permits to modify the influence each posterior probability vector $\m\tau_{i \mathcal{P}_s}$ has to calculate Equation~\ref{unifying_equation} for parts $I_a$ and $I_b$, we call the value of Equation~\ref{unifying_equation} \emph{the $S$-value from $I_a$ to $I_b$}. Function $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ is an utility function. It measures our preferences to consider components $f_{I_a}$ and $f_{I_b}$ as a single component, and therefore, to model a single cluster by means of this component $f_{I_a \cup I_b}$.
 
-
+For partition $\mathcal{P}_k$ we need to calculate $k^2-k$ different $S$-values to identify the maximum. The process is repeated for partition $\mathcal{P}_{k-1}$ until $\mathcal{P}_1$, calculating a total of $\frac{k^3-k}{3}$ $S$-values.
 
 \subsection{Minimising the final entropy}
 \label{entropy_section}
@@ -178,12 +178,12 @@ Function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ is a weigh function. It 
 \text{Ent}( \m\tau_{i \mathcal{P}_s} ) = -\sum_{j=1}^s \tau_{i I_j}  \log(\tau_{i I_j} ).
 \]
 
-The entropy can be interpreted as a measure of similarity between a probability vector and the probability vector $\m\tau^0_{s}=\left(\frac{1}{s}, \dots, \frac{1}{s}\right)$, taking the maximum value when $\text{Ent}\left( \m\tau^0_{s} \right) = -log(s)$. Starting from partition $\mathcal{P}_k = \{ I_1, \dots, I_k\}$ the algorithm iteratively merges  the two mixture components optimising the overall entropy. Let $\mathcal{P}_{s-1}^{I_a\cup I_b}$ be the partition obtained after merging components $I_a$ and $I_b$ from $\mathcal{P}_s$. The parts $I_a$ and $I_b$ merged minimises the expression
+The entropy can be interpreted as a measure of similarity between a probability vector and the probability vector $\m\tau^0_{s}=\left(\frac{1}{s}, \dots, \frac{1}{s}\right)$, taking the maximum value when $\text{Ent}\left( \m\tau^0_{s} \right) = -log(s)$. Starting from partition $\mathcal{P}_k = \{ I_1, \dots, I_k\}$ the algorithm iteratively merges  the two mixture components optimising the overall entropy. Let $\mathcal{P}_{s-1}^{I_a\cup I_b}$ be the partition obtained after merging components $I_a$ and $I_b$ from $\mathcal{P}_s$. The parts $I_a$ and $I_b$ merged minimise expression
 \[
 \sum_{i=1}^n \text{Ent}( \m\tau_{i \mathcal{P}_{s-1}^{I_a\cup I_b}} ).
 \]
 
-According to \cite{baudry2010combining}, minimizing previous expression is equivalent to maximise the loss of entropy, that is, to maximise the difference
+According to \cite{baudry2010combining}, minimising previous expression is equivalent to maximise the loss of entropy, that is, to maximise the sum of differences
 \[
 \sum_{i=1}^n  \left\{ \text{Ent}( \m\tau_{i \mathcal{P}_s} ) - \text{Ent}( \m\tau_{i \mathcal{P}_{s-1}^{I_a\cup I_b}} ) \right\}.
 \]
@@ -191,93 +191,85 @@ which can be written only in terms of $\tau_{i I_a}$  and $\tau_{i I_b}$ as
 \begin{equation}\label{entropy}
 \sum_{i=1}^n   \left\{(\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left[\tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b})\right] \right\}.
 \end{equation}
-We define function $\lambda$ as
+We define function $\lambda_{\,\Delta\text{Ent}}$ as
 \[
-\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left[ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right],
+\lambda_{\,\Delta\text{Ent}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) :=  (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left[ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right],
 \]
-and function $\omega$ constant, for example 
+and function $\omega_{\text{cnst}}$ constant, for example 
 \[
-\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = 1.
+\omega_{\text{cnst}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) := 1.
 \]
 
-In this case Equation~\ref{unifying_equation} takes the form
+In this approach, because $\omega_{\text{cnst}}$ is constant,  we are considering each observation equally important to compute the $S$-value. The weighing is independent of parts $I_a$ and $I_b$ we are willing to merge. In this case, the $S$-values (Equation~\ref{unifying_equation}) take the form
 \[
 \begin{split}
-S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{1}{n} \sum_{i=1}^n & \left\{(\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \right.\\ 
+S_{\,\Delta\text{Ent}}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{1}{n} \sum_{i=1}^n & \left\{(\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \right.\\ 
 &\quad \left.\left[ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right]\right\}.
 \end{split}
 \]
 
+Note that in this approach function $S_{\omega, \lambda}^{\,\Delta\text{Ent}}$ is symmetric with respect $I_a$ and $I_b$. Therefore, for partition $\mathcal{P}_k$ we only need to calculate $\frac{k^2-k}{2}$ $S$-values. Note also that for partition $\mathcal{P}_{k-1}$ we only need to update the value of $k-2$ $S$-values. In total, we only need to calculate $(k-1)^2$ different $S$-values. 
+
+%$\frac{k^2-k}{2} + \sum_{\ell=1}^{k-2} \ell$
 
 \subsection{Maximising the misclassification probability}
 \label{missclassification_section}
 
-A different approach is introduced by \cite{hennig2010methods}. He proposes to merge the components $I_a$ and $I_b$ from $ \mathcal{P}_s$ that maximise \emph{the probability of classifying to component $I_b$ an observation generated from component $\hat{f}_{I_a}$ }.
-
-To estimate this probability,  \cite{hennig2010methods} uses a consistent estimator, the Directed Estimated Misclassification Probabilities (DEMP). The estimator is
+\cite{hennig2010methods} proposes to merge the components $I_a$ and $I_b$ from $ \mathcal{P}_s$ that maximise \emph{the probability of classifying to component $I_b$ an observation generated from component $f_{I_a}$ }. To estimate this probability,  \cite{hennig2010methods} introduces a consistent estimator, the Directed Estimated Misclassification Probabilities (DEMP) defined as
 \[
 \frac{ \frac{1}{n} \sum_{i=1}^n {\tau_{iI_a} \mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right)}}{ \hat{\pi}_{I_a}},
 \]
-where $\mathbbm{1}\left( \cdot \right)$ is the indicator function. Because $ \hat{\pi}_{I_a} = \frac{1}{n} \sum_{i=1}^n \tau_{iI_a}$, the previous estimator can be written in terms of the posterior probability vector as
+where $\mathbbm{1}\left( \cdot \right)$ is the indicator function. Because $ \hat{\pi}_{I_a} = \frac{1}{n} \sum_{i=1}^n \tau_{iI_a}$, the estimator DEMP can be written in terms of posterior probability as
 \begin{equation}\label{demp_criteria}
 \frac{ \sum_{i=1}^n {\tau_{iI_a} \mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right)}}{\sum_{i=1}^n \tau_{iI_a} }.
 \end{equation}
 
-In consequence, the DEMP estimator is included in the generic criteria when
+In consequence, the estimator DEMP (Equation~\ref{demp_criteria}) is equivalent to $S_{\,\text{DEMP}}( \m\tau_{\mathcal{P}_s},  I_a,  I_b)$ function with
 \begin{equation}\label{lambda_demp}
-\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right)
+\lambda_{\text{DEMP}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) := \mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right)
 \end{equation}
 and
 \[
-\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  \tau_{iI_a}.
+\omega_{\text{prop}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) :=  \tau_{iI_a}.
 \]
 
-A variation of \cite{hennig2010methods} approach is proposed by \cite{longford2014}. Instead of considering function $\lambda$ given by Equation~\ref{lambda_demp} they propose to measure the confusion between $I_a$ and $I_b$ with function $\lambda$ given by
+In this approach function $\lambda_{\text{DEMP}}$ is giving preference to those observations $x_i$ classified to part $I_b$. Moreover, $\omega_{\text{prop}}$ function is weighing higher those observations with high posterior probability $\tau_{iI_a}$. This approach permits to calculate the $S$-value from $I_a$ to $I_b$ measuring our preference to merge $I_a$ into $I_b$. Note that in this case function  $S_{\,\text{DEMP}}$ is not symmetric, therefore, in this case the number of $S$-values needed to calculate is $2 (k-1)^2$.
+
+A variation of \cite{hennig2010methods} approach is proposed by \cite{longford2014}. Instead of considering function $\lambda_{\text{DEMP}}$ given by Equation~\ref{lambda_demp}, in this case the preference for merging $I_a$ into $I_b$ is given by
 \[
-\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \frac{\tau_{iI_b}}{\tau_{iI_a} + \tau_{iI_b}},
-\]
-giving another example of function $S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b)$.
+\lambda_{\text{DEMP}_m}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \frac{\tau_{iI_b}}{\tau_{iI_a} + \tau_{iI_b}}.
+\] 
+Function $\lambda_{\text{DEMP}_m}$, similarly to function $\lambda_{\text{DEMP}}$, is giving higher score to those observations with higher posterior probability, $\tau_{iI_b}$, of being generated by component $f_{I_b}$ conditioned to those observations being generated either by $f_{I_a}$ or $f_{I_b}$.
 
-Finally, without restricting  the posterior probability of begin classified to component $I_b$, a simple modification to the approach proposed by \cite{longford2014} can be introduced by defining
+
+\section{Other criteria: the logratio approach}\label{logratio_section}
+
+
+The generic expression of $S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b)$ (Equation~\ref{unifying_equation}) permits to extend the criteria for merging components to expressions defined by the analyst. For example, in \cite{hennig2010methods} and \cite{longford2014} we prefer those observations with higher $\tau_{I_b}$. It seems reasonable to define function
 \[
-\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_b}.
+\lambda_{\text{prop}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) := \tau_{iI_b}.
 \]
-If combined with $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) =  \tau_{iI_a}$ end ups with a very simple approach to build a hierarchy.
-
-\subsection{$\omega$ function alternative}
-
-
-An important difference between the approach presented in Section~\ref{entropy_section} \citep{baudry2010combining} compared to the one presented in Section~\ref{missclassification_section} \citep{hennig2010methods} is that the former one is symetric, that is
+In this case, function $\lambda_{\text{prop}}$ combined with $\omega_{\text{prop}}$ results in an algorithm with an easily computable $S$-value. Another option, as an alternative to function $\omega_{\text{prop}}$, is to consider function 
 \[
-S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_b,  I_a).
+\omega_{\text{dich}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) := \mathbbm{1}\left( \forall j\; \tau_{i I_{a}} \geq \tau_{iI_j} \right)
 \]
-In contrast, DEMP approach has different values depending on the merging order.
+which weighes only those observations classified to part $I_a$. Although the variations to functions $\omega$ and $\lambda$ have no limits, in this section we introduce two alternatives to function $\lambda$ with a well founded background.
 
-Function $\omega$ plays an important role for the symetry of the method. In general, if $\omega$ is constant and $\lambda$ is symetric the resulting function $S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b)$ is symetric.
+\cite{aitchison1986statistical} introduces the main elements to study samples defined in the Simplex space $\mathcal{S}^d$, i.e $\mathcal{S}^d = \{ (x_1,\dots, x_d) \;|\; x_i > 0 \text{ and } \sum_{i=1}^k x_i = 1 \}$. Aitchison concludes that to study samples defined in $\mathcal{S}^d$ only the ratios between components are of interest. Here we take advantage that posterior probability vectors $\m\tau_{i\mathcal{P}_s}$ are defined in $\mathcal{S}_s$ t define two new function $\lambda$. The first function is motivated by the Entropy notion introduced by \cite{baudry2010combining}, the second one is based on the misclassification definition given by  \cite{hennig2010methods} or \cite{longford2014}.
 
-Motivation behind function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \tau_{iI_a}$ in \cite{hennig2010methods} is to give more weight to those observations more related to partition $I_a$. A more extremal asymetric weighting can be introduced considering only those observation having maximum $ \tau_{iI_a}$, that is
+
+Following \cite{baudry2010combining} the closer the posterior probability vector $\m\tau_{i \mathcal{P}_{s-1}^{I_a\cup I_b}}$ is to $\m\tau_s^0$, higher is our preference to merge component $I_a$ and $I_b$ (higher is the entropy after merging $I_a$ and $I_b$). To measure our preference for merging $I_a$ and $I_b$ we propose to measure how different is vector $\m\tau_{\left(I_a, I_b\right)} = (\frac{\tau_{i I_a}}{\tau_{i I_a} + \tau_{i I_b}}, \frac{\tau_{i I_b}}{\tau_{i I_a} + \tau_{i I_b}})$ to the uniform vector $\m\tau_2^0$. That is, we restrict only on the probabilities associated to the components to be merged. To measure this difference we use the Aitchison distance defined in the Simplex space. The Aitchison distance, $d_\mathcal{A}$, between $\m\tau_{\left(I_a, I_b\right)}$ and $\m\tau_2^0$ is given by
 \[
-\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \mathbbm{1}\left( \forall j\; \tau_{i I_{a}} \geq \tau_{iI_j} \right).
+d_\mathcal{A}\left(\m\tau_{\left(I_a, I_b\right)}, \m\tau_2^0 \right) = \sqrt{\log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)}.
 \]
-This approach emphasize those observations that in the current stage are classified to component $I_a$.
 
-
-\section{The logratio approach}\label{logratio_section}
-
-The generic expression of $S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b)$ (Equation~\ref{unifying_equation}) permits to extend the criteria for merging components to expressions defined by the analyst. \cite{aitchison1986statistical} introduces a serie of tools to study samples defined in the Simplex space $\mathcal{S}^d$, i.e $\mathcal{S}^d = \{ (x_1,\dots, x_d) \;|\; x_i > 0 \text{ and } \sum_{i=1}^k x_i = 1 \}$. 
-
-In this section we are interested in different approaches to measure the chances of merging two parts $I_a$ and $I_b$ taking into an account that the posterior probability vector are observations in the Simplex space. In other words we are interested in defining functions $\lambda$ which takes into an account the geometric structure of $\mathcal{S}^d$. We are going to define two new measures, the first ones is motivated by the Entropy notion introduced in \ref{entropy_section}, the second is based on the misclassification definition given in Section~\ref{missclassification_section}.
-
-
-In \cite{baudry2010combining} confusion between components is measured using the notion that the closer the posterior probability vector is from $(\frac{1}{s}, \dots, \frac{1}{s})$ the more confused are the components (higher is the Entropy). To measure the chances of confusing $I_b$ with $I_a$ we can measure how different is $(\frac{\tau_{i I_a}}{\tau_{i I_a} +\tau_{i I_b}}, \frac{\tau_{i I_b}}{\tau_{i I_a} + \tau_{i I_b}})$ from $(\frac{1}{2}, \frac{1}{2})$. That is, to restrict only on the probabilities associated to the components to be merged. To measure this difference we use the squared norm defined in the Simplex space. The squared norm of a posterior probability vector, $\| (\tau_{iI_a}, \tau_{iI_b}) \|^2$  defined by \cite{aitchison2002simplicial} is 
+Because we are interested on merging those two parts  $I_a$ and $I_b$ with $\m\tau_{\left(I_a, I_b\right)}$ closer to $\m\tau_2^0$, and Equation~\ref{unifying_equation} should be maximised, we propose to reverse the sign of the squared distance. Formally, we propose the function
 \[
-\left\| (\tau_{iI_a}, \tau_{iI_b}) \right\|^2 = \log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right).
+\lambda_{\text{dist}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) := -d_\mathcal{A}\left(\m\tau_{\left(I_a, I_b\right)}, \m\tau_2^0 \right)^2 = -\log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right).
 \]
 
-Because we are interested on merging those components $I_a$ and $I_b$ with lower norm and Equation~\ref{unifying_equation} is maximized, we propose
-\[
-\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = -\left\| (\tau_{iI_a}, \tau_{iI_b}) \right\|^2 = -\log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)
-\]
+
+
 
 
 The second log-ratio approach is inspired in the notion of confusion \citep{hennig2010methods} between two components $I_a$ and $I_b$. Conditioning that the observation is generated by $I_a$ we propose to measure how likely is to classify an observation to $I_b$ by measuring the relative difference between $\tau_{i I_b}$ and $\tau_{i I_a}$, that is 
