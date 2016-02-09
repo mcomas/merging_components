@@ -71,7 +71,7 @@ L[[4]] = step_merging(L[[3]]$post, omega = 'prop', lambda = 'coda.norm')
 L[[5]] = step_merging(L[[4]]$post, omega = 'prop', lambda = 'coda.norm')
 entropy = lapply(L, function(l) data.frame('k' = NCOL(l$post), 'entr' = l$entropy)) %>% bind_rows
 
-hp = get_hierarchical_partition(post6, omega = 'prop', lambda = 'coda.norm')
+hp = get_hierarchical_partition(fit$posterior, omega = 'prop', lambda = 'coda.norm')
 seq_partition = lapply(hp, sapply, paste, collapse=',')
 cat(paste(sapply(seq_partition, function(partition) paste(sprintf('\\{%s\\}', partition), collapse=',')), collapse='\\}, \\\\ \n \\mathcal{P}_ &=& \\;\\; \\{'))
 
