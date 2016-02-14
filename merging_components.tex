@@ -280,12 +280,12 @@ vector $\left(\tau_{iI_a}, \tau_{iI_b}, \tau_{iI_c} \right)$ with $\tau_{iI_c} \
 \end{center}
 \end{figure}
 
-Similarly to $\lambda_{\Delta\text{Ent}}$ function, $\lambda_{\text{dist}}$ function measures how different is $\m\tau_{\left(I_a, I_b\right)}$ of $\m\tau_2^0$. In Figure~\ref{symetric} the functions for a partition with three, $I_a$, $I_b$, $I_c$ is shown. The different curves are showing the effect of $\tau_{I_b}$ into function $\lambda$ for different values of $\tau_{I_c}$. We see both functions have their maximum when $\m\tau_{\left(I_a, I_b\right)} = \m\tau_2^0$ and they are symetric with respect $I_a$ and $I_b$ but, in contrast to function $\lambda_{\Delta\text{Ent}}$, notice that $\lambda_{\text{dist}}$ is independent of the value of $\tau_{iI_c}$. 
+Similarly to $\lambda_{\Delta\text{Ent}}$ function, $\lambda_{\text{dist}}$ function measures how different is $\m\tau_{\left(I_a, I_b\right)}$ of $\m\tau_2^0$. In Figure~\ref{symetric} the functions for a partition with three, $I_a$, $I_b$, $I_c$ is shown. The different curves are showing the effect of $\tau_{I_b}$ into function $\lambda$ for different values of $\tau_{I_c}$. We see both functions have their maximum when $\m\tau_{\left(I_a, I_b\right)} = \m\tau_2^0$ and they are symmetric with respect $I_a$ and $I_b$ but, in contrast to function $\lambda_{\Delta\text{Ent}}$, notice that $\lambda_{\text{dist}}$ is independent of the value of $\tau_{iI_c}$. 
 
 The fact that $\lambda_{\text{dist}}$ is only measuring the relative difference of $\tau_{iI_a}$ and $\tau_{iI_b}$ without taking into an account other parts, makes especially important the selection of function $\omega$. It is very important to consider $\omega$ which increase the value of those observation more related with components $f_{I_a}$ and $f_{I_b}$. This fact makes particularly useless combining function $\omega_{\text{cnst}}$ with function $\lambda_{\text{dist}}$.
 
 
-A different approach using log-ratios consists in defining function $\lambda$ with higher value for those observations with higher $\tau_{iI_b}$, for example $\lambda_{\text{DEMP}}$ or $\lambda_{\text{DEMP}_m}$. We propose to measure the increment of $\tau_{iI_b}$ measuring the relative difference between $\tau_{iI_b}$ an $\tau_{iI_a}$ with the logratio
+A different approach using log-ratios consists in defining function $\lambda$ with higher value for those observations with higher $\tau_{iI_b}$, for example $\lambda_{\text{DEMP}}$ or $\lambda_{\text{DEMP}_m}$. We propose to measure the increment of $\tau_{iI_b}$ measuring the relative difference between $\tau_{iI_b}$ an $\tau_{iI_a}$ with the log-ratio
 \[
 \lambda_{\log}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \log \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right).
 \]
@@ -302,38 +302,49 @@ vector $\left(\tau_{iI_a}, \tau_{iI_b}, \tau_{iI_c} \right)$ with $\tau_{iI_c} \
 \end{center}
 \end{figure}
 
-In Figure~\ref{nonsymetric} $\lambda_{\text{DEMP}_m}$ and $\lambda_{\log}$ is shown for posterior probability vectors $\left(\tau_{iI_a}, \tau_{iI_b}, \tau_{iI_c}\right)$ for fixed values of $\tau_{iI_c} \in \{0.2, 0.4, 0.6, 0.8\}$. Note that both functions are independent of the value $\tau_{iI_c}$ and only the relative ammount between $\tau_{iI_b}$ with respect of $\tau_{iI_a}$ is of importance.
+In Figure~\ref{nonsymetric} $\lambda_{\text{DEMP}_m}$ and $\lambda_{\log}$ is shown for posterior probability vectors $\left(\tau_{iI_a}, \tau_{iI_b}, \tau_{iI_c}\right)$ for fixed values of $\tau_{iI_c} \in \{0.2, 0.4, 0.6, 0.8\}$. Note that both functions are independent of the value $\tau_{iI_c}$ and only the relative amount between $\tau_{iI_b}$ with respect of $\tau_{iI_a}$ is of importance.
 
 When function $\lambda_{\log}$ is considered we are looking for observations with higher posterior probability $\tau_{iI_b}$ for posterior probability vectors with high $\tau_{iI_a}$, therefore, our preferences are for those observations with highest values of $\tau_{iI_b}$. In this case, it is essential to consider $\omega$ function weighing higher those $\m\tau_{i \mathcal{P}_s}$ with higher values of $\tau_{iI_a}$.
 
 
-Due $\lambda_{\text{dist}}$ and $\lambda_{\log}$ use logratios they take into an account the geometric properties of the Simplex space \citep{aitchison2002simplicial}.  Working with logratios between the components of a posterior probability vector, we guarantee \emph{subcompositional coherence}  \citep{aitchison1986statistical}. Formally, in this scenario subcompositional coherence can be defined as:
+Due $\lambda_{\text{dist}}$ and $\lambda_{\log}$ use logratios they take into an account the geometric properties of the Simplex space \citep{aitchison2002simplicial}.  Working with log-ratios between the components of a posterior probability vector, we guarantee \emph{subcompositional coherence}  \citep{aitchison1986statistical}. Formally, in this scenario sub-compositional coherence can be defined as:
 
 \begin{defn}
-Let $\mathcal{H}$ be a hierarchical sequence of partitions obtained from posterior probability vectors $\left\{ \left(\tau_{i1}, \dots, \tau_{ik} \right)\right\}_{1\leq i \leq n}$ using a merging approach $M$. Let $I = \{j_1, \dots, j_s\}$ be one part in one partition of $\mathcal{H}$. A method is \emph{subcompositional coherent} if the hierarchy sequence of partitions obtained  from posterior probability vectors $\left\{ \left(\tau_{ij_1}, \dots, \tau_{ij_s} \right)\right\}_{1\leq i \leq n}$ is contained in $\mathcal{H}$.
+Let $\mathcal{H}$ be a hierarchical sequence of partitions obtained from posterior probability vectors $\left\{ \left(\tau_{i1}, \dots, \tau_{ik} \right)\right\}_{1\leq i \leq n}$ using a merging approach $M$. Let $I = \{j_1, \dots, j_s\}$ be one part in one partition of $\mathcal{H}$. A method is \emph{sub-compositional coherent} if the hierarchy sequence of partitions obtained  from posterior probability vectors $\left\{ \left(\tau_{ij_1}, \dots, \tau_{ij_s} \right)\right\}_{1\leq i \leq n}$ is contained in $\mathcal{H}$.
 \end{defn}
 
-Another interesting feature when logratio approach is used is the \emph{scale invariance} property, formally
+Another interesting feature when log-ratio approach is used is the \emph{scale invariance} property, formally
 \[
 S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = S_{\omega, \lambda}(k\cdot \m\tau_{\mathcal{P}_s},  I_a,  I_b) \text{ for $k>0$.}
 \] 
 
 Meaning that the approach is not restricted to posterior probability vectors but to any other kind of vector giving relative information between each mixture component. Therefore, the methods considered here are suitable to be applied in more general scenarios such that those were instead of posterior probability vectors different weights are given to each part (e.g. weights in fuzzy clustering).
 
-Because function $\lambda_{\text{dist}}$ and $\lambda_{\log}$ are independent of the total ammount, we have seen that the selection of $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ function is of special importance. When we are considering to merge two parts $I_a$ and $I_b$, the ratio for observations that are not representative of this two parts (observations far from been classified into $I_a$ or $I_b$) should be weighted down. Otherwise, the evaluation of $\lambda$ function for those posterior probabilities poorly related to parts $I_a$ and $I_b$ are going to be playing an important role for the final $S$-value.
+Because function $\lambda_{\text{dist}}$ and $\lambda_{\log}$ are independent of the total amount, we have seen that the selection of $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ function is of special importance. When we are considering to merge two parts $I_a$ and $I_b$, the ratio for observations that are not representative of this two parts (observations far from been classified into $I_a$ or $I_b$) should be weighted down. Otherwise, the evaluation of $\lambda$ function for those posterior probabilities poorly related to parts $I_a$ and $I_b$ are going to be playing an important role for the final $S$-value.
 
 
 Finally, noting that when $\omega_{\text{prop}}$ and $\lambda_{\log}$ are considered, the $S$-value (Equation~\ref{unifying_equation}) results in
 \[
 S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{\sum_{i=1}^n\tau_{iI_a}  \log \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)}{\sum_{i=1}^n \tau_{iI_a}}.
 \]
-For a fixed component $I_a$, the expression in the numerator has the flavour of the Kullback-Leibler divergence (in negative sign) comparing the distribution of classifiying observations to $I_a$ against the distributions of classifying the same observations to $I_b$.
+For a fixed component $I_a$, the expression in the numerator has the flavour of the Kullback-Leibler divergence (in negative sign) comparing the distribution of classifying observations to $I_a$ against the distributions of classifying the same observations to $I_b$.
+
+\section{Deciding the number of clusters}
+
+Starting from a finite mixture adjusted with BIC criteria, in Section~\ref{generic_merging}, we have presented a generic approach to built a hierarchical sequence of partitions. One of the main difficulties is about deciding the final number of clusters. It is clear that for any partition $\{I_1, \dots, I_{s}\}$ the likelihood function of mixture $\pi_{I_1} f_{I_1} + \dots + \pi_{I_s} f_{I_s}$ is always the same. In other words, it is not possible to decide which of the different relation ways of modelling a cluster with different components is better from a frequentist perspective \citep{hennig2010methods}. Therefore, we need to use heuristic methods to decide the final number of clusters.
+
+The first candidates to decide the number of components are the $S$-values. Notice that this choice depends completely of the choice of function $\omega$ and $\lambda$ and the interpretation could be misleading to decide the final number of clusters. Because this approach depends of function $\omega$ and $\lambda$ the reader should pay attention in how to interpret, if it is possible, the final $S$-value.
+
+\cite{baudry2010combining} proposed to monitor the Entropy for posterior probability vectors  $\text{\textbf{T}}_{\mathcal{P}_s}$ and check when the Entropy is small enough. Another approach to decide the number of components using the posterior probability vectors $\text{\textbf{T}}_{\mathcal{P}_s}$ is to consider each posterior probability vector $\m\tau_{i\mathcal{P}_s}$ as an element of $\mathcal{S}_s$. Then, we can work with the geometric structure of $\mathcal{S}_s$ to study the relation between different posterior probability vectors. Concretely, using the Aitchison distance, we can compute the distance between each pair of posterior probability vectors. With this matrix distance we can study how well the components $f_{I_1}, \dots, f_{I_s}$ are defining the clusters. We expect that those posterior probabilities more related to one cluster are close to the vertex of the Simplex space, i.e. have values close to one in one component and close to zero in the other components. Consequently, we expect that the posterior probabilities vectors in $\mathcal{S}_s$ define $s$ different clusters.
+
+A last option is not stopping the hierarchical merging and presenting the overall sequence of partitions. This approach should allow the researcher to study carefully how the initial components are related to each other in each step.
+
 
 \section{Merging components in a finite mixture: examples}\label{merging_examples_dist}
 
 \subsection{Merging components in a mixture of Gaussian distributions}
 
-Following \cite{baudry2010combining} consider the bivariate Gaussian mixture of six components
+Following the example given in \cite{baudry2010combining} consider the bivariate Gaussian mixture of six components
 \[
 f= \sum_{j=1}^6 \pi_j \phi(\;\cdot\; ;  \m\mu_j, \m\Sigma_j)
 \]
@@ -358,7 +369,7 @@ $j$ & $\pi_j$ & $\mu_{j x_1}$ & $\mu_{j x_2}$ & $\sigma^2_{j x_1}$ & $\sigma^2_{
 \end{table}
 
 
-Let the parameters of $f$ be known. Figure~\ref{ex_mixture} shows a random sample \textbf{X} together with the iso-density curves of the estimated \fmm. We are interested in clustering sample \textbf{X}.
+Let the parameters of $f$ be known. Figure~\ref{ex_mixture} shows a random sample \textbf{X} together with the iso-density curves of the estimated \fmm. We are interested in clustering the sample \textbf{X}.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -378,30 +389,30 @@ The initial partition  $\mathcal{P}_6 = \{ \{1\},\{2\}, \{3\}, \{4\}, \{5\}, \{6
  %   6 toy mixture
   \includegraphics[width=\textwidth]{figures/partition-example-part6.pdf} \\
  \end{tabular}
- \caption{One cluster corresponds to one component}\label{ex_one_one}
+ \caption{Density of Gaussian mixture of 6 components where one cluster corresponds to one component}\label{ex_one_one}
 \end{center}
 \end{figure}
 
-\cite{baudry2010combining} proposed the Entropy approach, in Section~\ref{entropy_section} we have seen the approach is equivalent to consider \[\omega = 1\] and \[\lambda = (\tau_{iI_a}+\tau_{iI_b}) \log(\tau_{iI_a} + \tau_{iI_b}) - \left\{ \tau_{iI_a} \log(\tau_{iI_a}) + \tau_{iI_b} \log(\tau_{iI_b}) \right\}.\] Following this approach we obtained the sequential hierarchical partition given by 
+Calculating the $S$-values obtained $\omega_{\text{cnst}}$ and $\lambda_{\Delta\text{Ent}}$ we obtained the sequential hierarchical partition given by 
 
 \begin{equation}
 \begin{array}{r c l}
 \mathcal{P}_1 &=& \{\{1, 2, 3, 4, 5, 6\}\}, \\
-\mathcal{P}_2 &=& \{\{1, 4, 2, 5\}, \{6, 3\} \},  \\
-\mathcal{P}_3 &=& \{\{1, 4, 2\}, \{5\}, \{6, 3\} \}, \\
-\mathcal{P}_4 &=& \{\{1, 4\},\{2\}, \{5\}, \{6, 3\} \}, \\
-\mathcal{P}_5 &=& \{\{1\},\{2\},\{4\},\{5\},\{6,3\} \},\\
+\mathcal{P}_2 &=& \{\{1, 2 , 4, 5\}, \{3, 6\} \},  \\
+\mathcal{P}_3 &=& \{\{1, 2, 4\}, \{3, 6\}, \{5\} \}, \\
+\mathcal{P}_4 &=& \{\{1, 4\},\{2\}, \{3, 6\}, \{5\} \}, \\
+\mathcal{P}_5 &=& \{\{1\},\{2\}, \{3, 6\},\{4\},\{5\} \},\\
 \mathcal{P}_6 &=& \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}.
 \end{array}
 \label{hier_ex}
 \end{equation}
 
-In the partition $\mathcal{P}_4 = \{ \{1, 4\},\{2\}, \{5\}, \{3, 6\} \}$, the components 1 and 4 define a single cluster, as well as components 3 and 6. Using Equation~\ref{cluster_criteria} each observation $\m x_i$ is classified to one component. Figure~\ref{ex_two_one} shows the clustering with the iso-density curves defined by each component. In this case, clusters labeled $\{1,4\}$ and $\{3, 6\}$ are modelled by a mixture of two components. With partition $\mathcal{P}_4$ the clusters are modelled by $\fmm$s
+In the partition $\mathcal{P}_4 = \{\{1, 4\},\{2\}, \{3, 6\}, \{5\} \}$, the part $\{1, 4\}$ define a single cluster, as well as part \{3, 6\}. For this partition, using Equation~\ref{cluster_criteria} each observation $\m x_i$ is classified to one component. Figure~\ref{ex_two_one} shows the clustering with the iso-density curves defined by each component. In this case, clusters labelled $\{1,4\}$ and $\{3, 6\}$ are modelled by a mixture of two components. With partition $\mathcal{P}_4$ the clusters are modelled by $\fmm$s
 \begin{itemize}
 \item $f_{\{1,4\}} = \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_1, \m\Sigma_1) + \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_4, \m\Sigma_4)$, 
 \item $f_{\{2\}} = \phi(\;\cdot\; ;  \m\mu_2, \m\Sigma_2)$, 
-\item $f_{\{5\}} = \phi(\;\cdot\; ;  \m\mu_5, \m\Sigma_5)$ and
-\item $f_{\{6,3\}} = \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_6, \m\Sigma_6) + \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_3, \m\Sigma_3)$.
+\item $f_{\{3,6\}} =  \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_3, \m\Sigma_3) + \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_6, \m\Sigma_6)$ and
+\item $f_{\{5\}} = \phi(\;\cdot\; ;  \m\mu_5, \m\Sigma_5)$.
 \end{itemize}
 
 \begin{figure}[h]
@@ -410,24 +421,14 @@ In the partition $\mathcal{P}_4 = \{ \{1, 4\},\{2\}, \{5\}, \{3, 6\} \}$, the co
  %   6 toy mixture
   \includegraphics[width=0.65\textwidth]{figures/partition-example-part4.pdf} \\
  \end{tabular}
- \caption{One cluster corresponds to one or more components}\label{ex_two_one}
+ \caption{Density of Gaussian mixture of 6 components where one cluster corresponds to one or more components}\label{ex_two_one}
 \end{center}
 \end{figure}
 
-If instead of using approach from Section~\ref{entropy_section} \citep{baudry2010combining} we consider DEMP approach from Section~\ref{missclassification_section} \citep{hennig2010methods}, we are setting \[\omega = \tau_{i I_a}\] and \[\lambda = \mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right).\] In this case, the sequential hierarchical obtained is
-\begin{equation}
-\begin{array}{r c l}
-\mathcal{P}_1 &=& \{\{1, 2, 3, 4, 5, 6\}\}, \\
-\mathcal{P}_2 &=& \{\{1, 4, 2, 5\}, \{6, 3\} \},  \\
-\mathcal{P}_3 &=& \{\{1, 4, 2\}, \{5\}, \{6, 3\} \}, \\
-\mathcal{P}_4 &=& \{\{1, 4\},\{2\}, \{5\}, \{6, 3\} \}, \\
-\mathcal{P}_5 &=& \{\{1, 4\},\{2\}, \{3\},\{5\},\{6\} \},\\
-\mathcal{P}_6 &=& \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}.
-\end{array}
-\end{equation}
-This sequence only differs from the Baudry's in the partition $\mathcal{P}_5$.  
+Using $\omega_{prop}$ and $\lambda_{\text{DEMP}}$ the sequential hierarchical obtained only differs from the previous one  in partition $\mathcal{P}_5$, where now $\mathcal{P}_5 = \{\{1, 4\},\{2\}, \{3\},\{5\},\{6\} \}$.
 
-To detect the final number of clusters \cite{baudry2010combining} proposed to monitorize the values of function $S$ given by Equation~\ref{unifying_equation}. We refer to them as the $S$-values. Figure~\ref{gaussian_Svalues} shows the $S$-values using the Entropy and DEMP apporach. The largest change is detected in the step from 4 clusters to consider 3 clusters. Following \cite{baudry2010combining}, this reduction suggests that the correct number of clusters is given by 4 clusters.
+To decide the number of clusters, \cite{baudry2010combining} proposed to stop at the number of clusters given by ICL. Also, when $\omega_{\text{cnst}}$ and $\lambda_{\Delta\text{Ent}}$ \cite{baudry2010combining} proposed to monitorize the difference $S$-values and use the elbow rule to decide the number of clusters. Top-left side of Figure~\ref{gaussian_Svalues} shows the $S$-values for the Entropy difference approach ($\omega_{\text{cnst}}$ and $\lambda_{\Delta\text{Ent}}$). The largest change is detected in the step from five clusters to four clusters. This reduction suggests that the correct number of clusters is \emph{four} because the reduction of entropy disappears after four clusters. In the top-right side of Figure~\ref{gaussian_Svalues}, we can see that, in this case, we can apply the same heuristic for DEMP approach ($\omega_{\text{prop}}$ and $\lambda_{\text{DEMP}}$) obtaining similar results. In bottom-left and bottom-right side we see the $S$-values using $\omega_{\text{cnst}}$ with $\lambda_{\text{dist}}$ and $\lambda{\log}$ respectively. In this particular case, it is difficult to identify the correct number of clusters using the $S$-values.
+
 
 \begin{figure}[t]
 \begin{center}
@@ -440,22 +441,50 @@ To detect the final number of clusters \cite{baudry2010combining} proposed to mo
 
 \subsection{Merging components in a mixture of multinomial distributions}\label{multinom_example}
 
-Merging approaches presented in this article rely on the vector of posterior probabilities this can be calculated for any finite mixture model. Therefore, the merging generic approach introduced in Section~\ref{generic_merging} can be used for any family of \fmm, for example a finite mixture of multinomial distribution.
+Merging approaches presented in this article rely on the vector of posterior probabilities which can be calculated for any finite mixture model. Therefore, the merging generic approach introduced in Section~\ref{generic_merging} can be used for any family of \fmm, for example a finite mixture of multinomial distribution.
 
-Pigs dataset can be obtained from package \pkg{zCompositions} R package \citep{palarea2012zcompositions}. The dataset contains data of 29 sows. In different moments the pigs were recorded during 5 minutes and its current activity was registered. For each pig six locations were considered: straw bed (BED), half in the straw bed (HALF.BED), dunging passage (PASSAGE), half in the dunging passage (HALF.PASS), feeder (FEEDER) and half in the feeder (HALF.FEED).
+Pigs dataset can be obtained from package \emph{zCompositions} R package \citep{palarea2015zcompositions}. The dataset contains data of 29 sows. In different moments the pigs were recorded during five minutes and its current activity was registered. For each pig six locations were considered: straw bed (BED), half in the straw bed (HALF.BED), dunging passage (PASSAGE), half in the dunging passage (HALF.PASS), feeder (FEEDER) and half in the feeder (HALF.FEED).
 
-We have used \pkg{mixtools} \citep{benaglia2009mixtools} to fit a mulitinomial mixture. 6 components were identified as optimum according to BIC criterion. In Figure~\ref{multinomial_mixture} the bar plot for each component is shown. That is considering Equation~\ref{map_criteria} or Equation~\ref{cluster_criteria} with partition $\mathcal{P}_6 = \{\{1\}, \{2\}, \{3\}, \{4\}, \{5\}, \{6\}\}$.
+\begin{figure}[!t]
+\begin{center}
+\begin{tabular}{cc}
+  \includegraphics[width=0.95\textwidth]{figures/multinomial_overall.pdf} \\
+ \end{tabular}
+ \caption{Number of times each sows has been seen in different locations. The sows are ordered with respect the number of times seen in BED.}\label{multinomial_mixture}
+\end{center}
+\end{figure}
 
-\begin{figure}[t]
+
+
+\begin{table}[t]
+\centering
+\begin{tabular}{rrrrrrrr}
+  \hline
+ Comp.& $\pi_j$ & $\theta_{j1}$ & $\theta_{j2}$ & $\theta_{j3}$ & $\theta_{j4}$ & $\theta_{j5}$ & $\theta_{j6}$ \\ 
+  \hline
+  1 & 0.0695 & 0.0103 & 0.0000 & 0.2874 & 0.0103 & 0.6867 & 0.0052 \\ 
+  2 & 0.1710 & 0.0144 & 0.0000 & 0.0717 & 0.0020 & 0.9057 & 0.0062 \\ 
+  3 & 0.0699 & 0.0817 & 0.0102 & 0.1390 & 0.0000 & 0.7538 & 0.0154 \\ 
+  4 & 0.1724 & 0.1567 & 0.0082 & 0.7835 & 0.0021 & 0.0454 & 0.0041 \\ 
+  5 & 0.0345 & 0.9485 & 0.0000 & 0.0309 & 0.0000 & 0.0206 & 0.0000 \\ 
+  6 & 0.4828 & 0.7408 & 0.0147 & 0.1694 & 0.0074 & 0.0626 & 0.0052 \\  
+   \hline
+\end{tabular}
+\caption{Parameters of a finite mixture of multinomial distributions adjusted to the Pigs data set. For component $j$, the mixing proportions are denoted by $\pi_j$ and the multinomial probabilities by $\left(\theta_{j1}, \dots, \theta_{j6}\right)$.}\label{multinomial_pars}
+\end{table}
+
+We used \emph{mixtools} \citep{benaglia2009mixtools} to fit a multinomial mixture. Six components were identified as optimum according to BIC criterion. In Table~\ref{multinomial_pars} the parameters of each components are shown. Using this parameters we can compute the posterior probability vectors $\text{\textbf{T}}_{\mathcal{P}_6}$. Each observation is classified into one cluster following Equation~\ref{map_criteria} or Equation~\ref{cluster_criteria} with partition $\mathcal{P}_6 = \{\{1\}, \{2\}, \{3\}, \{4\}, \{5\}, \{6\}\}$. In Figure~\ref{multinomial_mixture} we can see the bar plot for observations classified into the same cluster.
+
+\begin{figure}[!t]
 \begin{center}
 \begin{tabular}{cc}
   \includegraphics[width=0.95\textwidth]{figures/multinomial_mixt_all.pdf} \\
  \end{tabular}
- \caption{Components after adjusting a six mixture of multinomial distributions}\label{multinomial_mixture}
+ \caption{Components after adjusting a six mixture of multinomial distributions. For each cluster, the relative amount of time seen in each location is shown.}\label{multinomial_mixture}
 \end{center}
 \end{figure}
 
-Considering $\omega = \tau_{i I_a}$ and $\lambda = -\log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)$ we obtained the hierarchical structure partition given by
+Using $\omega_{\text{dich}}$ or  $\omega_{\text{prop}}$ with $\lambda_{\text{dist}}$ or $\lambda_{\log}$ we obtained the hierarchical structure partition given by
 
 
 \begin{equation}
@@ -470,25 +499,27 @@ Considering $\omega = \tau_{i I_a}$ and $\lambda = -\log^2 \left(\frac{ \tau_{iI
 \label{hier_ex_multinomial}
 \end{equation}
 
-Left panel of Figure~\ref{multinomial_Svalues} shows the $S$-value's obtained in each step. The $S$-values decrease with the number of clusters. In this example, with the $S$-values, it is difficult to decide the final number of clusters. To decide the final number of clusters, we used the Entropy calculated using the posterior probability vector in each step, $\sum_{i=1}^n\text{Ent}(\m\tau_{i\mathcal{P}_s})$. Using the Entropy to decide the final cluster was already suggested in \cite{baudry2010combining}. Right panel of Figure~\ref{multinomial_Svalues} shows the Entropy calculated in each step. From the plot it seems reasonable stop the merging with 3 clusters. 
+Other methods like $\omega_{\text{csnt}}$-$\lambda_{\Delta\text{Ent}}$,  $\omega_{\text{prop}}$-$\lambda_{\text{DEMP}}$,  $\omega_{\text{prop}}$-$\lambda_{\text{prop}}$ differed only in partitions $\mathcal{P}_5$ and $\mathcal{P}_4$.  Instead, this methods preferred to merge first the part $\{1,2,3\}$ obtaining partitions $\mathcal{P}_5 = \{\{1\},\{2, 3\},\{4\},\{5\} ,\{6\}\}$ and $\mathcal{P}_4 = \{\{1,2,3\},\{4\},\{5\},\{6\}\}$.
+
+Instead of using the $S$-values we can use the posterior probabilities $\text{\textbf{T}}_{\mathcal{P}_s}$ in each step. We calculate the Aitchison distance between each pair of posterior probability vectors and we calculate different distance based statistics for cluster analysis. In Figure~\ref{multinomial_statistics} we calculated different classical statistics using the distance between posterior probability vectors: the squared average distance  between clusters (top-left), the squared average distance within clusters (top-right), the Calinski-Harabasz index (bottom-left) and the Goodman and Kruskal's Gamma coefficient (bottom-right). From the heuristic statistics obtained in Figure~\ref{multinomial_statistics} it seems reasonable to stop at three or two clusters. 
 
 \begin{figure}[t]
 \begin{center}
 \begin{tabular}{cc}
-  \includegraphics[width=0.85\textwidth]{figures/multinomial_Svalues_all.pdf} \\
+  \includegraphics[width=0.85\textwidth]{figures/multinomial_statistics.pdf} \\
  \end{tabular}
- \caption{S-values obtained using the Aitchison $\lambda = -\log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)$ and $\omega = \tau_{i I_a}$ in the multinomial example.}\label{multinomial_Svalues}
+ \caption{Squared average distance between clusters (top-left), the squared average distance within clusters (top-right), the Calinski-Harabasz index (bottom-left) and the Goodman and Kruskal's Gamma coefficient (bottom-right) applied to the posterior probabilities obtained after adjusting a finite mixture of multinomial distributions to the Pigs data set.}\label{multinomial_statistics}
 \end{center}
 \end{figure}
 
-Figure~\ref{multinomial_clust3} shows the final 3 clusters. The first cluster contains components 1, 2 and 4, all of them represented by sows with a high amount of time feeding. The second cluster contains components 3 and 5, this cluster is characterized by sows with high ammount of time in bed. Finally, the thirs cluster is form with a single component 6 wich have a higher amount of time in the passage.
+Figure~\ref{multinomial_clust3} shows the bar plot for those observations assigned to each of the three clusters. The first cluster contains components one, two and four, all of them represented by sows with a high amount of time feeding. The second cluster contains components three and five, this cluster is characterized by sows with high amount of time in bed. Finally, the third cluster is form with a single component six which have a higher amount of time in the passage.
 
 \begin{figure}[t]
 \begin{center}
 \begin{tabular}{cc}
   \includegraphics[width=0.95\textwidth]{figures/multinomial_clust3_all.pdf} \\
  \end{tabular}
- \caption{Components after clustering the 9 mixture components in a 3-\fmm}\label{multinomial_clust3}
+ \caption{Pig dataset components after clustering the six mixture components in a 3-\fmm. For each cluster, the relative amount of time seen in each location is shown.}\label{multinomial_clust3}
 \end{center}
 \end{figure}
 
@@ -512,8 +543,7 @@ Finally, the $S$-values are a reasonable measure to decide the final number of c
 \bibitem[Aitchison, 1986]{aitchison1986statistical}
 Aitchison, J. (1986).
 \newblock {\em {The Statistical Analysis of Compositional Data}}.
-\newblock Monographs on Statistics and Applied Probability. Chapman \& Hall
-  Ltd., London (UK).
+\newblock Monographs on Statistics and Applied Probability. Chapman \& Hall Ltd., London (UK). Reprinted (2003) with additional material by The Blackburn Press, Caldwell, NJ.
 
 \bibitem[Aitchison, 2002]{aitchison2002simplicial}
 Aitchison, J. (2002).
@@ -524,10 +554,15 @@ Aitchison, J. (2002).
 Baudry, J.P., Raftery, A.~E., Celeux, G., Lo, K., and Gottardo, R. (2010).
 \newblock {Combining Mixture Components for Clustering}.
 
+\bibitem[Benaglia et~al., 2009]{benaglia2009mixtools}
+Benaglia, T., Chauveau, D., Hunter, D.R. and Youn, R. (2009).
+\newblock {mixtools: An R Package for Analyzing Finite Mixture Models}.
+\newblock {\em Journal of Statistical Software}, 32(6), 1-29.
+
 \bibitem[Fraley, 2002]{fraley2002model}
 Fraley, C. and Raftery, A. E. (2002).
 \newblock {Model-Based Clustering, Discriminant Analysis, and Density Estimation}.
-\newblock {\em Journal of the American Statistical Association}, 97(458): 611–631.
+\newblock {\em Journal of the American Statistical Association}, 97(458):611–631.
 
 \bibitem[Hennig, 2010]{hennig2010methods}
 Hennig, C. (2010).
@@ -547,11 +582,10 @@ Longford, N.~T. and Bartosova, J. (2014).
 \newblock {A confusion index for measuring separation and clustering}.
 \newblock {\em Statistical Modelling}, 14(3):229--255.
 
-
 \bibitem[McLachlan, 2014]{mclachlan2014components}
 McLachlan, G. J. and Rathnayake S. (2014).
 \newblock {On the number of components in a Gaussian mixture model}.
-\newblock {\em Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery},  4: 341–355.
+\newblock {\em Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery},  4:341–355.
 
 \bibitem[Melnykov, 2013]{melnykov2013distribution}
 Melnykov, V. (2013).
@@ -559,10 +593,10 @@ Melnykov, V. (2013).
   Models with Application in Clustering}.
 \newblock {\em Journal of Multivariate Analysis}, 122:175--189.
 
-\bibitem[Palarea-Albaladejo and Martín-Fernández (2012)]{palarea2012zcompositions}
-Palarea-Albaladejo J. and Martin-Fernandez J.A. (2012).
-\newblock {zCompositions: Imputation of Zeros and Nondetects in Compositional Data Sets}.
-\newblock {\em R package version 1.0.3}.
+\bibitem[Palarea-Albaladejo and Martín-Fernández (2015)]{palarea2015zcompositions}
+Palarea-Albaladejo J. and Martin-Fernandez J.A. (2015).
+\newblock {zCompositions - R packages for multivariate imputation of nondetecteds and zeros in compositional data sets}.
+\newblock{\em Chemometrics and Intelligent Laboratory Systems}, 143:85--96.
 
 \bibitem[Pastore and Tonellato, 2013]{pastore2013merging}
 Pastore, A. and Tonellato, S.~F. (2013).

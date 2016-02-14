@@ -127,14 +127,14 @@ library(tidyr)
 
 HP = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'cnst', lambda = 'entr')
 HP2 = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'prop', lambda = 'demp')
-HP3 = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'prop', lambda = 'prop')
+HP3 = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'dich', lambda = 'coda.norm')
 HP4 = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'dich', lambda = 'coda')
-df2 = data.frame(
-  K = factor(1:5, rev(1:5)),
-  'Entropy' = attr(HP,'S.value')[1:5],
-  'DEMP' = attr(HP2, 'S.value')[1:5]#,
-#   'Prop' = attr(HP3, 'S.value'),
-#   'Log' = boot::inv.logit(attr(HP4, 'S.value'))
+df2 = data_frame(
+  K = factor(2:6, rev(2:6)),
+  'Dif. Entropy' = attr(HP,'S.value')[1:5],
+  'DEMP' = attr(HP2, 'S.value')[1:5],
+  'Square distance' = attr(HP3, 'S.value')[1:5],
+  'Log-ratio' = attr(HP4, 'S.value')[1:5]
 ) %>% gather(key=method, value=S.value, -K)
 
 ggplot() +
@@ -143,7 +143,7 @@ ggplot() +
   theme_classic() +
   xlab('Clusters') + ylab('S-value') +
   ggtitle('S-value during the merging process')
-ggsave(filename = 'figures/gaussian_Svalues.pdf', height = 3.25)
+ggsave(filename = 'figures/gaussian_Svalues.pdf', height = 5.5, width=8.5)
 
 
 HP = lapply(HP, lapply, function(v) ord[v])

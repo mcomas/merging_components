@@ -46,11 +46,11 @@ INDEXS = c('cluster.number' = 'K',
            'average.between' = 'Average Between', 
            'average.within' = 'Average Within', 
            'ch' = 'Calinski-Harabasz', 
-           'pearsongamma' = 'Normalized gamma', 
-           'dunn' = 'Dunn', 
-           'dunn2' = 'Dunn2', 
-           'avg.silwidth' = 'Average silouhette', 
-           'sindex' = 'Separation',
+#            'pearsongamma' = 'Normalized gamma', 
+#            'dunn' = 'Dunn', 
+#            'dunn2' = 'Dunn2', 
+#            'avg.silwidth' = 'Average silouhette', 
+#            'sindex' = 'Separation',
            'g2' = 'G2')
 V.index = lapply(names(INDEXS), function(index) L.index(L, index)) %>% as.data.frame %>% tbl_df
 names(V.index) = INDEXS
@@ -62,7 +62,9 @@ df = V.index  %>% na.omit %>% mutate(
 ggplot() +
   geom_line(data=df, aes(x=K, y=value), group=1) +
   geom_point(data=df, aes(x=K, y=value), size=3) +
-  facet_wrap(~index, scales='free')
-
+  facet_wrap(~index, scales='free') + 
+  theme_classic() +
+  ylab('Statistic value') + xlab('Clusters')
+ggsave(filename = 'figures/multinomial_statistics.pdf', width=9.5, height=7)
 
 
