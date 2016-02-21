@@ -1,0 +1,87 @@
+---
+title: "Model-based hierarchical clustering"
+author: "Marc Comas-Cufí, Josep A. Martin Fernandez"
+output: html_document
+---
+
+```{r}
+library(compositions)
+NDATA = 500
+set.seed(1)
+
+library(MixSim)
+SEP = 40
+ms = list(Pi = rep(1/6, 6),
+          Mu = array(c(0,  0,SEP,SEP,SEP,   0,
+                       0,  0,SEP,SEP,  0, SEP), c(6,2)),
+          S  = array(c(50, 0,
+                       0, 5,
+                       5, 0,
+                       0, 50), c(2,2,6)))
+
+SIM = simdataset(n=NDATA, Pi=ms$Pi, Mu=ms$Mu, S=ms$S)
+
+df = data.frame(SIM$X)
+
+plot(df)
+library(Rmixmod)
+mixt = mixmodCluster(df, nbCluster=6, strategy=mixmodStrategy(nbTry = 1, seed = 1),
+                     models = mixmodGaussianModel(listModels="Gaussian_pk_Lk_Ck"))
+
+dfGaussian = df
+postGaussian = mixt@bestResult@proba
+```
+
+```{r}
+hc = hclust(dist(acomp(postGaussian)), method = 'ward.D')
+plot(hc)
+```
+
+```{r}
+plot(df, col = cutree(hc, k=4))
+```
+
+```{r}
+library(mixtools)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(mixpack)
+
+if(!file.exists('Pigs.rda')){
+  download.file('https://github.com/cran/zCompositions/blob/master/data/Pigs.rda?raw=true',
+                destfile='Pigs.rda')
+}
+load('Pigs.rda')
+
+pigs <- Pigs %>% tbl_df
+
+bic = function(loglik, k, n, d) -2 * loglik + (k * d - 1) * log(n)
+
+set.seed(2)
+K = 6
+suppressMessages(
+  FIT <- lapply(1:100, function(it, K){
+    multmixEM(as.matrix(pigs), k = K)
+  }, K)
+)
+
+
+fit = FIT[[which.min(sapply(FIT, function(fit) bic(fit$loglik, K, NROW(pigs), NCOL(pigs)) ))]]
+postMultinomial = fit$posterior
+```
+
+```{r}
+hc = hclust(dist(acomp(postMultinomial)), method = 'ward.D')
+plot(hc)
+df = Pigs %>% 
+  mutate(
+    k = sprintf('%d', cutree(hc, k=3))
+  ) %>% gather(key=variable, value=value, -k)
+```
+
+```{r}
+ggplot() +
+  geom_bar(data = df, aes(x=variable, y=value), stat='identity') +
+  facet_wrap(~k)
+```
