@@ -107,7 +107,7 @@ library(dplyr)
 library(mvtnorm)
 CN = lapply(1:6, function(i){
   cn = expand.grid(X1 = xlimits, X2 = ylimits)
-  cn$z = P[i] * dmvnorm(cn, mean = M[i,], sigma = S[[i]])
+  cn$z = P[i] * dmvnorm(as.matrix(cn), mu = M[i,], sigma = S[[i]])
   cn$id = sprintf('{%s}',i)
   cn
 }) %>% bind_rows
@@ -121,33 +121,47 @@ p.all <- ggplot() +
   stat_contour(data=CN, aes(x=X1, y=X2, z=z), alpha=0.6, col='blue') + 
   facet_wrap(~id, nrow=2) + theme_bw() + theme(legend.position="none") +
   scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40))
-ggsave(p.all, filename = 'figures/partition-example-part6.pdf', width = 7.8, height=5.4)
+ggsave(p.all, filename = 'figures/partition-example-part6.pdf', width = 14, height=10)
 
 library(tidyr)
+f_omega1 = function(v_tau, a) as.numeric(which.max(v_tau) == a)
+f_omega2 = function(v_tau, a) v_tau[a]
+f_lambda= function(v_tau, a, b) exp(-log(v_tau[a]/v_tau[b])^2)
 
-HP = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'cnst', lambda = 'entr')
-HP2 = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'prop', lambda = 'demp')
-HP3 = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'dich', lambda = 'coda.norm')
-HP4 = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'dich', lambda = 'coda')
+
+HP1a = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'prop', lambda = 'demp')
+HP2a = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'prop', lambda = 'demp.mod')
+HP3a = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'cnst', lambda = 'entr')
+HP4a = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'prop', lambda = 'coda')
+
+
+HP1b = get_hierarchical_partition(mixt@bestResult@proba[,ord], omega = 'prop', lambda = 'prop')
+HP2b = get_hierarchical_partition(mixt@bestResult@proba[,ord], f_omega = f_omega2, f_lambda = f_lambda)
+
+
 df2 = data_frame(
   K = factor(2:6, rev(2:6)),
-  'Dif. Entropy' = attr(HP,'S.value')[1:5],
-  'DEMP' = attr(HP2, 'S.value')[1:5],
-  'Square distance' = attr(HP3, 'S.value')[1:5],
-  'Log-ratio' = attr(HP4, 'S.value')[1:5]
+  'DEMP' = attr(HP1a, 'S.value')[1:5],
+  'DEMP modified' = attr(HP2a, 'S.value')[1:5],
+  'Dif. Entropy' = attr(HP3a,'S.value')[1:5],
+  'Log-ratio' = attr(HP4a,'S.value')[1:5],
+  'Proportion' = attr(HP1b, 'S.value')[1:5],
+  'Aitchison' = attr(HP2b, 'S.value')[1:5],
+  'Dif. Entropy (scaled)' = attr(HP3a,'S.value')[1:5]/(-log(1/2:6)),
+  'Log-ratio (scaled)' = exp(attr(HP4a, 'S.value')[1:5])/(1 + exp(attr(HP4a, 'S.value')[1:5]))
 ) %>% gather(key=method, value=S.value, -K)
 
 ggplot() +
-  geom_point(data=df2, aes(x=K, y=S.value)) +
-  facet_wrap(~method, scales = 'free') +
+  geom_point(data=df2, aes(x=K, y=S.value), size=3) +
+  facet_wrap(~method, scales = 'free', nrow=2 ) +
   theme_classic() +
   xlab('Clusters') + ylab('S-value') +
   ggtitle('S-value during the merging process')
-ggsave(filename = 'figures/gaussian_Svalues.pdf', height = 5.5, width=8.5)
+ggsave(filename = 'figures/gaussian_Svalues.pdf', height = 5, width=10)
 
 
-HP = lapply(HP, lapply, function(v) ord[v])
-HP2 = lapply(HP2, lapply, function(v) ord[v])
+HP = lapply(HP3a, lapply, function(v) ord[v])
+HP2 = lapply(HP1a, lapply, function(v) ord[v])
 
 
 
@@ -236,9 +250,9 @@ p.cn4 <- ggplot() +
   stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
   stat_contour(data=CN4, aes(x=X1, y=X2, z=z), col='blue', alpha=0.8) + 
-  facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none") +
+  facet_wrap(~id, nrow=2) + theme_bw() + theme(legend.position="none") +
   scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40))
-ggsave(p.cn4, filename = 'figures/partition-example-part4.pdf', width = 6.6, height=2.5)
+ggsave(p.cn4, filename = 'figures/partition-example-part4.pdf', width = 10, height=10)
 
 partition = HP[[2]]
 

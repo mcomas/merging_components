@@ -114,7 +114,7 @@ ggplot() +
   theme_classic() +
   ggtitle('S-values and Entropy during the merging process') +
   xlab('Clusters') + ylab('value')
-ggsave(filename = 'figures/multinomial_Svalues_all.pdf', height=3.25)
+ggsave(filename = 'figures/multinomial_Svalues_all2.pdf', height=3.25)
 # pdf(file = 'figures/multinomial_Svalues.pdf', height=5.5)
 # plot(attr(hp, 'S.value'), xlab='Clusters', ylab='S-value', main = 'S-values during the merging process')
 # dev.off()

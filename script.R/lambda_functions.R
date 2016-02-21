@@ -17,7 +17,7 @@ df.aitchison = lapply(seq(0.2, 0.8, length.out=5), function(other){
   data_frame(
     tau_a = seq(epsilon/other, 1-other-epsilon/other, 0.0001),
     tau_b = 1-other-tau_a,
-    index = -log(tau_b/tau_a)^2,
+    index = exp(-log(tau_b/tau_a)^2), #-log(tau_b/tau_a)^2,
     other = as.character(other),
     lambda = 'Aitchison distance'
   )
