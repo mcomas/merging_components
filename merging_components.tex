@@ -166,7 +166,7 @@ For any partition $\mathcal{P}_k$ we need to calculate $k^2-k$ different $S$-val
 \text{Ent}( \m\tau_{i \mathcal{P}_s} ) = -\sum_{j=1}^s \tau_{i I_j}  \log(\tau_{i I_j} ).
 \]
 
-The entropy can be interpreted as a measure of similarity between a probability vector and the probability vector $\m\tau^0_{s}=\left(\frac{1}{s}, \dots, \frac{1}{s}\right)$, taking the maximum value when $\text{Ent}\left( \m\tau^0_{s} \right) = log(s)$. Given partition $\mathcal{P}_s = \{ I_1, \dots, I_s\}$ the algorithm iteratively merges  the two mixture components optimising the overall entropy. Let $\mathcal{P}_{s-1}^{I_a\cup I_b}$ be the partition obtained after merging components $I_a$ and $I_b$ from $\mathcal{P}_s$. The parts $I_a$ and $I_b$ merged minimise expression
+The entropy can be interpreted as a measure of similarity between a probability vector and the probability vector $\m\tau^0_{s}=\left(\frac{1}{s}, \dots, \frac{1}{s}\right)$, taking the maximum value when $\text{Ent}\left( \m\tau^0_{s} \right) = -\log(\frac{1}{s})$. Given partition $\mathcal{P}_s = \{ I_1, \dots, I_s\}$ the algorithm iteratively merges  the two mixture components optimising the overall entropy. Let $\mathcal{P}_{s-1}^{I_a\cup I_b}$ be the partition obtained after merging components $I_a$ and $I_b$ from $\mathcal{P}_s$. The parts $I_a$ and $I_b$ merged minimise expression
 \[
 \sum_{i=1}^n \text{Ent}( \m\tau_{i \mathcal{P}_{s-1}^{I_a\cup I_b}} ).
 \]
@@ -248,14 +248,15 @@ which weighed only those observations classified to part $I_a$. Although the var
 \cite{aitchison1986statistical} introduces the main elements to study samples defined in the Simplex space $\mathcal{S}^d$, i.e $\mathcal{S}^d = \{ (x_1,\dots, x_d) \;|\; x_i > 0 \text{ and } \sum_{i=1}^k x_i = 1 \}$. Aitchison concludes that to study samples defined in $\mathcal{S}^d$ only the ratios between components are of interest. Here we take advantage that posterior probability vectors $\m\tau_{i\mathcal{P}_s}$ are defined in $\mathcal{S}_s$ to define two new functions $\lambda$. The first function is motivated by the Entropy notion introduced by \cite{baudry2010combining}, the second one is based on the misclassification definition given by  \cite{hennig2010methods} or \cite{longford2014}.
 
 
-Following \cite{baudry2010combining} the closer the posterior probability vector $\m\tau_{i \mathcal{P}_{s-1}^{I_a\cup I_b}}$ is to $\m\tau_s^0$, higher is our preference to merge component $I_a$ and $I_b$ (higher is the entropy after merging $I_a$ and $I_b$). To measure our preference for merging $I_a$ and $I_b$ we propose to measure how different is vector $\m\tau_{\left(I_a, I_b\right)} = (\frac{\tau_{i I_a}}{\tau_{i I_a} + \tau_{i I_b}}, \frac{\tau_{i I_b}}{\tau_{i I_a} + \tau_{i I_b}})$ to the uniform vector $\m\tau_2^0=\left(\frac{1}{2}, \frac{1}{2}\right)$. That is, we restrict only on the probabilities associated to the components to be merged. To measure this difference we use the Aitchison distance defined in the Simplex space. The squared Aitchison distance, $d_\mathcal{A}^2$, between $\m\tau_{\left(I_a, I_b\right)}$ and $\m\tau_2^0$ is given by
+Following \cite{baudry2010combining} the closer the posterior probability vector $\m\tau_{i \mathcal{P}_{s-1}^{I_a\cup I_b}}$ is to $\m\tau_s^0$, higher is our preference to merge component $I_a$ and $I_b$ (higher is the entropy after merging $I_a$ and $I_b$). To measure our preference for merging $I_a$ and $I_b$ we propose to measure how different is vector $\m\tau_{\left(I_a, I_b\right)} = (\frac{\tau_{i I_a}}{\tau_{i I_a} + \tau_{i I_b}}, \frac{\tau_{i I_b}}{\tau_{i I_a} + \tau_{i I_b}})$ to the uniform vector $\m\tau_2^0=\left(\frac{1}{2}, \frac{1}{2}\right)$. That is, we restrict only on the probabilities associated to the components to be merged. To measure this difference we use the Aitchison distance defined in the Simplex space  \citep{palarea2012dealing}. The squared Aitchison distance, $d_\mathcal{A}^2$, between $\m\tau_{\left(I_a, I_b\right)}$ and $\m\tau_2^0$ is given by
 \[
 d_\mathcal{A}^2\left(\m\tau_{\left(I_a, I_b\right)}, \m\tau_2^0 \right) = \log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right).
 \]
 
-Because we are interested on merging those two parts  $I_a$ and $I_b$ with $\m\tau_{\left(I_a, I_b\right)}$ closer to $\m\tau_2^0$, we need a similarity measure between $\m\tau_{\left(I_a, I_b\right)}$ and $\m\tau_2^0$. Following \cite{palarea2012dealing} we propose the similarity function
+Because we are interested on merging those two parts  $I_a$ and $I_b$ with $\m\tau_{\left(I_a, I_b\right)}$ closer to $\m\tau_2^0$, we need a similarity measure between $\m\tau_{\left(I_a, I_b\right)}$ and $\m\tau_2^0$. We propose the similarity function
 \[
-\lambda_{\text{dist}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) := e^{-d_\mathcal{A}\left(\m\tau_{\left(I_a, I_b\right)}, \m\tau_2^0 \right)^2} = e^{-\log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)}.
+\lambda_{\text{dist}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) := -d_\mathcal{A}\left(\m\tau_{\left(I_a, I_b\right)}, \m\tau_2^0 \right)^2 = -\log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right).
+%\lambda_{\text{dist}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) := e^{-d_\mathcal{A}\left(\m\tau_{\left(I_a, I_b\right)}, \m\tau_2^0 \right)^2} = e^{-\log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)}.
 \]
 
 \begin{figure}[htbp]
@@ -328,9 +329,15 @@ Given a finite mixture adjusted with BIC criteria, we have presented a generic a
 
 The first candidates to decide the number of components is to use the $S$-values. In the special case with $\omega_{\text{cnst}}$ and $\lambda_{\Delta\text{Ent}}$ \cite{baudry2010combining} propose to visualise the $S$-values and apply the elbow rule. In the case that $\omega_{\text{prop}}$ and $\lambda_{\text{DEMP}}$ \cite{hennig2010methods} propose to set a threshold and stop merging when the $S$-values is lower that the threshold. It is difficult to define a single method for all methods, but visualising the $S$-values can be a good tool to decide the final number of clusters.
 
-To visualise the $S$-value we can normalise $S$-values to the interval $\left[0,1\right]$. To doing so we have to options, we can either consider only functions $\lambda$ with values in the interval $\left[0,1\right]$ or we can apply a function $g$ to function $S_{\omega, \lambda}$ in such a way that the values of  $g \circ S_{\omega, \lambda}$ are in the interval $\left[0,1\right]$. Because function $S_{\omega, \lambda}$ is a weighed mean function $g \circ S_{\omega, \lambda}$ has the same image as $g \circ \lambda$. In consequence, we need to consider a function $g$ mapping from the domain of $\lambda$ to the interval $\left[0,1\right]$.
+To better interpret the $S$-value we can normalise $S$-values to the interval $\left[0,1\right]$. To doing so we have to options, we can either scale function $\lambda$ in the interval $\left[0,1\right]$, or scale function 
+$S_{\omega, \lambda}$. Because $S_{\omega, \lambda}$ is a weighed mean, if a function $\phi$ scales function $\lambda$ into the interval $\left[0,1\right]$ then function $\phi$ also scales function $S_{\omega, \lambda}$ into the interval $\left[0,1\right]$.
 
-From the already introduced functions, $\lambda_{\text{DEMP}}$, $\lambda_{\text{DEMP}_m}$, $\lambda_{\text{prop}}$ and $\lambda_{\text{dist}}$ have domain $\left[0,1\right]$, then their respectively $S_{\omega, \cdot}$ functions are defined in $\left[0,1\right]$ too. Functions $\lambda_{\Delta\text{Entr}}$ and and $\lambda_{\log}$ do not have the image $\left[0,1\right]$, and then, their corresponding $S_{\omega, \cdot}$ functions neither. Possible candidates are $g_{\Delta\text{Entr}}(x) = -x/{\log(\frac{1}{s})}$  and $g_{\log}(x) = \frac{e^x}{1+e^x}$ respectively.
+From already defined $\lambda$ functions, only $\lambda_{\Delta\text{Entr}}$, $\lambda_{\text{dist}}$ and 
+$\lambda_{\log}$ are not scaled into the interval $\left[0,1\right]$. Consequently, neither the $S$-values calculated using this functions are scaled. To scale this functions we respectively propose  $\phi_{\Delta\text{Entr}}(x) = -x/{\log(\frac{1}{s})}$, $\phi_{\text{dist}}(x) = e^x$ and $\phi_{\log}(x) = \frac{e^x}{1+e^x}$. So 
+to scale function $S_{\omega, \lambda_{\Delta\text{Entr}}}$ we can either consider $\phi_{\Delta\text{Entr}} \circ S_{\omega, \lambda_{\Delta\text{Entr}}}$ or $S_{\omega, \phi_{\Delta\text{Entr}} \circ \lambda_{\Delta\text{Entr}}}$, 
+to scale $S_{\omega, \lambda_{\text{dist}}}$ we have $\phi_{\text{dist}} \circ S_{\omega, \lambda_{\text{dist}}}$ or $S_{\omega, \phi_{\text{dist}} \circ \lambda_{\text{dist}}}$ and 
+to scale $S_{\omega, \lambda_{\log}}$ we have $\phi_{\log} \circ S_{\omega, \lambda_{\log}}$ or $S_{\omega, \phi_{\log} \circ \lambda_{\log}}$. It is worth mentioning that $S_{\omega, \phi_{\log} \circ \lambda_{\log}}$ reduces to $S_{\omega, \lambda_{\text{DEMP}_m}}$.
+
 
 \subsection{Using the clusters of the posterior probabilities}\label{coda_clusters}
 

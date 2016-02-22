@@ -107,7 +107,7 @@ library(dplyr)
 library(mvtnorm)
 CN = lapply(1:6, function(i){
   cn = expand.grid(X1 = xlimits, X2 = ylimits)
-  cn$z = P[i] * dmvnorm(as.matrix(cn), mu = M[i,], sigma = S[[i]])
+  cn$z = P[i] * dmvnorm(as.matrix(cn), M[i,], S[[i]])
   cn$id = sprintf('{%s}',i)
   cn
 }) %>% bind_rows

@@ -1,6 +1,6 @@
 ---
 title: "Model-based hierarchical clustering"
-author: "Marc Comas-Cufí, Josep A. Martin Fernandez"
+author: "Marc Comas-Cufí, Josep A. Martín Fernández, Glòria Mateu-Figueras"
 output: html_document
 ---
 
@@ -72,12 +72,13 @@ postMultinomial = fit$posterior
 ```
 
 ```{r}
-hc = hclust(dist(acomp(postMultinomial)), method = 'ward.D')
+hc = hclust(dist(acomp(postMultinomial)), method = 'ward.D2')
 plot(hc)
-df = Pigs %>% 
+df = (p3<-Pigs %>% 
   mutate(
+    id = 1:NROW(Pigs),
     k = sprintf('%d', cutree(hc, k=3))
-  ) %>% gather(key=variable, value=value, -k)
+  ) %>% tbl_df) %>% gather(key=variable, value=value, -k, -id)
 ```
 
 ```{r}
