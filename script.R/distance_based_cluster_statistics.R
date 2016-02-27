@@ -2,6 +2,7 @@ library(fpc)
 library(mixpack)
 library(compositions)
 # post = fit$posterior
+# post = mixt@bestResult@proba
 ## Merging
 step_merging = function(post, omega, lambda, f_omega = NULL, f_lambda = NULL){
   S.values = merge_step(post, omega, lambda, f_omega, f_lambda)

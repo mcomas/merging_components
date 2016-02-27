@@ -22,17 +22,17 @@ suppressMessages(
   }, K)
 )
 
-d = (pigs.g <- pigs %>% mutate(
-  TOTAL = BED+HALF.BED+PASSAGE+HALF.PASS+FEEDER+HALF.FEED,
-  Comp = as.character(apply(fit$posterior, 1, which.max)))) %>%
-  summarise(
-    BED = mean(BED/TOTAL),
-    HALF.BED = mean(HALF.BED/TOTAL),
-    PASSAGE = mean(PASSAGE/TOTAL),
-    HALF.PASS = mean(HALF.PASS/TOTAL),
-    FEEDER = mean(FEEDER/TOTAL),
-    HALF.FEED = mean(HALF.FEED/TOTAL)) %>%
-  gather(key=Variable, value=Frequency)
+# d = (pigs.g <- pigs %>% mutate(
+#   TOTAL = BED+HALF.BED+PASSAGE+HALF.PASS+FEEDER+HALF.FEED,
+#   Comp = as.character(apply(fit$posterior, 1, which.max)))) %>%
+#   summarise(
+#     BED = mean(BED/TOTAL),
+#     HALF.BED = mean(HALF.BED/TOTAL),
+#     PASSAGE = mean(PASSAGE/TOTAL),
+#     HALF.PASS = mean(HALF.PASS/TOTAL),
+#     FEEDER = mean(FEEDER/TOTAL),
+#     HALF.FEED = mean(HALF.FEED/TOTAL)) %>%
+#   gather(key=Variable, value=Frequency)
 
 d = pigs %>%
   arrange(BED) %>%

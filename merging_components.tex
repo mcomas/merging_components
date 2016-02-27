@@ -55,7 +55,7 @@
 \CorrFax{(+34)\;972\;418\;792}
 
 \Abstract{
-Methods in parametric cluster analysis commonly assume that data can be modelled by means of a finite mixture of distributions. Different authors show that associating each mixture component to one cluster is frequently misleading because different mixture components overlap forming a unique cluster. In the literature, we can find different proposals to construct the clusters by merging two or more mixture components. In this paper a generic approach to build a hierarchy of mixture components that generalises the most important techniques earlier proposed in the literature is presented. Using the information provided by the posterior probabilities the iterative merging process constructs the clusters. This generic approach also permits to define other merging indices. A new approach based in the log-ratio of posterior probabilities is introduced and some methods to decide the final number of clusters are discussed. Simulated and real datasets are used to illustrate its performance.
+Methods in parametric cluster analysis commonly assume data can be modelled by means of a finite mixture of distributions. Different authors show that associating each mixture component to one cluster is frequently misleading because different mixture components overlap forming a unique cluster. In the literature, we can find different proposals to construct the clusters by merging two or more mixture components into one single component. In this paper a generic approach to build a hierarchy of mixture components that generalises some techniques earlier proposed in the literature is presented. Using the information provided by the posterior probabilities the iterative merging process constructs the clusters. Using this generic approach a new approach based in the log-ratio of posterior probabilities is introduced, and to decide the final number of clusters, some new methods are discussed. Simulated and real datasets are used to illustrate the methodology.
 }
 
 \Keywords{
@@ -81,8 +81,8 @@ f(\;\cdot\; ; \pi_1, \dots, \pi_k, \m\Theta) = \pi_1 f_1(\;\cdot\; ; \m\theta_1)
 \end{equation}
 where $\m\Theta =\{ \m\theta_1, \dots, \m\theta_k\}$, $\m\theta_j$ are the parameters of pdf $f_j$, $1\leq j \leq k$, and $\pi_j$ is the ``weight'' of component $f_j$. Restriction $\sum_{\ell = 1}^k \pi_\ell = 1$ guarantees that  $\int_{\mathbb{X}}f = 1$. Originally, the clustering algorithm based on a \fmm follows two steps:
 \begin{enumerate}
-\item using the information provided by a sample $\X=\{\m x_1, \dots, \m x_n\}$, to calculate estimates $\hat{\pi}_1, \dots, \hat{\pi}_k$ and $\hat{\m\Theta}$ of parameters $\pi_1, \dots, \pi_k$ and $\m\Theta$, and
-\item to classify each observation $\m x_i \in \X$ to a cluster c, $1\leq c \leq k$, according to the criterium of maximizing the posterior probability
+\item to calculate estimates $\hat{\pi}_1, \dots, \hat{\pi}_k$ and $\hat{\m\Theta}$ of parameters $\pi_1, \dots, \pi_k$ and $\m\Theta$ using a sample $\X=\{\m x_1, \dots, \m x_n\}$ and
+\item to classify each observation $\m x_i \in \X$ to a cluster c, $1\leq c \leq k$, according to the criterium of maximising the posterior probability
 \[
 \tau_{ij}= \frac{ \hat{\pi}_j f_j(\m x_i ; \hat{\m\theta}_j) }{\sum_{\ell=1}^k \hat{\pi}_\ell f_\ell(\m x_i ; \hat{\m\theta}_\ell) },
 \]
@@ -91,7 +91,7 @@ that is, one observation $\m x_i$ is classified to cluster $c$ if
 c = \argmax_{j=1}^k \tau_{ij}.
 \end{equation}
 \end{enumerate}
-Note that in this process, the number of clusters is equal to the number of mixture components, i.e.  $k$. \cite{mclachlan2014components} presents a recent review of different approaches used to decide the value of $k$. From the reviewed approaches, we use the Bayesian Information Criterion (BIC) to fit the number of mixture components. The use of BIC to decide the number of components is justified by \cite{keribin1998consistent, keribin2000consistent}, who shows that under certain regularity conditions it estimates the number of mixture components consistently. \cite{fraley1998how} show that the BIC is effective as a model selection criteria  at practical level.
+Note that in this process, the number of clusters is equal to the number of mixture components, i.e.  $k$. \cite{mclachlan2014components} presents a recent review of different approaches used to decide the value of $k$. From the reviewed approaches, we use the Bayesian Information Criterion (BIC) to fit the number of mixture components. The use of BIC to decide the number of components is justified by \cite{keribin1998consistent, keribin2000consistent}, who shows that under certain regularity conditions, it estimates the number of mixture components consistently. \cite{fraley1998how} show the BIC is effective as a model selection criteria  at practical level.
 
 On the other hand, \cite{lee2004combining}, \cite{hennig2010methods}, \cite{baudry2010combining}, \cite{melnykov2013distribution} and \cite{pastore2013merging} propose to separate the concepts of cluster and mixture component. The authors show that associating each mixture component to one cluster can be misleading because frequently different mixture components are so overlapped that they can be considered as a unique cluster. In other words, one cluster could be formed by the result of merging two or more different mixture components. According to this approach, the \fmm clustering algorithm is completed with a third step:
 
@@ -99,14 +99,14 @@ On the other hand, \cite{lee2004combining}, \cite{hennig2010methods}, \cite{baud
 \item[3.] to analyse which of the $k$ mixture components should be merged to form $k'$ clusters, $k' \leq k$.
 \end{itemize}
 
-The crucial point of this new step is how to decide which components have to be merged. Note that considering different components as a single cluster do not change the underlying finite mixture, therefore for a given sample the likelihood is not modified. This makes impossible to decide which components form a single clusters in terms of the likelihood or through the BIC criteria \citep{hennig2010methods}. The approaches presented in this paper are based on the posterior probabilities which are obtained after adjusting a \fmm. In this article we introduce a generic approach that generalises methods given by \cite{baudry2010combining}, \cite{hennig2010methods} and \cite{longford2014}. In addition, with this new approach, the analyst can define its own criteria, for example, we introduce a criteria based on log-ratio transformations of posterior probabilities \citep{aitchison1986statistical}. Using this generic approach for merging components one can build a hierarchy over the set of mixture components. At the first level of this hierachy we are modelling $k$ clusters where each cluster is modelled by one component, in the second level we have are modelling a clustering with $k-1$ clusters where one cluster is modelled by two components. The final level contains one cluster (the original sample) modelled by one component (the original mixture).
+The crucial point of this new step is how to decide which components have to be merged. Note that considering different components as a single cluster do not change the underlying finite mixture, therefore for a given sample the likelihood is not modified. This fact makes impossible to decide which components form a single clusters in terms of the likelihood or through the BIC criteria \citep{hennig2010methods}. The approaches presented in this paper are based on the posterior probabilities which are obtained after adjusting a \fmm. In this article we introduce a generic approach that generalises methods given by \cite{baudry2010combining}, \cite{hennig2010methods} and \cite{longford2014}. In addition, with this new approach, the analyst can define its own criteria, for example, we introduce a criteria based on log-ratio transformations of posterior probabilities \citep{aitchison1986statistical}. Using this generic approach for merging components one can build a hierarchy over the set of mixture components. At the first level of this hierarchy we are modelling $k$ clusters where each cluster is modelled by one component, in the second level we have are modelling a clustering with $k-1$ clusters where one cluster is modelled by two components and the other clusters by one components. At the following levels subsequent clusters are modelled by the merging of different components. The final level contains one cluster (the original sample) modelled by single component (the original mixture).
 
 The paper is organised as follows: in Section~\ref{definitions} some definitions and notations used throughout this paper are introduced. In Section~\ref{generic_merging} the generic merging approach is presented. It is shown how most important criteria from literature reduce to this generic approach. Using the generic merging approach, Section~\ref{logratio_section} presents a new family of criteria based on the log-ratio approach. In Section~\ref{number_clusters}, two heuristic methods to decide the final number of clusters are proposed. In Section~\ref{merging_examples_dist}, we present two examples to illustrate the algorithm with different types of mixture distributions. To conclude, final remarks are given in Section~\ref{remarks}.
 
 \section{Definitions and notation}\label{definitions}
 
 %
-Let $\mathcal{I}^k = \{1, \dots, k\}$ be a set of natural numbers to indicate the components of a \fmm. A \emph{partition} of $\mathcal{I}^k$ of size $s$, $\mathcal{P}_s$, is the disjoint union of subsets $I_p$, called \emph{parts}. More formally, $\mathcal{P}_s$ is a set with $s$ subsets $I_p$  that $\bigcup_{I_p \in \mathcal{P}_s} I_p = \mathcal{I}^k$ and for any two parts $I_a, I_b \in \mathcal{P}_s$ with $a \neq b$, $I_a \cap I_b = \emptyset$ holds. Given a partition  $\mathcal{P}_s$, the pdf $f$ of a \fmm (Equation~\ref{mixt}) can be rewritten as
+Let $\mathcal{I}^k = \{1, \dots, k\}$ be a set of natural numbers to indicate the components of a \fmm. A \emph{partition} of $\mathcal{I}^k$ of size $s$, $\mathcal{P}_s$, is the disjoint union of subsets $I_p$, called \emph{parts}. More formally, $\mathcal{P}_s$ is a set with $s$ subsets $I_p$  that $\bigcup_{I_p \in \mathcal{P}_s} I_p = \mathcal{I}^k$ and for any two parts $I_a, I_b \in \mathcal{P}_s$ with $a \neq b$, $I_a \cap I_b = \emptyset$ holds. Given a partition  $\mathcal{P}_s$, the pdf $f$ of a \fmm (Equation~\ref{mixt}) can be written as
 \begin{equation}
 f = \pi_{I_1} f_{I_1}(\;\cdot\;; \m\Theta) + \dots + \pi_{I_s} f_{I_s}(\;\cdot\;; \m\Theta),
 \label{mixt_part}
@@ -134,7 +134,7 @@ Then, we define the posterior probability vector associated to observation $\m x
 \begin{equation}\label{ppv}
 \m\tau_{i \mathcal{P}_s} = \left(\tau_{i I_1} , \dots, \tau_{i I_s}  \right).
 \end{equation}
-The posterior probability vector $\m \tau_{i \mathcal{P}_s}$ denotes the conditional probability that $\m x_i$ arises from mixture components $f_{I_1}, \dots, f_{I_s}$. Since $\mathcal{P}_s$ is a partition $\sum_{p=1}^s \tau_{i I_p} = 1$ holds  for $1 \leq i \leq n$. Similarly to Equation~\ref{map_criteria}, the posterior probability vectors $\m\tau_{i \mathcal{P}_s}$ can be used to classify $\m x_i \in \X$ to the cluster $c$ if
+The posterior probability vector $\m \tau_{i \mathcal{P}_s}$ denotes the conditional probability that $\m x_i$ arises from mixture components $f_{I_1}, \dots, f_{I_s}$. Since $\mathcal{P}_s$ is a partition $\sum_{p=1}^s \tau_{i I_p} = 1$ holds  for $1 \leq i \leq n$. Similarly to Equation~\ref{map_criteria}, the posterior probability vectors $\m\tau_{i \mathcal{P}_s}$ can be used to classify $\m x_i \in \X$ to the cluster $c$, $1\leq c\leq s$, if
 \begin{equation}\label{cluster_criteria}
 c= \argmax_{p=1}^s \{ \tau_{i I_p} \}.
 \end{equation}
@@ -152,12 +152,12 @@ For a partition $\mathcal{P}_s$  and matrix of posterior probabilities $\text{\t
 \begin{equation}\label{unifying_equation}
 S_{\omega, \lambda}( \text{\textbf{T}}_{\mathcal{P}_s},  I_a,  I_b) = \frac{\sum_{i=1}^n \omega(\m\tau_{i \mathcal{P}_s}, I_a, I_b) \; \lambda(\m\tau_{i \mathcal{P}_s}, I_a, I_b)}{\sum_{i=1}^n \omega(\m\tau_{i \mathcal{P}_s}, I_a, I_b) }.
 \end{equation}
-where $\lambda(\m\tau_{i \mathcal{P}_s}, I_a, I_b)$ is a real valued function and $\omega(\m\tau_{i \mathcal{P}_s}, I_a, I_b)$ is a non-negative function.  Function $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ is an utility function. It measures our preferences to consider components $f_{I_a}$ and $f_{I_b}$ as a single component, and therefore, to model a single cluster by means of the merged component $f_{I_a \cup I_b}$. Function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ is a weigh function. It permits to modify the influence each posterior probability vector $\m\tau_{i \mathcal{P}_s}$ has to calculate Equation~\ref{unifying_equation} for parts $I_a$ and $I_b$, we call the value of Equation~\ref{unifying_equation} \emph{the $S$-value from $I_a$ to $I_b$}.
+where $\lambda(\m\tau_{i \mathcal{P}_s}, I_a, I_b)$ is a real valued function and $\omega(\m\tau_{i \mathcal{P}_s}, I_a, I_b)$ is a non-negative function.  Function $\lambda(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ is an utility function. It measures our preferences to consider components $f_{I_a}$ and $f_{I_b}$ as a single component, and therefore, to model a single cluster by means of the merged component $f_{I_a \cup I_b}$. Function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$ is a weigh function. It permits to modify the influence each posterior probability vector $\m\tau_{i \mathcal{P}_s}$ has to calculate Equation~\ref{unifying_equation} for parts $I_a$ and $I_b$. We refer to the maximum values of Equation~\ref{unifying_equation}  as \emph{the $S$-values}.
 
 
-Starting from partition $\mathcal{P}_k = \{ \{1\}, \dots, \{k\} \}$, where the number of clusters is equal to the number of components, two parts are merged according to the maximum of Equation~\ref{unifying_equation}. Iteratively repeating this process until partition $\mathcal{P}_1$ is obtained, the algorithm builds an agglomerative hierarchical sequence of partitions. Remarkably, by the definition of functions $\omega$ and $\lambda$, the process only depends on the posterior probability vectors $\text{\textbf{T}}_{\mathcal{P}_s}$. Indeed, the behaviour of function $S$ is completely determined by the choice of function $\omega$ and $\lambda$.
+Starting from partition $\mathcal{P}_k = \{ \{1\}, \dots, \{k\} \}$, where the number of clusters is equal to the number of components, two parts are merged according to the maximum of Equation~\ref{unifying_equation}. Iteratively repeating this process, the algorithm builds an agglomerative hierarchical sequence of partitions until partition $\mathcal{P}_1$ is obtained. Remarkably, by the definition of functions $\omega$ and $\lambda$, the process only depends on the posterior probability vectors $\text{\textbf{T}}_{\mathcal{P}_s}$. Indeed, the behaviour of function $S$ is completely determined by the choice of function $\omega$ and $\lambda$.
 
-For partition $\mathcal{P}_k$ we need to calculate $k^2-k$ different $S$-values to identify the maximum. The process is repeated for partition $\mathcal{P}_{k-1}$ until $\mathcal{P}_1$, calculating a maximum of $\frac{k^3-k}{3}$ $S$-values. This quantities are reduced by half when functions $S_{\omega, \lambda}$ is symmetric. 
+For partition $\mathcal{P}_k$, we need to evaluate function $S_{\omega, \lambda}$ $k^2-k$ different times to obtain the $S$-value. The process is repeated for partition $\mathcal{P}_{k-1}$ until $\mathcal{P}_1$, evaluating function $S_{\omega, \lambda}$ a maximum of $\frac{k^3-k}{3}$ times. This quantities are reduced by half when functions $S_{\omega, \lambda}$ is symmetric. 
 
 \subsection{Minimising the final entropy}
 \label{entropy_section}
@@ -197,7 +197,7 @@ S_{\text{cnst}, \Delta\text{Ent}}( \text{\textbf{T}}_{\mathcal{P}_s},  I_a,  I_b
 \end{split}
 \]
 
-Note that in this approach function $S_{\text{cnst}, \Delta\text{Ent}}$ is symmetric with respect $I_a$ and $I_b$. Therefore, for partition $\mathcal{P}_k$ we only need to calculate $\frac{k^2-k}{2}$ $S$-values. Note also that for partition $\mathcal{P}_{k-1}$ we only need to update the value of $k-2$ $S$-values. To complete the process of merging we only need to calculate $(k-1)^2$ different $S$-values. 
+Note that in this approach function $S_{\text{cnst}, \Delta\text{Ent}}$ is symmetric with respect $I_a$ and $I_b$. Therefore, for partition $\mathcal{P}_k$ we only need to evaluate $S_{\text{cnst}, \Delta\text{Ent}}$ $\frac{k^2-k}{2}$ times. Note also that for partition $\mathcal{P}_{k-1}$ we only need to update the value of $S_{\text{cnst}, \Delta\text{Ent}}$ for $k-2$ different values. To calculate all the $S$-values we only need to evaluate $S_{\text{cnst}, \Delta\text{Ent}}$ $(k-1)^2$ times. 
 
 %$\frac{k^2-k}{2} + \sum_{\ell=1}^{k-2} \ell$
 
@@ -213,7 +213,7 @@ where $\mathbbm{1}\left( \cdot \right)$ is the indicator function. Because $ \ha
 \frac{ \sum_{i=1}^n {\tau_{iI_a} \mathbbm{1}\left( \forall j\; \tau_{i I_{b}} \geq \tau_{iI_j} \right)}}{\sum_{i=1}^n \tau_{iI_a} }.
 \end{equation}
 
-Note that when parts parts $I_a$ and $I_b$  overlaps, Equation~\ref{demp_criteria} take higher values because many observations generated by $I_a$ takes a largest posterior probability $\tau_b$.
+Note that when parts $I_a$ and $I_b$  overlaps, Equation~\ref{demp_criteria} take higher values because many observations generated by $I_a$ takes a largest posterior probability $\tau_b$.
 
 Using our general merging criteria, the estimator DEMP (Equation~\ref{demp_criteria}) is equivalent to set $\omega :=\omega_{\text{prop}}$ and  $\lambda := \lambda_{\text{DEMP}}$ where
 \begin{equation}\label{lambda_demp}
@@ -224,13 +224,13 @@ and
 \omega_{\text{prop}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) :=  \tau_{iI_a}.
 \]
 
-In this approach function $\lambda_{\text{DEMP}}$ is giving preference to those observations $x_i$ classified to part $I_b$. Moreover, $\omega_{\text{prop}}$ function is weighing higher those observations with high posterior probability $\tau_{iI_a}$. This approach permits to calculate the $S$-value from $I_a$ to $I_b$ measuring our preference to merge $I_a$ into $I_b$. Note that in this case function  $S_{\text{cnst}, \text{DEMP}}$ is not symmetric, i.e. $S_{\text{cnst}, \text{DEMP}}(\text{\textbf{T}}_{\mathcal{P}_s},  I_a,  I_b) \neq S_{\text{cnst}, \text{DEMP}}(\text{\textbf{T}}_{\mathcal{P}_s},  I_b,  I_a)$, therefore, in this case the total number of $S$-values needed to complete the process is $2 (k-1)^2$.
+In this approach function $\lambda_{\text{DEMP}}$ is giving preference to those observations $x_i$ classified to part $I_b$. Moreover, $\omega_{\text{prop}}$ function is weighing higher those observations with high posterior probability $\tau_{iI_a}$. This approach permits to calculate the $S$-value from $I_a$ to $I_b$ measuring our preference to merge $I_a$ into $I_b$. Note that in this case function  $S_{\text{prop}, \text{DEMP}}$ is not symmetric, i.e. $S_{\text{prop}, \text{DEMP}}(\text{\textbf{T}}_{\mathcal{P}_s},  I_a,  I_b) \neq S_{\text{prop}, \text{DEMP}}(\text{\textbf{T}}_{\mathcal{P}_s},  I_b,  I_a)$, therefore, in this case to calculate the $S$-values needed to evaluate $S_{\text{prop}, \text{DEMP}}$  $2 (k-1)^2$ times.
 
-A variation of \cite{hennig2010methods} approach is proposed by \cite{longford2014}\footnote{Explicar una mica millor aquesta proposta, és a dir, aclarir que es considera $\omega_{prop}$ i indicar que tampoc tenim simètria.}. Instead of considering function $\lambda_{\text{DEMP}}$ given by Equation~\ref{lambda_demp}, in this case the preference for merging $I_a$ into $I_b$ is given by
+A variation of \cite{hennig2010methods} approach is proposed by \cite{longford2014}. Instead of considering function $\lambda_{\text{DEMP}}$ given by Equation~\ref{lambda_demp}, in this case the preference for merging $I_a$ into $I_b$ is given by
 \[
-\lambda_{\text{DEMP}_m}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \frac{\tau_{iI_b}}{\tau_{iI_a} + \tau_{iI_b}}.
+\lambda_{\text{DEMP}_m}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) := \frac{\tau_{iI_b}}{\tau_{iI_a} + \tau_{iI_b}}.
 \] 
-Function $\lambda_{\text{DEMP}_m}$, similarly to function $\lambda_{\text{DEMP}}$, is giving higher score to those observations with higher posterior probability, $\tau_{iI_b}$, of being generated by component $f_{I_b}$ conditioned to those observations being generated either by $f_{I_a}$ or $f_{I_b}$.
+Function $\lambda_{\text{DEMP}_m}$, similarly to function $\lambda_{\text{DEMP}}$, is giving higher score to those observations with higher posterior probability, $\tau_{iI_b}$, of being generated by component $f_{I_b}$ conditioned to those observations being generated either by $f_{I_a}$ or $f_{I_b}$. As $\lambda_{\text{DEMP}}$ function $\lambda_{\text{DEMP}_m}$ makes function $S_{\omega, \lambda_{\text{DEMP}_m}}$ not symmetric.
 
 
 \section{Other criteria: the logratio approach}\label{logratio_section}
@@ -240,13 +240,13 @@ The generic expression of $S_{\omega, \lambda}(\text{\textbf{T}}_{\mathcal{P}_s}
 \[
 \lambda_{\text{prop}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) := \tau_{iI_b}.
 \]
-In this case, function $\lambda_{\text{prop}}$ combined with $\omega_{\text{prop}}$ results in an algorithm with an easily computable $S$-value. Another option, as an alternative to function $\omega_{\text{prop}}$, is to consider function 
+In this case, function $\lambda_{\text{prop}}$ combined with $\omega_{\text{prop}}$ results in an algorithm with an easily computable function $S_{\text{prop}, \text{prop}}$. As an alternative to function $\omega_{\text{prop}}$ another option is to consider function 
 \[
-\omega_{\text{dich}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) := \mathbbm{1}\left( \forall j\; \tau_{i I_{a}} \geq \tau_{iI_j} \right)
+\omega_{\text{dich}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) := \mathbbm{1}\left( \forall j\; \tau_{i I_{a}} \geq \tau_{iI_j} \right).
 \]
-which weighed only those observations classified to part $I_a$. Although the variations to functions $\omega$ and $\lambda$ have no limits, in this section we introduce two alternatives to function $\lambda$ with a well founded background.
+This function only considers those observations classified to part $I_a$. Although the variations to functions $\omega$ and $\lambda$ have no limits, in this section we introduce two alternatives to function $\lambda$ with a well founded background.
 
-\cite{aitchison1986statistical} introduces the main elements to study samples defined in the Simplex space $\mathcal{S}^d$, i.e $\mathcal{S}^d = \{ (x_1,\dots, x_d) \;|\; x_i > 0 \text{ and } \sum_{i=1}^k x_i = 1 \}$. Aitchison concludes that to study samples defined in $\mathcal{S}^d$ only the ratios between components are of interest. Here we take advantage that posterior probability vectors $\m\tau_{i\mathcal{P}_s}$ are defined in $\mathcal{S}_s$ to define two new functions $\lambda$. The first function is motivated by the Entropy notion introduced by \cite{baudry2010combining}, the second one is based on the misclassification definition given by  \cite{hennig2010methods} or \cite{longford2014}.
+\cite{aitchison1986statistical} introduces the main elements to study samples defined in the Simplex space $\mathcal{S}^d$, i.e $\mathcal{S}^d = \{ (x_1,\dots, x_d) \;|\; x_i > 0 \text{ and } \sum_{i=1}^k x_i = 1 \}$. Aitchison concludes that to study samples defined in $\mathcal{S}^d$ only the ratios between components are of interest. Here we take advantage that posterior probability vectors $\m\tau_{i\mathcal{P}_s}$ are defined in $\mathcal{S}_s$ to define two new functions $\lambda$. The first function is motivated by the Entropy notion introduced by \cite{baudry2010combining}, the second one is based on the misclassification definition given by \cite{longford2014}.
 
 
 Following \cite{baudry2010combining} the closer the posterior probability vector $\m\tau_{i \mathcal{P}_{s-1}^{I_a\cup I_b}}$ is to $\m\tau_s^0$, higher is our preference to merge component $I_a$ and $I_b$ (higher is the entropy after merging $I_a$ and $I_b$). To measure our preference for merging $I_a$ and $I_b$ we propose to measure how different is vector $\m\tau_{\left(I_a, I_b\right)} = (\frac{\tau_{i I_a}}{\tau_{i I_a} + \tau_{i I_b}}, \frac{\tau_{i I_b}}{\tau_{i I_a} + \tau_{i I_b}})$ to the uniform vector $\m\tau_2^0=\left(\frac{1}{2}, \frac{1}{2}\right)$. That is, we restrict only on the probabilities associated to the components to be merged. To measure this difference we use the Aitchison distance defined in the Simplex space  \citep{palarea2012dealing}. The squared Aitchison distance, $d_\mathcal{A}^2$, between $\m\tau_{\left(I_a, I_b\right)}$ and $\m\tau_2^0$ is given by
@@ -272,10 +272,9 @@ vector $\left(\tau_{iI_a}, \tau_{iI_b}, \tau_{iI_c} \right)$ with $\tau_{iI_c} \
 \end{center}
 \end{figure}
 
-Similarly to $\lambda_{\Delta\text{Ent}}$ function, $\lambda_{\text{dist}}$ function measures how different is $\m\tau_{\left(I_a, I_b\right)}$ of $\m\tau_2^0$. In Figure~\ref{symetric}\footnote{Les curves per $\tau_c=0.5$ i $0.65$ gairebé no es distingeixen.
-Als eixos pots posar notació latex? és a dir enlloc the other posar $\tau_c$, enlloc de index posar $\lambda$, ...} the functions for a partition with three, $I_a$, $I_b$, $I_c$ is shown. The different curves are showing the effect of $\tau_{I_b}$ into function $\lambda$ for different values of $\tau_{iI_c}$. We see that both functions have their maximum when $\m\tau_{\left(I_a, I_b\right)} = \m\tau_2^0$, that is when $\tau_{i I_b} = \frac{1-\tau_{i I_c}}{2}$. We see that both functions are symmetric with their maximum. In contrast to function $\lambda_{\Delta\text{Ent}}$, function $\lambda_{\text{dist}}$\footnote{es pot dir si la opció distancia Aitchison és millor "conceptualment" que la de Henning? Vull dir que si el fet de no dependre de $\tau_c$ aporta una "millora"?} measures the similarity between $\m\tau_{\left(I_a, I_b\right)}$ and $\m\tau_2^0$ independently of the value of $\tau_{i I_c}$.
+Similarly to $\lambda_{\Delta\text{Ent}}$ function, $\lambda_{\text{dist}}$ function measures how different is $\m\tau_{\left(I_a, I_b\right)}$ of $\m\tau_2^0$. In Figure~\ref{symetric}\footnote{Les curves per $\tau_c=0.5$ i $0.65$ gairebé no es distingeixen.} the functions for a partition with three, $I_a$, $I_b$, $I_c$ is shown. The different curves are showing the effect of $\tau_{I_b}$ into function $\lambda$ for different values of $\tau_{iI_c}$. We see that both functions have their maximum when $\m\tau_{\left(I_a, I_b\right)} = \m\tau_2^0$, that is when $\tau_{i I_b} = \frac{1-\tau_{i I_c}}{2}$. We see that both functions are symmetric with their maximum. In contrast to function $\lambda_{\Delta\text{Ent}}$, function $\lambda_{\text{dist}}$\footnote{es pot dir si la opció distancia Aitchison és millor "conceptualment" que la de Henning? Vull dir que si el fet de no dependre de $\tau_c$ aporta una "millora"?} measures the similarity between $\m\tau_{\left(I_a, I_b\right)}$ and $\m\tau_2^0$ independently of the value of $\tau_{i I_c}$.
 
-Following \cite{longford2014} a different approach using log-ratios can be defined. \ul{We propose to measure the increment of $\tau_{iI_b}$ measuring the relative difference between $\tau_{iI_b}$ an $\tau_{iI_a}$ with the log-ratio}\footnote{no l'entenc aquesta frase!!! i és super important perquè aquí justifiques la $\lambda_{\text{dist}}$.  Aquesta part és la que trobo en general més fluixa, hem de pensar com justificar-ho millor.}
+Following \cite{longford2014} a different approach using log-ratios can be defined. We propose to measure the relative difference between $\tau_{iI_b}$ an $\tau_{iI_a}$ with the log-ratio
 \[
 \lambda_{\log}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) = \log \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right).
 \]
@@ -296,9 +295,7 @@ In Figure~\ref{nonsymetric}\footnote{mateixos comentaris que en el gràfic anter
 
 When function $\lambda_{\log}$ is considered we are looking for observations with higher posterior probability $\tau_{iI_b}$ for posterior probability vectors with high $\tau_{iI_a}$, therefore, our preferences are for those observations with highest values of $\tau_{iI_b}$. \ul{In this case, it is essential to consider $\omega$ function weighing higher those $\m\tau_{i \mathcal{P}_s}$ with higher values of $\tau_{iI_a}$.}\footnote{Entenc que estàs dient que si prenem $\lambda_{\log}$ estàs suggerint agafar $\omega_{\text{prop}}$ o alguna altra possibilitat que doni més pes als valors amb un posteriori de $I_a$ més gran?}
 
-The fact that $\lambda_{\text{dist}}$ and $\lambda_{\log}$ are only measuring the relative difference of $\tau_{iI_a}$ and $\tau_{iI_b}$ makes especially important the selection of function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$. 
-
-It is very important to consider $\omega$ which increase the value of those observations more related with components $f_{I_a}$ or $f_{I_b}$. When we are considering to merge two parts $I_a$ and $I_b$, the ratio for observations that are not representative of this two parts (observations far from been classified into $I_a$ or $I_b$) should be weighted down. Otherwise, the evaluation of $\lambda$ function for those posterior probabilities poorly related to parts $I_a$ and $I_b$ are going to be playing an important role for the final $S$-value. Therefore, this fact makes particularly useless to select function $\omega_{\text{cnst}}$.
+The fact that $\lambda_{\text{dist}}$ and $\lambda_{\log}$ are only measuring the relative difference of $\tau_{iI_a}$ and $\tau_{iI_b}$ makes especially important the selection of function $\omega(\m\tau_{i \mathcal{P}_s},  I_a,  I_b)$.  It is very important to consider $\omega$ which increase the value of those observations more related with components $f_{I_a}$ or $f_{I_b}$. When we are considering to merge two parts $I_a$ and $I_b$, the ratio for observations that are not representative of this two parts (observations far from been classified into $I_a$ or $I_b$) should be weighted down. Otherwise, the evaluation of $\lambda$ function for those posterior probabilities poorly related to parts $I_a$ and $I_b$ are going to be playing an important role for the final $S$-value. Therefore, this fact makes particularly useless to select function $\omega_{\text{cnst}}$.
 
 
 Due $\lambda_{\text{dist}}$ and $\lambda_{\log}$ use logratios they take into an account the geometric properties of the Simplex space \citep{aitchison2002simplicial}.  Working with log-ratios between the components of a posterior probability vector, it holds \emph{subcompositional coherence}  \citep{aitchison1986statistical}. This property guarantees that any statistical inference obtained using only partial information is coherent with results obtained using complete information. Formally, in this scenario sub-compositional coherence can be defined as:
@@ -314,9 +311,6 @@ S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = S_{\omega, \lambda}(k
 
 Scale invariance property suggest that the approach is not limited to posterior probability vectors but to any other kind of vector giving relative information between mixture components. In consequence, the methods considered here are suitable to be applied in more general scenarios such that those were instead of posterior probability vectors different weights are given to each part (e.g. weights in fuzzy clustering).
 
-
-
-
 Finally, noting that when $\omega_{\text{prop}}$ and $\lambda_{\log}$ are considered, the $S$-value (Equation~\ref{unifying_equation}) results in
 \[
 S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{\sum_{i=1}^n\tau_{iI_a}  \log \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)}{\sum_{i=1}^n \tau_{iI_a}}.
@@ -329,17 +323,15 @@ Given a finite mixture adjusted with BIC criteria, we have presented a generic a
 
 \subsection{Using $S$-values}
 
-The first candidates to decide the number of components is to use the $S$-values. In the special case that $\omega_{\text{cnst}}$ and $\lambda_{\Delta\text{Ent}}$, \cite{baudry2010combining} propose to visualise the $S$-values and apply the elbow rule. In the case that $\omega_{\text{prop}}$ and $\lambda_{\text{DEMP}}$, \cite{hennig2010methods} propose to set a threshold and stop merging when the $S$-value is lower that the threshold\footnote{i com ho fa en Henning per establir un llindar? en base a què?}. It is difficult to define a single method for the general merging criteria, but for the particular proposals described in Section \ref{generic_merging} and \ref{logratio_section}, the $S$-values can be a good tool to decide the final number of clusters.
+The first candidates to decide the number of components is to use the $S$-values. In the special case that $\omega_{\text{cnst}}$ and $\lambda_{\Delta\text{Ent}}$, \cite{baudry2010combining} propose to visualise the $S$-values and apply the elbow rule. In the case that $\omega_{\text{prop}}$ and $\lambda_{\text{DEMP}}$, \cite{hennig2010methods} propose to set an specific threshold and stop merging when the $S$-value is lower that this threshold\footnote{i com ho fa en Henning per establir un llindar? en base a què?}. It is difficult to define a single method for the general merging criteria, but for the particular proposals described in Section \ref{generic_merging} and \ref{logratio_section}, the $S$-values can be a good tool to decide the final number of clusters.
 
-To better interpret the $S$-value we can normalise $S$-values to the interval $\left[0,1\right]$. To doing so we have two options, we can either scale function $\lambda$ in the interval $\left[0,1\right]$, or scale function 
-$S_{\omega, \lambda}$. Because $S_{\omega, \lambda}$ is a weighed mean, if a function $\phi$ scales function $\lambda$ into the interval $\left[0,1\right]$ then function $\phi$ also scales function $S_{\omega, \lambda}$ into the interval $\left[0,1\right]$.
+To better interpret the $S$-value we can normalise them to the interval $\left[0,1\right]$. To doing so, we have two options: to scale function $\lambda$ in the interval $\left[0,1\right]$ and to scale function $S_{\omega, \lambda}$. Because $S_{\omega, \lambda}$ is a weighed mean, if a function $\phi$ scales function $\lambda$ into the interval $\left[0,1\right]$ then function $\phi$ also scales function $S_{\omega, \lambda}$ into the interval $\left[0,1\right]$.
+
+Although both scaling approaches, $\phi \circ S_{\omega, \lambda}$ and $S_{\omega, \phi \circ \lambda}$, scale the final function to the interval $\left[0,1\right]$, the second approach is modifying function $\lambda$, and therefore, they can be considered as new methods by themselves. It is worth mentioning that for example the scaling $S_{\omega, \phi_{\log} \circ \lambda_{\log}}$ reduces to $S_{\omega, \lambda_{\text{DEMP}_m}}$, and then, \cite{longford2014} approach, $\lambda_{\text{DEMP}_m}$, can be considered as an scaled version of $\lambda_{\log}$.
 
 From already defined $\lambda$ functions, only $\lambda_{\Delta\text{Entr}}$, $\lambda_{\text{dist}}$ and 
 $\lambda_{\log}$ are not scaled into the interval $\left[0,1\right]$. Consequently, the $S$-values calculated using this functions are not scaled. To scale these functions we respectively propose  $\phi_{\Delta\text{Entr}}(x) = -x/{\log(\frac{1}{s})}$, $\phi_{\text{dist}}(x) = e^x$ and $\phi_{\log}(x) = \frac{e^x}{1+e^x}$. So 
-to scale function $S_{\omega, \lambda_{\Delta\text{Entr}}}$ we can either consider $\phi_{\Delta\text{Entr}} \circ S_{\omega, \lambda_{\Delta\text{Entr}}}$ or $S_{\omega, \phi_{\Delta\text{Entr}} \circ \lambda_{\Delta\text{Entr}}}$, 
-to scale $S_{\omega, \lambda_{\text{dist}}}$ we have $\phi_{\text{dist}} \circ S_{\omega, \lambda_{\text{dist}}}$ or $S_{\omega, \phi_{\text{dist}} \circ \lambda_{\text{dist}}}$ and 
-to scale $S_{\omega, \lambda_{\log}}$ we have $\phi_{\log} \circ S_{\omega, \lambda_{\log}}$ or $S_{\omega, \phi_{\log} \circ \lambda_{\log}}$. It is worth mentioning that $S_{\omega, \phi_{\log} \circ \lambda_{\log}}$ reduces to $S_{\omega, \lambda_{\text{DEMP}_m}}$.\footnote{ostres! per tant alhora de fer el merging, estem considerant el mateix però en Longford-Bartosova ho consideren escalat i nosaltres amb el log-ratio no. Això pot tenir conseqüències alhora de fer la jerarquia de merging?}
-
+to scale function $S_{\omega, \lambda_{\Delta\text{Entr}}}$ we can either consider $\phi_{\Delta\text{Entr}} \circ S_{\omega, \lambda_{\Delta\text{Entr}}}$ or $S_{\omega, \phi_{\Delta\text{Entr}} \circ \lambda_{\Delta\text{Entr}}}$, to scale $S_{\omega, \lambda_{\text{dist}}}$ we have $\phi_{\text{dist}} \circ S_{\omega, \lambda_{\text{dist}}}$ or $S_{\omega, \phi_{\text{dist}} \circ \lambda_{\text{dist}}}$ and to scale $S_{\omega, \lambda_{\log}}$ we have $\phi_{\log} \circ S_{\omega, \lambda_{\log}}$ or $S_{\omega, \phi_{\log} \circ \lambda_{\log}}$.
 
 \subsection{Using the clusters of the posterior probabilities}\label{coda_clusters}
 
@@ -353,7 +345,7 @@ to scale $S_{\omega, \lambda_{\log}}$ we have $\phi_{\log} \circ S_{\omega, \lam
 \end{center}
 \end{figure}
 
-When a sample consists of $s$ well separated clusters, if each cluster is modelled by a different probability distribution, the posterior probability vectors of the elements of one cluster should define a cluster in $\mathcal{S}^s$. For example, in Figure~\ref{cluster_post} we have a sample with three different clusters. The observations are modelled by a Gaussian mixture with six components (top-left). After merging the components into three components, each one formed with a mixture of two components, the posterior probability vectors are elements of $\mathcal{S}^3$. \ul{Although the observations have some component very close to zero, we can represent the posterior probability vectors in a ternary diagram (top-right). To better visualise the posterior probability we can center and scale the posterior probability vectors (bottom-left). Note that the relative Aitchison distance between posterior probability vectors before and after centering is conserved. For better visualise the structure of posterior probability vectors we can express each one with respect a orthonormal basis of $\mathcal{S}^3$ (bottom-right). Note that the posterior probability are also forming three different clusters.} \footnote{aquí parles de ternari, centering, scale, que la distància és la mateixa abans i després i acabes amb orthonormal coordinates sense haver explicat res de res de coda. No estaria bé alguna petita explicació per ajudar a un lector no familiaritzat amb coda? Per altra banda, cal ensenyar el gràfic ilr?}
+When a sample consists of $s$ well separated clusters, if each cluster is modelled by a different probability distribution, the posterior probability vectors of the elements of one cluster should define a cluster in $\mathcal{S}^s$. For example, in Figure~\ref{cluster_post} we have a sample with three different clusters. The observations are modelled by a Gaussian mixture with six components (top-left). After merging the components into three components, each one formed with a mixture of two components, the posterior probability vectors are elements of $\mathcal{S}^3$. \ul{Although the observations have some component very close to zero, we can represent the posterior probability vectors in a ternary diagram (top-right). To better visualise the posterior probability we can centre and scale the posterior probability vectors (bottom-left). Note that the relative Aitchison distance between posterior probability vectors before and after centring is conserved. For better visualise the structure of posterior probability vectors we can express each one with respect to an orthonormal basis of $\mathcal{S}^3$ (bottom-right). Note that the posterior probability are also forming three different clusters.} \footnote{aquí parles de ternari, centering, scale, que la distància és la mateixa abans i després i acabes amb orthonormal coordinates sense haver explicat res de res de coda. No estaria bé alguna petita explicació per ajudar a un lector no familiaritzat amb coda? Per altra banda, cal ensenyar el gràfic ilr?}
 
 
 Therefore, another approach to decide the number of components using the posterior probability vectors $\text{\textbf{T}}_{\mathcal{P}_s}$ is to consider each posterior probability vector $\m\tau_{i\mathcal{P}_s}$ as an element of $\mathcal{S}_s$. Then, we can work with the geometric structure of $\mathcal{S}_s$ to study the relation between different posterior probability vectors. Concretely, using the Aitchison distance, we can compute the distance between each pair of posterior probability vectors. With this matrix distance we can study how well the components $f_{I_1}, \dots, f_{I_s}$ are defining the clusters. \ul{ We expect that those posterior probabilities more related to one cluster are close to the vertex of the Simplex space, i.e. have values close to one in one component and close to zero in the other components. Consequently, we expect that the posterior probabilities vectors in $\mathcal{S}_s$ define $s$ different clusters.}\footnote{no s'enten, dius que calcularàs distàncies d'Aitchison entre cada parell de posterioris però no dius que faràs amb aquestes distàncies si no que tornes a insistir que els posteris estaran propers als vertexs del ternari. Falta una explicació. No dius res dels índexs que hi apliques, jo ho explicaria aquí pq és la teva proposta i és una proposta nova, no?}
@@ -415,15 +407,14 @@ The initial partition  $\mathcal{P}_6 = \{ \{1\},\{2\}, \{3\}, \{4\}, \{5\}, \{6
 \end{figure}
 
 With the posterior probabilities $\text{\textbf{T}}_{\mathcal{P}_s}$ we calculate the $S$-values with $\omega_{\text{cnst}}$ and $\lambda_{\Delta\text{Ent}}$. We obtained the sequential hierarchical partition given by 
-
 \begin{equation}
 \begin{array}{r c l}
-\mathcal{P}_1 &=& \{\{1, 2, 3, 4, 5, 6\}\}, \\
-\mathcal{P}_2 &=& \{\{1, 2 , 4, 5\}, \{3, 6\} \},  \\
-\mathcal{P}_3 &=& \{\{1, 2, 4\}, \{3, 6\}, \{5\} \}, \\
-\mathcal{P}_4 &=& \{\{1, 4\},\{2\}, \{3, 6\}, \{5\} \}, \\
+\mathcal{P}_6 &=& \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\},\\
 \mathcal{P}_5 &=& \{\{1\},\{2\}, \{3, 6\},\{4\},\{5\} \},\\
-\mathcal{P}_6 &=& \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}.
+\mathcal{P}_4 &=& \{\{1, 4\},\{2\}, \{3, 6\}, \{5\} \}, \\
+\mathcal{P}_3 &=& \{\{1, 2, 4\}, \{3, 6\}, \{5\} \}, \\
+\mathcal{P}_2 &=& \{\{1, 2 , 4, 5\}, \{3, 6\} \},  \\
+\mathcal{P}_1 &=& \{\{1, 2, 3, 4, 5, 6\}\}.
 \end{array}
 \label{hier_ex}
 \end{equation}
@@ -496,16 +487,14 @@ We used \emph{mixtools} \citep{benaglia2009mixtools} to fit a multinomial mixtur
 \end{figure}
 
 Using $\omega_{\text{dich}}$ or  $\omega_{\text{prop}}$ with $\lambda_{\text{dist}}$ or $\lambda_{\log}$ we obtained the hierarchical structure partition given by
-
-
 \begin{equation}
 \begin{array}{r c l}
- \mathcal{P}_1&=& \{\{1,2,3,4,5,6\}\}, \\ 
- \mathcal{P}_2&=& \;\; \{\{1,2,3\},\{4,5,6\}\}, \\ 
- \mathcal{P}_3&=& \;\; \{\{1,2,3\},\{4\},\{5,6\}\}, \\ 
- \mathcal{P}_4&=& \;\; \{\{1,2\},\{3\},\{4\},\{5,6\}\}, \\ 
+ \mathcal{P}_6&=& \;\; \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}, \\
  \mathcal{P}_5&=& \;\; \{\{1\},\{2\},\{3\},\{4\},\{5,6\}\}, \\ 
- \mathcal{P}_6&=& \;\; \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\}.
+ \mathcal{P}_4&=& \;\; \{\{1,2\},\{3\},\{4\},\{5,6\}\}, \\ 
+ \mathcal{P}_3&=& \;\; \{\{1,2,3\},\{4\},\{5,6\}\}, \\ 
+ \mathcal{P}_2&=& \;\; \{\{1,2,3\},\{4,5,6\}\}, \\ 
+ \mathcal{P}_1&=& \{\{1,2,3,4,5,6\}\}.
 \end{array}
 \label{hier_ex_multinomial}
 \end{equation}
