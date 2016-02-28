@@ -50,13 +50,13 @@ L.index = function(L, index, post0){
 INDEXS = c('cluster.number' = 'K', 
            'average.between' = 'Average Between', 
            'average.within' = 'Average Within', 
-           'ch' = 'Calinski-Harabasz', 
+           'ch' = 'Calinski-Harabasz (G1)', 
 #            'pearsongamma' = 'Normalized gamma', 
 #            'dunn' = 'Dunn', 
 #            'dunn2' = 'Dunn2', 
 #            'avg.silwidth' = 'Average silouhette', 
 #            'sindex' = 'Separation',
-           'g2' = 'G2')
+           'g2' = 'Goodman-Kruskal (G2)')
 V.index2 = lapply(names(INDEXS), function(index) L.index(L, index, L[[1]]$post)) %>% as.data.frame %>% tbl_df
 names(V.index2) = INDEXS
 

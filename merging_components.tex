@@ -260,19 +260,19 @@ Because we are interested on merging those two parts  $I_a$ and $I_b$ with $\m\t
 %\lambda_{\text{dist}}(\m\tau_{i \mathcal{P}_s},  I_a,  I_b) := e^{-d_\mathcal{A}\left(\m\tau_{\left(I_a, I_b\right)}, \m\tau_2^0 \right)^2} = e^{-\log^2 \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)}.
 \]
 
-\begin{figure}[htbp]
+\begin{figure}[t]
 \begin{center}
 \begin{tabular}{cc}
  %   6 toy mixture
   \includegraphics[width=0.8\textwidth]{figures/entr_dist.pdf} \\
  \end{tabular}
  \caption{Comparison between $\lambda_{\Delta\text{Ent}}$ and $\lambda_{\text{dist}}$ function for posterior probability 
-vector $\left(\tau_{iI_a}, \tau_{iI_b}, \tau_{iI_c} \right)$ with $\tau_{iI_c} \in \{0.2, 0.35, 0.5, 0.65, 0.8\}$.} 
+vector $\left(\tau_{iI_a}, \tau_{iI_b}, \tau_{iI_c} \right)$ with $\tau_{iI_c} \in \{0.2, 0.4, 0.6, 0.8\}$.} 
 \label{symetric}
 \end{center}
 \end{figure}
 
-Similarly to $\lambda_{\Delta\text{Ent}}$ function, $\lambda_{\text{dist}}$ function measures how different is $\m\tau_{\left(I_a, I_b\right)}$ of $\m\tau_2^0$. In Figure~\ref{symetric}\footnote{Les curves per $\tau_c=0.5$ i $0.65$ gairebé no es distingeixen.} the functions for a partition with three, $I_a$, $I_b$, $I_c$ is shown. The different curves are showing the effect of $\tau_{I_b}$ into function $\lambda$ for different values of $\tau_{iI_c}$. We see that both functions have their maximum when $\m\tau_{\left(I_a, I_b\right)} = \m\tau_2^0$, that is when $\tau_{i I_b} = \frac{1-\tau_{i I_c}}{2}$. We see that both functions are symmetric with their maximum. In contrast to function $\lambda_{\Delta\text{Ent}}$, function $\lambda_{\text{dist}}$\footnote{es pot dir si la opció distancia Aitchison és millor "conceptualment" que la de Henning? Vull dir que si el fet de no dependre de $\tau_c$ aporta una "millora"?} measures the similarity between $\m\tau_{\left(I_a, I_b\right)}$ and $\m\tau_2^0$ independently of the value of $\tau_{i I_c}$.
+Similarly to $\lambda_{\Delta\text{Ent}}$ function, $\lambda_{\text{dist}}$ function measures how different is $\m\tau_{\left(I_a, I_b\right)}$ of $\m\tau_2^0$. In Figure~\ref{symetric} the functions for a partition with three, $I_a$, $I_b$, $I_c$ is shown. The different curves are showing the effect of $\tau_{I_b}$ into function $\lambda$ for different values of $\tau_{iI_c}$. We see that both functions have their maximum when $\m\tau_{\left(I_a, I_b\right)} = \m\tau_2^0$, that is when $\tau_{i I_b} = \frac{1-\tau_{i I_c}}{2}$. We see that both functions are symmetric with their maximum. In contrast to function $\lambda_{\Delta\text{Ent}}$, function $\lambda_{\text{dist}}$\footnote{es pot dir si la opció distancia Aitchison és millor "conceptualment" que la de Henning? Vull dir que si el fet de no dependre de $\tau_c$ aporta una "millora"?} measures the similarity between $\m\tau_{\left(I_a, I_b\right)}$ and $\m\tau_2^0$ independently of the value of $\tau_{i I_c}$.
 
 Following \cite{longford2014} a different approach using log-ratios can be defined. We propose to measure the relative difference between $\tau_{iI_b}$ an $\tau_{iI_a}$ with the log-ratio
 \[
@@ -286,12 +286,12 @@ Following \cite{longford2014} a different approach using log-ratios can be defin
   \includegraphics[width=0.8\textwidth]{figures/demp2_log.pdf} \\
  \end{tabular}
  \caption{Comparison between $\lambda_{\text{DEMP}_m}$ and $\lambda_{\log}$ function for posterior probability 
-vector $\left(\tau_{iI_a}, \tau_{iI_b}, \tau_{iI_c} \right)$ with $\tau_{iI_c} \in \{0.2, 0.35, 0.5, 0.65, 0.8\}$.} 
+vector $\left(\tau_{iI_a}, \tau_{iI_b}, \tau_{iI_c} \right)$ with $\tau_{iI_c} \in \{0.2, 0.4, 0.6, 0.8\}$.} 
 \label{nonsymetric}
 \end{center}
 \end{figure}
 
-In Figure~\ref{nonsymetric}\footnote{mateixos comentaris que en el gràfic anterior.} $\lambda_{\text{DEMP}_m}$ and $\lambda_{\log}$ is shown for posterior probability vectors $\left(\tau_{iI_a}, \tau_{iI_b}, \tau_{iI_c}\right)$ for fixed values of $\tau_{iI_c} \in \{0.2, 0.4, 0.6, 0.8\}$. Note that both functions are independent of the value $\tau_{iI_c}$ and only the relative amount between $\tau_{iI_b}$ with respect of $\tau_{iI_a}$ is of importance.
+In Figure~\ref{nonsymetric} $\lambda_{\text{DEMP}_m}$ and $\lambda_{\log}$ is shown for posterior probability vectors $\left(\tau_{iI_a}, \tau_{iI_b}, \tau_{iI_c}\right)$ for fixed values of $\tau_{iI_c} \in \{0.2, 0.4, 0.6, 0.8\}$. Note that both functions are independent of the value $\tau_{iI_c}$ and only the relative amount between $\tau_{iI_b}$ with respect of $\tau_{iI_a}$ is of importance.
 
 When function $\lambda_{\log}$ is considered we are looking for observations with higher posterior probability $\tau_{iI_b}$ for posterior probability vectors with high $\tau_{iI_a}$, therefore, our preferences are for those observations with highest values of $\tau_{iI_b}$. \ul{In this case, it is essential to consider $\omega$ function weighing higher those $\m\tau_{i \mathcal{P}_s}$ with higher values of $\tau_{iI_a}$.}\footnote{Entenc que estàs dient que si prenem $\lambda_{\log}$ estàs suggerint agafar $\omega_{\text{prop}}$ o alguna altra possibilitat que doni més pes als valors amb un posteriori de $I_a$ més gran?}
 
@@ -439,7 +439,7 @@ In the partition $\mathcal{P}_4 = \{\{1, 4\},\{2\}, \{3, 6\}, \{5\} \}$, the par
 
 With $\omega_{prop}$ combined with $\lambda_{\text{DEMP}_m}$, $\lambda_{\text{dist}}$, $\lambda_{\log}$ and $\lambda_{\text{prop}}$ we obtain the same hierarchical partition \ref{hier_ex}. Using $\omega_{prop}$ and $\lambda_{\text{DEMP}}$ the sequential hierarchical obtained only differs from the previous one  in partition $\mathcal{P}_5$, where now $\mathcal{P}_5 = \{\{1, 4\},\{2\}, \{3\},\{5\},\{6\} \}$.
 
-To decide the number of clusters in Figure~\ref{gaussian_Svalues}\footnote{entenc que aquí dones primer els valors de S amb i sense escalar. El que no em quadra és que només escales Entropy i log-ratio. I el dist, no s'ha d'escalar? o el dist és el que aquí li dius log-ratio i el log és el que aquí li dius Aitchison i com que escalat és igual al DEMP modified no el tornes a dibuixar? és això? potser caldria posar unes etiquetes més d'acord amb la notació utilitzada en el text.}\footnote{No expliques en el text, els gràfics "average between" i "Average within".}\footnote{Vigila la notació en el text et refereixes a G1 (Calinski-Harabasz) i G2 (Goodman-Kruskal) i en el gràfic utilitzes Calinsky i G2. } we plot the $S$-values using different approaches (upper plot) and using the Aitchison distance between posterior probabilities \ul{we calculate the Calinski-Harabasz (G1) and the Goodman and Kruskal (G2) indices} \citep{milligan1985}\ul{. We also include the average between and within clusters to monitor the process. (lower plot)}.\footnote{Explicar-ho abans a la secció 5.2, és la teva proposta, no?Ah i què vol dir "to monitor the process"?}  Except the log-ratio approach before scaling, we see that all approaches after merging components to model four clusters or less the $S$-values are close to zero. This indicates that the clustering defined with four, three, or two clusters are well separated. Both G1 and G2 have a local maximum in four clusters, indicating that by those methods it is preferred to separate the data into four clusters. Combining the information obtained with the $S$-values and the indices G1 and G2 we separate our data into four clusters using partition $\mathcal{P}_4$ as shown in Figure~\ref{ex_two_one}.
+To decide the number of clusters in Figure~\ref{gaussian_Svalues}\footnote{entenc que aquí dones primer els valors de S amb i sense escalar. El que no em quadra és que només escales Entropy i log-ratio. I el dist, no s'ha d'escalar? o el dist és el que aquí li dius log-ratio i el log és el que aquí li dius Aitchison i com que escalat és igual al DEMP modified no el tornes a dibuixar? és això? potser caldria posar unes etiquetes més d'acord amb la notació utilitzada en el text.}\footnote{No expliques en el text, els gràfics "average between" i "Average within".}\footnote{Vigila la notació en el text et refereixes a G1 (Calinski-Harabasz) i G2 (Goodman-Kruskal) i en el gràfic utilitzes Calinsky i G2. } we plot the $S$-values using different approaches (upper plot) and using the Aitchison distance between posterior probabilities \ul{we calculate the Calinski-Harabasz (G1) and the Goodman and Kruskal (G2) indices} \citep{milligan1985}\ul{. We also include the average between and within clusters to monitor the process. (lower plot)}.\footnote{Explicar-ho abans a la secció 5.2, és la teva proposta, no? Ah i què vol dir "to monitor the process"?}  Except the log-ratio approach before scaling, we see that all approaches after merging components to model four clusters or less the $S$-values are close to zero. This indicates that the clustering defined with four, three, or two clusters are well separated. Both G1 and G2 have a local maximum in four clusters, indicating that by those methods it is preferred to separate the data into four clusters. Combining the information obtained with the $S$-values and the indices G1 and G2 we separate our data into four clusters using partition $\mathcal{P}_4$ as shown in Figure~\ref{ex_two_one}.
 
 \begin{figure}[t]
 \begin{center}
@@ -505,8 +505,7 @@ Other methods like $\omega_{\text{csnt}}$-$\lambda_{\Delta\text{Ent}}$,  $\omega
 \begin{center}
 \begin{tabular}{cc}
   \includegraphics[width=0.85\textwidth]{figures/multinomial_Svalues_all.pdf} \\
-  \includegraphics[width=0.85\textwidth]{figures/multinomial_statistics.pdf} \\
-  \includegraphics[width=0.85\textwidth]{figures/multinomial_statistics2.pdf} 
+  \includegraphics[width=0.85\textwidth]{figures/multinomial_statistics.pdf} 
  \end{tabular}
  \caption{Squared average distance between clusters (top-left), the squared average distance within clusters (top-right), the Calinski-Harabasz index (bottom-left) and the Goodman and Kruskal's Gamma coefficient (bottom-right) applied to the posterior probabilities obtained after adjusting a finite mixture of multinomial distributions to the Pigs data set.}\label{multinomial_statistics}
 \end{center}
@@ -521,8 +520,7 @@ Other methods like $\omega_{\text{csnt}}$-$\lambda_{\Delta\text{Ent}}$,  $\omega
 \end{center}
 \end{figure}
 
-In Figure~\ref{multinomial_statistics}\footnote{cal explicar millor la figura 9 perquè hi tens dos gràfics "average between, average within, G1 i G2"}\footnote{repassar la caption, falta dir que hi ha les S representades.
-Marc, no entenc la diferència entre els gràfics de les dues últimes files, els basats en els posterioris. } we plot the $S$-values given by different approaches (upper plot). We also plot the between and within averaged squared distances and the G1 and G2 index (lower plot). Except for the log-ratio approach (before and after scaling) and the squared distance, the $S$-values are close to zero after merging the components into four clusters. The squared distance and the log-ratio approach have an $S$-value close to zero after merging the components into five clusters. Depending on the method, we can see that when the clustering is modelled by five (four) clusters or less, the clusters are well separated. Inspecting the plot with the G1 and G2 indices, it indicates that the best choice is two clusters for $G1$ and three clusters for $G2$. Figure~\ref{multinomial_clust3} shows the bar plot for those observations assigned to each of the three clusters. The first cluster contains components one, two and four, all of them represented by sows with a high amount of time feeding. The second cluster contains components three and five, this cluster is characterized by sows with high amount of time in bed. Finally, the third cluster is form with a single component six which have a higher amount of time in the passage.
+In Figure~\ref{multinomial_statistics}\footnote{repassar la caption, falta dir que hi ha les S representades.} we plot the $S$-values given by different approaches (upper plot). We also plot the between and within averaged squared distances and the G1 and G2 index (lower plot). Except for the log-ratio approach (before and after scaling) and the squared distance, the $S$-values are close to zero after merging the components into four clusters. The squared distance and the log-ratio approach have an $S$-value close to zero after merging the components into five clusters. Depending on the method, we can see that when the clustering is modelled by five (four) clusters or less, the clusters are well separated. Inspecting the plot with the G1 and G2 indices, it indicates that the best choice is two clusters for $G1$ and three clusters for $G2$. Figure~\ref{multinomial_clust3} shows the bar plot for those observations assigned to each of the three clusters. The first cluster contains components one, two and four, all of them represented by sows with a high amount of time feeding. The second cluster contains components three and five, this cluster is characterized by sows with high amount of time in bed. Finally, the third cluster is form with a single component six which have a higher amount of time in the passage.
 
 
 

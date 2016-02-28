@@ -120,7 +120,8 @@ p.all <- ggplot() +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
   stat_contour(data=CN, aes(x=X1, y=X2, z=z), alpha=0.6, col='blue') + 
   facet_wrap(~id, nrow=2) + theme_bw() + theme(legend.position="none") +
-  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40))
+  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40)) +
+  xlab(TeX('x_1')) + ylab(TeX('x_2'))
 ggsave(p.all, filename = 'figures/partition-example-part6.pdf', width = 14, height=10)
 
 library(tidyr)
@@ -191,7 +192,8 @@ p.cn3 <- ggplot() +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
   stat_contour(data=CN3, aes(x=X1, y=X2, z=z), alpha=0.8) + 
   facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none") +
-  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40))
+  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40)) +
+  xlab(TeX('x_1')) + ylab(TeX('x_2'))
 ggsave(p.cn3, filename = 'figures/partition-example-part3a.pdf', width = 5, height=2.5)
 
 partition = list(c(1, 2, 3), 4, c(5, 6))
@@ -211,7 +213,8 @@ p.cn3b <- ggplot() +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
   stat_contour(data=CN3b, aes(x=X1, y=X2, z=z), alpha=0.8) + 
   facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none") +
-  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40))
+  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40)) +
+  xlab(TeX('x_1')) + ylab(TeX('x_2'))
 ggsave(p.cn3b, filename = 'figures/partition-example-part3b.pdf', width = 5, height=2.5)
 
 partition = HP[[5]]
@@ -231,7 +234,8 @@ p.cn5 <- ggplot() +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
   stat_contour(data=CN5, aes(x=X1, y=X2, z=z), alpha=0.8) + 
   facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none") +
-  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40))
+  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40)) +
+  xlab(TeX('x_1')) + ylab(TeX('x_2'))
 ggsave(p.cn5, filename = 'figures/partition-example-part5.pdf', width = 8.3, height=2.5)
 
 partition = HP[[4]]
@@ -251,7 +255,8 @@ p.cn4 <- ggplot() +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
   stat_contour(data=CN4, aes(x=X1, y=X2, z=z), col='blue', alpha=0.8) + 
   facet_wrap(~id, nrow=2) + theme_bw() + theme(legend.position="none") +
-  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40))
+  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40)) +
+  xlab(TeX('x_1')) + ylab(TeX('x_2'))
 ggsave(p.cn4, filename = 'figures/partition-example-part4.pdf', width = 10, height=10)
 
 partition = HP[[2]]
@@ -271,7 +276,8 @@ p.cn2 <- ggplot() +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
   stat_contour(data=CN2, aes(x=X1, y=X2, z=z), alpha=0.8) + 
   facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none") +
-  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40))
+  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40)) +
+  xlab(TeX('x_1')) + ylab(TeX('x_2'))
 ggsave(p.cn2, filename = 'figures/partition-example-part2.pdf', width = 3.3, height=2.5)
 
 partition = HP[[1]]
@@ -291,5 +297,6 @@ p.cn1 <- ggplot() +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
   stat_contour(data=CN1, aes(x=X1, y=X2, z=z), alpha=0.8) + 
   facet_wrap(~id, nrow=1) + theme_bw() + theme(legend.position="none") +
-  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40))
+  scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40)) +
+  xlab(TeX('x_1')) + ylab(TeX('x_2'))
 ggsave(p.cn1, filename = 'figures/partition-example-part1.pdf', width = 2, height=2.5)
