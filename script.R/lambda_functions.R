@@ -36,7 +36,7 @@ ggplot() +
         legend.key.width=unit(1.2,"cm")) +
   scale_linetype_manual(name=bquote(tau[c]),
                         values = c('solid', 'dotted', 'dashed', 'dotdash')) +
-  xlab(TeX('$\\tau_b$ or ($1-\\tau_a)')) + ylab(TeX('$\\lambda$'))
+  xlab(TeX('$\\tau_b$')) + ylab(TeX('$\\lambda$'))
 ggsave(file='figures/entr_dist.pdf', width = 9.5, height = 3.9)
 
 df.demp2 = lapply(seq(0.2, 0.8, length.out=4), function(other){
@@ -68,7 +68,7 @@ ggplot() +
         legend.key.width=unit(1.2,"cm")) +
   scale_linetype_manual(name=bquote(tau[c]),
                         values = c('solid', 'dotted', 'dashed', 'dotdash')) +
-  xlab(TeX('$\\tau_b$ or ($1-\\tau_a)')) + ylab(TeX('$\\lambda$'))
+  xlab(TeX('$\\tau_b$')) + ylab(TeX('$\\lambda$'))
 ggsave(file='figures/demp2_log.pdf', width = 9.5, height = 3.9)
 
 df.demp = lapply(c(0.5, 0.3, 0.1), function(other){
@@ -98,4 +98,4 @@ ggplot() +
   scale_linetype_manual(name='', values=1:5,
                         breaks=c('0.2', '0.35', '0.5', '0.65', '0.8'),
                         labels=my.labs) +
-  xlab(TeX('$\\tau_b$ or ($1-\\tau_a)')) + ylab(TeX('$\\lambda$'))
+  xlab(TeX('$\\tau_b$')) + ylab(TeX('$\\lambda$'))
