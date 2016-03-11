@@ -93,6 +93,7 @@ p1 <- ggplot() +
   xlab(TeX('x_1')) + ylab(TeX('x_2')) + 
   ggtitle('Sample') + ggplot.theme
 p2 <- ggtern() +
+  geom_mask() +
   geom_point(data=POST, aes(x = V1, y = V2, z = V3, col=Cluster)) +
   ggtitle('Posterior probabilities') + 
   Tlab(expression('tau[2]')) +
