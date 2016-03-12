@@ -43,7 +43,7 @@ d = pigs %>%
 ggplot() +
   geom_bar(data = d, aes(x=id, y=count), fill='white', color='black',  stat = 'identity') +
   facet_wrap(~location, ncol=3, scale='free') +
-  theme_classic() +
+  ggplot2::theme_classic() +
   theme(legend.position="none",
         axis.text.x = element_blank()) + xlab("Observations") + ylab('Number of times observed')
 ggsave(filename = 'figures/multinomial_overall.pdf', width=9.5, height=5)

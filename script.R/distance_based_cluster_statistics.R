@@ -57,17 +57,42 @@ INDEXS = c('cluster.number' = 'K',
 #            'avg.silwidth' = 'Average silouhette', 
 #            'sindex' = 'Separation',
            'g2' = 'Goodman-Kruskal (G2)')
-V.index2 = lapply(names(INDEXS), function(index) L.index(L, index, L[[1]]$post)) %>% as.data.frame %>% tbl_df
-names(V.index2) = INDEXS
+#V.index2 = lapply(names(INDEXS), function(index) L.index(L, index, L[[1]]$post)) %>% as.data.frame %>% tbl_df
+#names(V.index2) = INDEXS
 
 V.index = lapply(names(INDEXS), function(index) L.index(L, index, NULL)) %>% as.data.frame %>% tbl_df
 names(V.index) = INDEXS
 
-df2 = V.index2  %>% na.omit %>% mutate(
-  K = factor(K, NROW(V.index2):1)
-) %>% gather(key = index, value = value, -K)
+V.index[['Line']] = sapply(L[1:6], function(l){
+  if( NCOL(l$post) == 1) return(NA)
+  X = data.frame(l$post) %>% tbl_df
+  C = apply(X, 1, which.max)
+  
+  MEAN = sapply(1:NCOL(l$post), function(i){
+    C_i = which(C == i)
+    X_i = X[C_i,]
+    
+    mean( log(X_i[[i]]) - log(apply(X_i[,-i], 1, sum)) )
+  })
+  min(MEAN)
+})
+V.index[['Line2']] = sapply(L[1:6], function(l){
+  if( NCOL(l$post) == 1) return(NA)
+  X = data.frame(l$post) %>% tbl_df
+  C = apply(X, 1, which.max)
+  
+  MEAN = sapply(1:NCOL(l$post), function(i){
+    C_i = which(C == i)
+    X_i = X[C_i,]
+    
+    min(apply(X_i[,-i], 2, function(y, x){
+      median(log(x) - log(y))
+    }, X_i[[i]]))
+  })
+  min(MEAN)
+})
 
-df = V.index  %>% na.omit %>% mutate(
+df = V.index %>% select(c(1,4,5,6,7))  %>% na.omit %>% mutate(
   K = factor(K, NROW(V.index):1)
 ) %>% gather(key = index, value = value, -K)
 
@@ -75,16 +100,17 @@ ggplot() +
   #geom_line(data=df, aes(x=K, y=value), group=1) +
   geom_point(data=df, aes(x=K, y=value), size=3) +
   facet_wrap(~index, scales='free', nrow=1) + 
-  theme_classic() +
+  ggplot2::theme_classic() +
   ylab('Statistic value') + xlab('Clusters') +
-  ggtitle('Posteriori probability based statistics')
+  ggtitle('Posteriori probability distance based heuristics')
+
 #ggsave(filename = 'figures/multinomial_statistics.pdf', width=10, height=2.7)
 #ggsave(filename = 'figures/gaussian_statistics.pdf', width=10, height=2.7)
-ggplot() +
-  #geom_line(data=df, aes(x=K, y=value), group=1) +
-  geom_point(data=df2, aes(x=K, y=value), size=3) +
-  facet_wrap(~index, scales='free', nrow=1) + 
-  theme_classic() +
-  ylab('Statistic value') + xlab('Clusters') +
-  ggtitle('Posteriori probability based statistics (k=6)')
+# ggplot() +
+#   #geom_line(data=df, aes(x=K, y=value), group=1) +
+#   geom_point(data=df2, aes(x=K, y=value), size=3) +
+#   facet_wrap(~index, scales='free', nrow=1) + 
+#   theme_classic() +
+#   ylab('Statistic value') + xlab('Clusters') +
+#   ggtitle('Posteriori probability based statistics (k=6)')
 #ggsave(filename = 'figures/multinomial_statistics2.pdf', width=10, height=2.7)

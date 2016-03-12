@@ -44,12 +44,12 @@ xlimits = seq(-30,130, 0.5)
 ylimits = seq(-30,130, 0.5)
 cm = expand.grid(X1 = xlimits, X2 = ylimits)
 library(mixpack)
-cm$z = dmixnorm(cm[,1:2], Pi = Pi, Mu = t(ms$Mu), S = ms$S)
-cm$z1 = Pi[1] * mvtnorm::dmvnorm(cm[,1:2], mean = ms$Mu[1,], sigma = ms$S[,,1])
-cm$z2 = Pi[2] * mvtnorm::dmvnorm(cm[,1:2], mean = ms$Mu[2,], sigma = ms$S[,,2])
-cm$z3 = Pi[3] * mvtnorm::dmvnorm(cm[,1:2], mean = ms$Mu[3,], sigma = ms$S[,,3])
-cm$z4 = Pi[4] * mvtnorm::dmvnorm(cm[,1:2], mean = ms$Mu[4,], sigma = ms$S[,,4])
-cm$z34 = sum(Pi[3:4]) * dmixnorm(cm[,1:2], Pi = Pi[3:4], Mu = t(ms$Mu)[,3:4], S = ms$S[,,3:4])
+cm$z = dmixnorm(cm[,1:2], Pi = ms$Pi, Mu = t(ms$Mu), S = ms$S)
+cm$z1 = ms$Pi[1] * mvtnorm::dmvnorm(cm[,1:2], mean = ms$Mu[1,], sigma = ms$S[,,1])
+cm$z2 = ms$Pi[2] * mvtnorm::dmvnorm(cm[,1:2], mean = ms$Mu[2,], sigma = ms$S[,,2])
+cm$z3 = ms$Pi[3] * mvtnorm::dmvnorm(cm[,1:2], mean = ms$Mu[3,], sigma = ms$S[,,3])
+cm$z4 = ms$Pi[4] * mvtnorm::dmvnorm(cm[,1:2], mean = ms$Mu[4,], sigma = ms$S[,,4])
+cm$z34 = sum(ms$Pi[3:4]) * dmixnorm(cm[,1:2], Pi = ms$Pi[3:4], Mu = t(ms$Mu)[,3:4], S = ms$S[,,3:4])
 
 library(tidyr)
 step_merging = function(post, omega, lambda, f_omega = NULL, f_lambda = NULL){
@@ -73,7 +73,7 @@ ilrPOST = mixpack::ilr_coordinates(POST)
 library(gtable)
 library(latex2exp)
 df = df %>%
-  mutate(
+  dplyr::mutate(
     Cluster = sprintf('g%d',apply(POST, 1, which.max)),
     Cluster4 = sprintf('g%d',apply(POST4, 1, which.max)))
 POST = POST %>%
@@ -110,7 +110,7 @@ p1a <- ggplot() +
   theme_bw() +
   xlab(TeX('x_1')) + ylab(TeX('x_2')) + 
   ggtitle('Sample') + ggplot.theme
-ggsave(p1a, filename = 'figures/ex_4clust.pdf', width = 4, height=4)
+ggsave(p1a, filename = 'figures/ex_4clust.pdf', width = 3.5, height=3.5)
 
 p1 <- ggplot() + 
   geom_point(data=df, aes(x=X1, y=X2, fill=Cluster, shape=Cluster), colour='black', size=2.2) +
@@ -124,7 +124,7 @@ p1 <- ggplot() +
   theme_bw() +
   xlab(TeX('x_1')) + ylab(TeX('x_2')) + 
   ggtitle('Sample') + ggplot.theme
-ggsave(p1, filename = 'figures/ex_3clust.pdf', width = 4, height=4)
+ggsave(p1, filename = 'figures/ex_3clust.pdf', width = 3.5, height=3.5)
 p2 <- ggtern() +
   geom_mask() +
   geom_point(data=POST, aes(x = V1, y = V2, z = V3, fill=Cluster, shape=Cluster), colour='black', size=2.2) +
