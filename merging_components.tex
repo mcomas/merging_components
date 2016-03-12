@@ -331,11 +331,9 @@ $\lambda_{\log}$ are not scaled into the interval $\left[0,1\right]$. For scalin
 
 \subsection{Using the clusters of the posterior probabilities}\label{coda_clusters}
 
-When a sample consists of $s$ well separated clusters, if each cluster is modelled by a different probability distribution, the posterior probability vectors of the elements of each cluster should define a cluster close to a vertex in $\mathcal{S}^s$. \textcolor{red}{That is, one value in these posterior probability vectors is approximately equal to one whereas the rest of values are close to zero. For example, Figure~\ref{cluster_post} shows the case for three clusters. The observations are modelled by a Gaussian mixture with six components (Figure~\ref{cluster_post}(left)). After merging the components into three components, each one formed with a mixture of two components, the posterior probability vectors are elements of $\mathcal{S}^3$ (Figure~\ref{cluster_post}(right)). The posterior probability vectors form three different clusters, each one close to its corresponding vertex in the ternary diagram.} 
+When a sample consists of $s$ well separated clusters, if each cluster is modelled by a different probability distribution, the posterior probability vectors of the elements of each cluster should define a cluster close to a vertex in $\mathcal{S}^s$. That is, one value in these posterior probability vectors is approximately equal to one whereas the rest of values are close to zero. For example, in Figure~\ref{cluster_post} we have a sample generated following a mixture of four gaussian distributions. In Figure~\ref{cluster_post} (top-left) we cluster the sample in four clusters where each cluster is modelled by a single gaussian distribution. If we represent the posterior probability vectors on a quaternary diagram (top-right), we see that the posterior probabilty vectors for clusters associated to first and third components ($\tau_1$ and $\tau_3$) are located at the vertex of $\mathcal{S}^4$ and well separated from the rest. In contrast, we see that the posterior probability vectors for clusters associated to second and fourth components ($\tau_2$ and $\tau_4$) are not well separed between them. The situation changes if we separate the sample in three clusters (bottom-left), where one cluster (squared and green observations) is modelled by the mixture of two gaussian distributions. If we represent the posterior probability vectors in a ternary diagram (bottom-right), we see all posterior probabilities are forming a three separate clusters located at the vertices of $\mathcal{S}^3$.
 
-In consequence, using the geometric structure of $\mathcal{S}_s$  we can introduce another approach to decide the number of clusters. \textcolor{red}{Indeed, using the Aitchison distance, for each step in the merging process we compute the distance between each pair of posterior probability vectors and with the resulting matrix distance we study how {\it well} the components $f_{I_1}, \dots, f_{I_s}$ are defining the clusters. To analyse the clusters formed by the posterior probability vectors we calculate the Calinski-Harabasz (G1) and the Goodman and Kruskal (G2) indices \citep{milligan1985}. For example, the indices $G1$ and $G2$ respectively take the values $?$ and $?$ for four clusters in the  Figure~\ref{cluster_post}, whereas for three clusters the corresponding values are $?$ and $?$. FALTA CALCULAR}
-
-\begin{figure}[htbp]
+\begin{figure}[thbp]
 \begin{center}
 \begin{tabular}{cc}
  %   6 toy mixture
@@ -345,9 +343,15 @@ In consequence, using the geometric structure of $\mathcal{S}_s$  we can introdu
 \includegraphics[width=0.5\textwidth]{figures/ex_3clust.pdf}
 \includegraphics[width=0.5\textwidth]{figures/ex_ternary.pdf}
  \end{tabular}
- \caption{\textcolor{red}{CANVIAR !! UNA IDEA: SI AQUEST EXEMPLE NOMES LUTILITZEM AQUI, QUE US SEMBLA FER UN EXEMPLE QUE NO SIGUI TANT BEN CLASSIFICAT I QUE ES VEGIN PUNTS PROPERS AL VERTEX ALESHORES NO CALDRIA ni centrar, ni scalar ni ENSENYAR ILRS, NI TAN SOLS PARLAR-NE DE TOT PLEGAT!!! FINS I TOT TROBARIA ME INTERESANT ENSENYAR EL TERNARY QUAN ELS NOMBRE DE CLUSTERS ES 4 I QUE ALGUNS PUNTS EN EL QUATERNARY NO FAN CLUSTER O NO ESTAN PROPERS A UN VERTEX NO? Top-Left: Sample forming three clusters, where each cluster can be modelled by a mixture of two Gaussian distributions. Top-Right: Posterior probability vectors represented in the Simplex space. Because the observations lie close to the border, they are difficult to identify. Bottom-Left: Posterior probability vectors centered and rescaled to have total variance one. Bottom-Right: Posterior probability vectors represented in coordinates with respect an orthonormal basis of the Simplex space.}}\label{cluster_post}
+ \caption{Top-Left: Sample following a mixture of four gaussian distributions. Each component forms a cluster. Top-Right: Posterior probability vectors of the sample represented in a quaternary diagram. Bottom-Left: Same sample were four components are modeling three clusters. Bottom-Right: Posterior probability vectors of the sample represented in a ternary diagram.}\label{cluster_post}
 \end{center}
 \end{figure}
+
+In consequence, using the geometric structure of $\mathcal{S}_s$  we can introduce another approach to decide the number of clusters. \textcolor{red}{Indeed, using the geometric structure of $\mathcal{S}^3$ we can study how well separated are the clusters. To this purpose, we can compute the Aitchison distance between each pair of posterior probability vectors and with the resulting matrix distance we study how {\it well} the components $f_{I_1}, \dots, f_{I_s}$ are defining the clusters. To analyse the clusters formed by the posterior probability vectors we calculate the Calinski-Harabasz (G1) and the Goodman and Kruskal (G2) indices \citep{milligan1985}. For example, the indices $G1$ and $G2$ respectively take the values $?$ and $?$ for four clusters in the Figure~\ref{cluster_post} (top-right), whereas for three clusters the corresponding values are $?$ and $?$. (bottom-right)}
+
+
+
+
 
 \section{Merging components in a finite mixture: examples}\label{merging_examples_dist}
 
