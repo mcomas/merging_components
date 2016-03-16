@@ -311,7 +311,7 @@ Scale invariance property suggests that the approach is not limited to posterior
 
 Finally, noting that when $\omega_{\text{prop}}$ and $\lambda_{\log}$ are considered, the $S$-value (Equation~\ref{unifying_equation}) results in
 \[
-S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{\sum_{i=1}^nc  \log \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)}{\sum_{i=1}^n \tau_{iI_a}}.
+S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{\sum_{i=1}^n \tau_{iI_a}  \log \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)}{\sum_{i=1}^n \tau_{iI_a}}.
 \]
 For a fixed component $I_a$, the denominator is constant and we only need to maximise the numerator. The expression in the numerator has the flavour of the Kullback-Leibler divergence (in negative sign) comparing the distribution of classifying observations to $I_a$ against the distributions of classifying the same observations to $I_b$.
 
@@ -348,15 +348,13 @@ When a sample consists of $s$ well separated clusters, if each cluster is modell
 \end{center}
 \end{figure}
 
-In consequence, using the geometric structure of $\mathcal{S}_s$  we can introduce another approach to decide the number of clusters. \textcolor{red}{Indeed, using the geometric structure of $\mathcal{S}^3$ we can study how \emph{well} separated are the clusters. To this purpose, we study how \emph{well} the components $f_{I_1}, \dots, f_{I_s}$ are defining the clusters using distance based heuristics. To analyse the clusters formed by the posterior probability vectors we calculate the Calinski-Harabasz (G1) and the Goodman and Kruskal (G2) indices \citep{milligan1985}. For example, the indices $G1$ and $G2$ respectively take the values $350.28$ and $0.68$ for four clusters in the Figure~\ref{cluster_post} (top-right), whereas for three clusters the corresponding values are $759.49$ and $0.85$ (bottom-right).}
+In consequence, using the geometric structure of $\mathcal{S}^s$  we can introduce another approach to decide the number of clusters. \textcolor{red}{Indeed, using the geometric structure of $\mathcal{S}^s$ we can study how \emph{well} separated are the clusters. To this purpose, we study how \emph{well} the components $f_{I_1}, \dots, f_{I_s}$ are defining the clusters using distance based heuristics. To analyse the clusters formed by the posterior probability vectors we calculate the Calinski-Harabasz (G1) and the Goodman and Kruskal (G2) indices \citep{milligan1985}. For example, the indices $G1$ and $G2$ respectively take the values $350.28$ and $0.68$ for four clusters in the Figure~\ref{cluster_post} (top-right), whereas for three clusters the corresponding values are $759.49$ and $0.85$ (bottom-right).} The difference indicates that three clusters are defining a clustering better. We need to confirm that the defined clusters are located on the vertices of $\mathcal{S}^s$.
 
-To decide how close are the clusters given by parts $I_1,\dots, I_s$ to the vertex of the Simplex we propose the following heuristic
+To decide how close are the clusters given by parts $I_1,\dots, I_s$ to the correspondent vertex of the Simplex we propose the following: for each pair of cluster $I_a$ and $I_b$ we calculate the average of the log-ratio between $\tau_{\cdot I_a}$ and $\tau_{\cdot I_b}$ for those observations classified to cluster $I_a$. Let $V_{a, b}$ be the minimum of the calculated averages. $\mathcal{V}$ can be interpreted as the minimum average distance of classifying observations classified into $I_a$ into $I_b$. Formally, $\mathcal{V}$ can be write as
 \[
 \min_{a=1}^s \min_{b=1;a\neq b}^s \frac{ \sum_{i=1}^n  \mathbbm{1}\left( \forall j\; \tau_{i I_{a}} \geq \tau_{iI_j} \right) \log(\frac{\tau_{iI_a}}{\tau_{iI_b}}) }{\sum_{i=1}^n\mathbbm{1}\left( \forall j\; \tau_{i I_{a}} \geq \tau_{iI_j} \right) }.
 \]
-The score measures how close are the observations to the vertex. The higher the score  is  the closer the clusters are to the vertex. For example, the score is $1.64$ for four clusters in the Figure~\ref{cluster_post} (top-right) and $14.66$ for three clusters (bottom-right).
-
-
+A different interpretation of $V_{a,b}$ is by means of relation $\mathcal{V} = - \mathcal{S}_{\omega_\text{dich}, \lambda_{\log}}$. Suggesting that criteria $\mathcal{V}$ is measuring the higher confusion between two clusters. In this scenario, the higher $\mathcal{V}$  is  the closer the clusters are to the vertex. For example, the score is $1.64$ for four clusters in the Figure~\ref{cluster_post} (top-right) and $14.66$ for three clusters (bottom-right). Suggesting that after merging from four to three components the clusters are close to the vertex of $\mathcal{S}^3$.
 
 
 \section{Merging components in a finite mixture: examples}\label{merging_examples_dist}
