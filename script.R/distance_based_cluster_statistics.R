@@ -76,7 +76,7 @@ V.index[['Line']] = sapply(L[1:6], function(l){
   })
   min(MEAN)
 })
-V.index[['Line2']] = sapply(L[1:6], function(l){
+V.index[['Vertex']] = sapply(L[1:6], function(l){
   if( NCOL(l$post) == 1) return(NA)
   X = data.frame(l$post) %>% tbl_df
   C = apply(X, 1, which.max)
@@ -92,7 +92,7 @@ V.index[['Line2']] = sapply(L[1:6], function(l){
   min(MEAN)
 })
 
-df = V.index %>% select(c(1,4,5,6,7))  %>% na.omit %>% mutate(
+df = V.index %>% select(c(1,4,5,7))  %>% na.omit %>% mutate(
   K = factor(K, NROW(V.index):1)
 ) %>% gather(key = index, value = value, -K)
 
@@ -104,8 +104,8 @@ ggplot() +
   ylab('Statistic value') + xlab('Clusters') +
   ggtitle('Posteriori probability distance based heuristics')
 
-#ggsave(filename = 'figures/multinomial_statistics.pdf', width=10, height=2.7)
-#ggsave(filename = 'figures/gaussian_statistics.pdf', width=10, height=2.7)
+#ggsave(filename = 'figures/multinomial_statistics.pdf', width=7.5, height=2.7)
+#ggsave(filename = 'figures/gaussian_statistics.pdf', width=7.5, height=2.7)
 # ggplot() +
 #   #geom_line(data=df, aes(x=K, y=value), group=1) +
 #   geom_point(data=df2, aes(x=K, y=value), size=3) +

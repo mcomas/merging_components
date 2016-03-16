@@ -88,7 +88,7 @@ yrange = round(1.1*range(df$X2))
   geom_point(data=df, aes(x=X1, y=X2), col='gray') + 
   geom_point(data=data.frame(M), aes(x=X1, y=X2), col = 'black', shape = 3, size=7) + 
   coord_fixed(xlim=xrange, ylim=yrange) + 
-  theme_bw() +
+  ggplot2::theme_classic() +
   xlab(TeX('x_1')) + ylab(TeX('x_2')))
 
 
@@ -101,7 +101,7 @@ cm$z = dmixnorm_solution(cm, solution=mixt)
 
 p.c6 <- p + stat_contour(data=cm, aes(x=X1, y=X2, z=z), col='blue')  +
   geom_point(data=data.frame(M), aes(x=X1, y=X2), col = 'black', shape = 3, size=7)
-ggsave(p.c6, filename = 'figures/partition-example-mixture.pdf', width = 7, height=6)
+ggsave(p.c6, filename = 'figures/partition-example-mixture.pdf', width = 7*0.75, height=6*0.75)
 
 library(dplyr)
 library(mvtnorm)
@@ -119,10 +119,11 @@ p.all <- ggplot() +
   stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
   stat_contour(data=CN, aes(x=X1, y=X2, z=z), alpha=0.6, col='blue') + 
-  facet_wrap(~id, nrow=2) + theme_bw() + theme(legend.position="none") +
+  facet_wrap(~id, nrow=2) + ggplot2::theme_classic() + 
+  ggplot2::theme(legend.position="none") +
   scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40)) +
   xlab(TeX('x_1')) + ylab(TeX('x_2'))
-ggsave(p.all, filename = 'figures/partition-example-part6.pdf', width = 14, height=10)
+ggsave(p.all, filename = 'figures/partition-example-part6.pdf', width = 7.5, height=6)
 
 library(tidyr)
 f_omega1 = function(v_tau, a) as.numeric(which.max(v_tau) == a)
@@ -254,10 +255,10 @@ p.cn4 <- ggplot() +
   stat_contour(data=cm, aes(x=X1, y=X2, z=z), alpha=0.1) +
   geom_point(data=df, aes(x=X1, y=X2), alpha=0.8, size=1) +
   stat_contour(data=CN4, aes(x=X1, y=X2, z=z), col='blue', alpha=0.8) + 
-  facet_wrap(~id, nrow=2) + theme_bw() + theme(legend.position="none") +
+  facet_wrap(~id, nrow=2) + ggplot2::theme_classic() + ggplot2::theme(legend.position="none") +
   scale_x_continuous(breaks=c(0, 20, 40)) + scale_y_continuous(breaks=c(0, 20, 40)) +
   xlab(TeX('x_1')) + ylab(TeX('x_2'))
-ggsave(p.cn4, filename = 'figures/partition-example-part4.pdf', width = 10, height=10)
+ggsave(p.cn4, filename = 'figures/partition-example-part4.pdf', width = 6, height=6)
 
 partition = HP[[2]]
 

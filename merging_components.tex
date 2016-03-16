@@ -311,7 +311,7 @@ Scale invariance property suggests that the approach is not limited to posterior
 
 Finally, noting that when $\omega_{\text{prop}}$ and $\lambda_{\log}$ are considered, the $S$-value (Equation~\ref{unifying_equation}) results in
 \[
-S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{\sum_{i=1}^n\tau_{iI_a}  \log \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)}{\sum_{i=1}^n \tau_{iI_a}}.
+S_{\omega, \lambda}( \m\tau_{\mathcal{P}_s},  I_a,  I_b) = \frac{\sum_{i=1}^nc  \log \left(\frac{ \tau_{iI_b} }{ \tau_{iI_a} }\right)}{\sum_{i=1}^n \tau_{iI_a}}.
 \]
 For a fixed component $I_a$, the denominator is constant and we only need to maximise the numerator. The expression in the numerator has the flavour of the Kullback-Leibler divergence (in negative sign) comparing the distribution of classifying observations to $I_a$ against the distributions of classifying the same observations to $I_b$.
 
@@ -331,7 +331,8 @@ $\lambda_{\log}$ are not scaled into the interval $\left[0,1\right]$. For scalin
 
 \subsection{Using the clusters of the posterior probabilities}\label{coda_clusters}
 
-When a sample consists of $s$ well separated clusters, if each cluster is modelled by a different probability distribution, the posterior probability vectors of the elements of each cluster should define a cluster close to a vertex in $\mathcal{S}^s$. That is, one value in these posterior probability vectors is approximately equal to one whereas the rest of values are close to zero. For example, in Figure~\ref{cluster_post} we have a sample generated following a mixture of four gaussian distributions. In Figure~\ref{cluster_post} (top-left) we cluster the sample in four clusters where each cluster is modelled by a single gaussian distribution. If we represent the posterior probability vectors on a quaternary diagram (top-right), we see that the posterior probabilty vectors for clusters associated to first and third components ($\tau_1$ and $\tau_3$) are located at the vertex of $\mathcal{S}^4$ and well separated from the rest. In contrast, we see that the posterior probability vectors for clusters associated to second and fourth components ($\tau_2$ and $\tau_4$) are not well separed between them. The situation changes if we separate the sample in three clusters (bottom-left), where one cluster (squared and green observations) is modelled by the mixture of two gaussian distributions. If we represent the posterior probability vectors in a ternary diagram (bottom-right), we see all posterior probabilities are forming a three separate clusters located at the vertices of $\mathcal{S}^3$.
+When a sample consists of $s$ well separated clusters, if each cluster is modelled by a different probability distribution, the posterior probability vectors of the elements of each cluster should define a cluster close to a vertex in $\mathcal{S}^s$. That is, one value in these posterior probability vectors is approximately equal to one whereas the rest of values are close to zero. For example, in Figure~\ref{cluster_post} we have a sample generated following a mixture of four gaussian distributions. In Figure~\ref{cluster_post} (top-left) we cluster the sample in four clusters where each cluster is modelled by a single gaussian distribution. If we represent the posterior probability vectors on a quaternary diagram (top-right), we see that the posterior probabilty vectors for clusters associated to first and third components ($\tau_1$ and $\tau_3$) are located at the vertex of $\mathcal{S}^4$ and well separated from the rest. In contrast, we see that the posterior probability vectors for clusters associated to second and fourth components ($\tau_2$ and $\tau_4$) are not well separed between them. The situation changes if we separate the sample in three clusters (bottom-left), where one cluster (squared and green observations) is modelled by the mixture of two gaussian distributions. If we represent the posterior probability vectors in a ternary diagram (bottom-right), we see all posterior probabilities are forming a three separate clusters located at the vertices of $\mathcal{S}^3$. 
+
 
 \begin{figure}[thbp]
 \begin{center}
@@ -349,6 +350,11 @@ When a sample consists of $s$ well separated clusters, if each cluster is modell
 
 In consequence, using the geometric structure of $\mathcal{S}_s$  we can introduce another approach to decide the number of clusters. \textcolor{red}{Indeed, using the geometric structure of $\mathcal{S}^3$ we can study how \emph{well} separated are the clusters. To this purpose, we study how \emph{well} the components $f_{I_1}, \dots, f_{I_s}$ are defining the clusters using distance based heuristics. To analyse the clusters formed by the posterior probability vectors we calculate the Calinski-Harabasz (G1) and the Goodman and Kruskal (G2) indices \citep{milligan1985}. For example, the indices $G1$ and $G2$ respectively take the values $350.28$ and $0.68$ for four clusters in the Figure~\ref{cluster_post} (top-right), whereas for three clusters the corresponding values are $759.49$ and $0.85$ (bottom-right).}
 
+To decide how close are the clusters given by parts $I_1,\dots, I_s$ to the vertex of the Simplex we propose the following heuristic
+\[
+\min_{a=1}^s \min_{b=1;a\neq b}^s \frac{ \sum_{i=1}^n  \mathbbm{1}\left( \forall j\; \tau_{i I_{a}} \geq \tau_{iI_j} \right) \log(\frac{\tau_{iI_a}}{\tau_{iI_b}}) }{\sum_{i=1}^n\mathbbm{1}\left( \forall j\; \tau_{i I_{a}} \geq \tau_{iI_j} \right) }.
+\]
+The score measures how close are the observations to the vertex. The higher the score  is  the closer the clusters are to the vertex. For example, the score is $1.64$ for four clusters in the Figure~\ref{cluster_post} (top-right) and $14.66$ for three clusters (bottom-right).
 
 
 
@@ -446,7 +452,7 @@ To decide the number of clusters we plot the $S$-values using different approach
 \begin{center}
 \begin{tabular}{cc}
   \includegraphics[width=0.85\textwidth]{figures/gaussian_Svalues.pdf} \\
-   \includegraphics[width=0.85\textwidth]{figures/gaussian_statistics.pdf}
+   \includegraphics[width=0.65\textwidth]{figures/gaussian_statistics.pdf}
  \end{tabular}
  \caption{S-values obtained using the approaches presented by Baudry et al. and Hennig labeled Entropy and DEMP respectively.}\label{gaussian_Svalues}
 \end{center}
@@ -506,7 +512,7 @@ Other criteria like $S_{\omega_{\text{csnt}},\lambda_{\Delta\text{Ent}}}$,  $S_{
 \begin{center}
 \begin{tabular}{cc}
   \includegraphics[width=0.85\textwidth]{figures/multinomial_Svalues_all.pdf} \\
-  \includegraphics[width=0.85\textwidth]{figures/multinomial_statistics.pdf} 
+  \includegraphics[width=0.65\textwidth]{figures/multinomial_statistics.pdf} 
  \end{tabular}
  \caption{Squared average distance between clusters (top-left), the squared average distance within clusters (top-right), the Calinski-Harabasz index (bottom-left) and the Goodman and Kruskal's Gamma coefficient (bottom-right) applied to the posterior probabilities obtained after adjusting a finite mixture of multinomial distributions to the Pigs data set.}\label{multinomial_statistics}
 \end{center}
