@@ -331,7 +331,7 @@ $\lambda_{\log}$ are not scaled into the interval $\left[0,1\right]$. For scalin
 
 \subsection{Using the location of the posterior probabilities}\label{coda_clusters}
 
-For a sample with $s$ well separated clusters of observations, when each cluster is modelled by a different probability distribution, the posterior probability vectors of the elements of each cluster are located close to a vertex of the simplex, $\mathcal{S}^s$. For example, in Figure~\ref{cluster_post} we have a sample generated following a mixture of four gaussian distributions. We have considered four clusters (top-left) where one component models one cluster, and three clusters (bottom-left) where the two components with mean at $(10, 10 \sqrt{3})$ are modelling one cluster. When we consider the sample with four clusters, the posterior probability vectors can be represented in a quaternary diagram (top-right). In the quaternary diagram we see the posterior probability vectors of part $I_1$ and $I_3$ are respectively located close to vertices $\tau_1$ and $\tau_3$ of $\mathcal{S}^4$. In contrast, the posterior probability vectors of individuals $I_2$ and $I_4$ are not well separated and they expand thought the edge going from $\tau_2$ to $\tau_4$. The situation changes if we consider the sample with three clusters (bottom-left). In this case, we can represent the posterior probability vectors in a ternary diagram (bottom-right) to find that the posterior probability vectors of all three parts are located in three different vertices.
+For a sample with $s$ well separated clusters of observations, when each cluster is modelled by a different probability distribution, the posterior probability vectors of the elements of each cluster are located close to a vertex of the simplex, $\mathcal{S}^s$. For example, in Figure~\ref{cluster_post} we have a sample generated following a mixture of four gaussian distributions. In the first scenario (top-left) each component models one different cluster, in the second scenario (bottom-left), we are modelling three cluster where two components with mean at $(10, 10 \sqrt{3})$ are modelling one cluster together. When we consider the sample with four clusters, the posterior probability vectors can be represented in a quaternary diagram (top-right). In the quaternary diagram we see the posterior probability vectors of part $I_1$ and $I_3$ are respectively located close to vertices $\tau_1$ and $\tau_3$ of $\mathcal{S}^4$. In contrast, the posterior probability vectors of individuals $I_2$ and $I_4$ are not well separated and they expand thought the edge going from $\tau_2$ to $\tau_4$. The situation changes if we consider the sample with three clusters (bottom-left). In this case, we can represent the posterior probability vectors in a ternary diagram (bottom-right) to find that the posterior probability vectors of all three parts are located in three different vertices.
 
 \begin{figure}[thbp]
 \begin{center}
@@ -347,27 +347,22 @@ For a sample with $s$ well separated clusters of observations, when each cluster
 \end{center}
 \end{figure}
 
-Therefore, using the geometric structure of $\mathcal{S}^s$ we can introduce new approaches to decide the number of clusters based on how close are the posterior probability vectors to the vertices and how \emph{well} separated are the posterior probability vectors associated to each cluster.
+Therefore, we can use the geometric structure of $\mathcal{S}^s$ {\color{red}cita} to define the number of clusters based on how close are the posterior probability vectors to the vertices and how \emph{well} separated are the posterior probability vectors associated to each cluster.
 
 Let $I_1,\dots, I_s$ be the parts defining the $s$ clusters. The posterior probability vectors, $\m\tau_i$, of observations $x_i$ assigned to $I_a$ are close to the corresponding vertex if $\tau_{i I_a}$ is close to one. In addition, $\tau_{i I_b}$, $b \neq a$, are close to zero. In consequence, the log-ratio $\log(\tau_{i I_a}/\tau_{iI_b})$ should take larger values for all observations $x_i$ assigned to cluster $I_a$. To decide how close $\m\tau_i$ is to the vertex of the Simplex we propose the following: for each posterior probability $\m\tau_i$ of observations assigned to $I_a$ we calculate
 \[
-\nu_i = \min_{b,\;b \neq a}  \log(\frac{\tau_{i I_a}}{\tau_{iI_b}}).
+\nu_{i, a} = \min_{b,\;b \neq a}  \log(\frac{\tau_{i I_a}}{\tau_{iI_b}}).
 \]
-Because $\tau_{i I_a}$ is the highest posterior probability (observation $x_i$ is assigned to $I_a$) $\nu_i$ is positive. We have that the lowest $\nu_i$ is the furthest $\m\tau_{i}$ is from vertex $I_a$. For example, when considering four clusters (top-left) the average of $\nu_i$ for observations assigned to clusters centred  at $(0,0)$ and $(20, 0)$ are $15.83$ and $14.46$ respectively. In contrast, the average of $\nu_i$ for observations assigned to clusters centred at $(10, 10\sqrt{3})$ are significatively lower ($2.15$ and $4.00$). When three clusters are considered (bottom-left), the average of $\nu_i$ for observations assigned to clusters centred at at $(0,0)$, $(20, 0)$ and $(10, 10\sqrt{3})$ are 15.82, 14.46 and 19.48 respectively.
+Because $\tau_{i I_a}$ is the highest posterior probability (observation $x_i$ is assigned to $I_a$) $\nu_{i a}$ is positive. We have that the lowest is $\nu_{i, a}$, the furthest is $\m\tau_{i}$ from vertex $I_a$. For example, when considering four clusters (top-left) the average of $\nu_{i, j}$, for observations assigned to clusters centred  at $(0,0)$ and $(20, 0)$ are $15.83$ and $14.46$ respectively. In contrast, the average of $\nu_{i, j}$ for observations assigned to clusters centred at $(10, 10\sqrt{3})$ are significatively lower ($2.15$ and $4.00$). When three clusters are considered (bottom-left), the average of $\nu_{i, j}$ for observations assigned to clusters centred at at $(0,0)$, $(20, 0)$ and $(10, 10\sqrt{3})$ are 15.82, 14.46 and 19.48 respectively. 
 
-
-To analyse how well separated the posterior probability vectors are we propose to calculate the Calinski-Harabasz (G1) and the Goodman and Kruskal (G2) indices \citep{milligan1985} using the Aitchison distance in $\mathcal{S}^s$. For example, the indices $G1$ and $G2$ respectively take the values $350.28$ and $0.68$ for four clusters in the Figure~\ref{cluster_post} (top-right), whereas for three clusters the corresponding values are $759.49$ and $0.85$ (bottom-right). This differences indicate that the three clusters seems to be a better fit for the sample.
-
- Therefore, to decide how close are the clusters to the vertex of the Simplex we propose the following: for each pair of cluster $I_a$ and $I_b$ we calculate the average of the log-ratio between $\tau_{\cdot I_a}$ and $\tau_{\cdot I_b}$ for those observations classified to cluster $I_a$.
- 
-  Let $\mathcal{V}$ be the minimum of the calculated averages. In terms of the geometry of the Simplex, $\mathcal{V}$ can be interpreted as the average distance of the posterior probabilities classified to one cluster to the region where those observations can be classified to another cluster. Formally, $\mathcal{V}$ can be written as\footnote{aquí fem mitjanes de ratios entre vectors columna però el que volem que estigui a prop de vèrtex són vectors fila...no caldria fer-ho per files? Es a dir, mirar per cada fila la mínima ratio i després fer la mitjana...
-no sé si dóna igual el mínim de les mitjanes que les mitjanes dels mínims! ¿?¿??¿¿}
+Therefore, using this measure, to identify if there are two clusters not \emph{well} separated we calculate the following index:
 \[
-\min_{a=1}^s \min_{b=1;a\neq b}^s \frac{ \sum_{i=1}^n  \mathbbm{1}\left( \forall j\; \tau_{i I_{a}} \geq \tau_{iI_j} \right) \log(\frac{\tau_{iI_a}}{\tau_{iI_b}}) }{\sum_{i=1}^n\mathbbm{1}\left( \forall j\; \tau_{i I_{a}} \geq \tau_{iI_j} \right) }.
+\mathcal{V} = \min_{j \in \{1,\dots, s\}} \nu_{i, j}.
 \]
-A different interpretation of $\mathcal{V}$ is by means of relation $\mathcal{V} = - \mathcal{S}_{\omega_\text{dich}, \lambda_{\log}}$. Suggesting that criteria $\mathcal{V}$ is measuring the higher confusion between two clusters. In this scenario, the higher $\mathcal{V}$  is  the closer the clusters are to the vertex. For example, the score is $1.64$ for four clusters in the Figure~\ref{cluster_post} (top-right) and $14.66$ for three clusters (bottom-right). Suggesting that after merging from four to three components the three clusters are close all close to one vertex of $\mathcal{S}^3$. We call this criteria \emph{the closeness to the vertex criteria}.
+In the first scenario we have $\mathcal{V} = 2.15$, in the second scenario we have  $\mathcal{V} = 14.46$.
 
-{\color{red}When some cluster of posterior prob vectors is not close to its corresponding vertex we expect that $\mathcal{V}$ takes a value close to zero. Once, for the first time, all these clusters are close to its vertex the value of $\mathcal{V}$ will take a large value. After this step, $\mathcal{V}$ will incresase its value. To detect the number of cluster resumes to detect the first time that $\mathcal{V}$ takes a large positive value.}
+
+A different approach to identify if the posterior probability $\m\tau_{i}$ are close to the vertices is to identify if the $\m\tau_{i}$ associated to part are forming a cluster by themselves. For example, in Figure~\ref{cluster_post} (top-right) the posterior probability vectors associated to $\tau_2$ and $\tau_4$ are not forming two clusters well separated. To measure this separations we propose to use indices that can be calculated using distances between individuals. To this end, we propose to use the Calinski-Harabasz (G1) and the Goodman and Kruskal (G2) indices \citep{milligan1985} using the Aitchison distance in $\mathcal{S}^s$. For example, the indices $G1$ and $G2$ respectively take the values $350.28$ and $0.68$ for four clusters in the Figure~\ref{cluster_post} (top-right), whereas for three clusters the corresponding values are $759.49$ and $0.85$ (bottom-right). This differences indicate that the three clusters seems to be a better fit for the sample.
 
 \section{Merging components in a finite mixture: examples}\label{merging_examples_dist}
 
@@ -399,7 +394,7 @@ $j$ & $\pi_j$ & $\mu_{j x_1}$ & $\mu_{j x_2}$ & $\sigma^2_{j x_1}$ & $\sigma^2_{
 
 
 Let the parameters of $f$ be known. Figure~\ref{ex_mixture} shows the isodensity curves of the estimated \fmm for 
-a random sample \textbf{X}. We are interested in clustering the sample \textbf{X}.
+a random sample \textbf{X}. We want to cluster sample \textbf{X}.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -411,7 +406,7 @@ a random sample \textbf{X}. We are interested in clustering the sample \textbf{X
 \end{center}
 \end{figure}
 
-The initial partition  $\mathcal{P}_6 = \{ \{1\},\{2\}, \{3\}, \{4\}, \{5\}, \{6\} \}$  by Equation~\ref{cluster_criteria} yields to a six clusters were each component is associated to one cluster. In Figure~\ref{ex_one_one} we have separate the observations in its respective cluster. In the plot we show isodensity curves for the density modelling each cluster. In this case each cluster is modelled with a Gaussian distribution.
+The initial partition  $\mathcal{P}_6 = \{ \{1\},\{2\}, \{3\}, \{4\}, \{5\}, \{6\} \}$  by Equation~\ref{cluster_criteria} yields to a six clusters were each component is associated to one cluster. In Figure~\ref{ex_one_one} we have separate the observations with respect the cluster they were assigned. The plot also includes the isodensity curves for the density modelling each cluster, in this case each cluster is modelled with a Gaussian distribution.
 
 \begin{figure}[h]
 \begin{center}
@@ -423,7 +418,7 @@ The initial partition  $\mathcal{P}_6 = \{ \{1\},\{2\}, \{3\}, \{4\}, \{5\}, \{6
 \end{center}
 \end{figure}
 
-With the posterior probabilities $\text{\textbf{T}}_{\mathcal{P}_s}$ we calculate the $S$-values with $\omega_{\text{cnst}}$ and $\lambda_{\Delta\text{Ent}}$. We obtained the sequential hierarchical partition given by 
+Using the posterior probabilities $\text{\textbf{T}}_{\mathcal{P}_s}$ and functions $\omega_{\text{cnst}}$ and $\lambda_{\Delta\text{Ent}}$ we obtained the sequential hierarchical partition given by 
 \begin{equation}
 \begin{array}{r c l}
 \mathcal{P}_6 &=& \{\{1\},\{2\},\{3\},\{4\},\{5\},\{6\}\},\\
@@ -436,7 +431,7 @@ With the posterior probabilities $\text{\textbf{T}}_{\mathcal{P}_s}$ we calculat
 \label{hier_ex}
 \end{equation}
 
-In the partition $\mathcal{P}_4 = \{\{1, 4\},\{2\}, \{3, 6\}, \{5\} \}$, the part $\{1, 4\}$ define a single cluster, as well as part \{3, 6\}. For this partition, using Equation~\ref{cluster_criteria} each observation $\m x_i$ is classified to one component. Figure~\ref{ex_two_one} shows the clustering with the isodensity curves defined by each component. In this case, clusters labelled $\{1,4\}$ and $\{3, 6\}$ are modelled by a mixture of two components. With partition $\mathcal{P}_4$ the clusters are modelled by $\fmm$s
+In partition $\mathcal{P}_4 = \{\{1, 4\},\{2\}, \{3, 6\}, \{5\} \}$, the part $\{1, 4\}$ define a single cluster, as well as part \{3, 6\}. For this partition, using Equation~\ref{cluster_criteria} each observation $\m x_i$ is classified to one component. Figure~\ref{ex_two_one} shows the observations separated with respect to the cluster they were classified together with the isodensity curves defined by each component. In this case, clusters labelled $\{1,4\}$ and $\{3, 6\}$ are modelled by a mixture of two components. With partition $\mathcal{P}_4$ the clusters are modelled by $\fmm$s
 \begin{itemize}
 \item $f_{\{1,4\}} = \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_1, \m\Sigma_1) + \frac{1}{2} \phi(\;\cdot\; ;  \m\mu_4, \m\Sigma_4)$, 
 \item $f_{\{2\}} = \phi(\;\cdot\; ;  \m\mu_2, \m\Sigma_2)$, 
@@ -456,7 +451,7 @@ In the partition $\mathcal{P}_4 = \{\{1, 4\},\{2\}, \{3, 6\}, \{5\} \}$, the par
 
 With $\omega_{prop}$ combined with $\lambda_{\text{DEMP}_m}$, $\lambda_{\text{dist}}$, $\lambda_{\log}$ and $\lambda_{\text{prop}}$ we obtain the same hierarchical partition (Equation \ref{hier_ex}). Using $\omega_{prop}$ and $\lambda_{\text{DEMP}}$ the sequential hierarchical obtained only differs from the previous one  in partition $\mathcal{P}_5$, where now $\mathcal{P}_5 = \{\{1, 4\},\{2\}, \{3\},\{5\},\{6\} \}$.
 
-To decide the number of clusters we plot the $S$-values using different approaches (Figure~\ref{gaussian_Svalues}(top)). Using the Aitchison distance between posterior probabilities, Figure~\ref{gaussian_Svalues}(bottom) shows the Calinski-Harabasz (G1) and the Goodman and Kruskal (G2) \citep{milligan1985}, and the closeness to the vertex indices. Except the log-ratio approach {\color{red}before scaling}\footnote{Eliminar la opció sense escalar de l'exemple}, we see that all approaches after merging components to model four clusters or less the $S$-values are close to zero. This indicates that the clustering defined with four, three, or two clusters are well separated. Both G1 and G2 have a local maximum in four clusters, indicating that by those methods it is preferred to separate the data into four clusters. The closeness to the vertex criteria increases after merging into four clusters indicating that the clusters are close to a vertex. Combining the information obtained with the $S$-values and the indices G1 and G2, and the closeness criteria we separate our data into four clusters using partition $\mathcal{P}_4$ as shown in Figure~\ref{ex_two_one}.
+To decide the number of clusters we plot the $S$-values using different approaches (Figure~\ref{gaussian_Svalues} (top)). Using the Aitchison distance between posterior probabilities, Figure~\ref{gaussian_Svalues} (bottom) shows the Calinski-Harabasz (G1) and the Goodman and Kruskal (G2) \citep{milligan1985}, and the closeness to the vertex indices. Except the log-ratio approach {\color{red}before scaling}\footnote{Eliminar la opció sense escalar de l'exemple}, we see that all approaches after merging components to model four clusters or less the $S$-values are close to zero. This indicates that the clustering defined with four, three, or two clusters are well separated. Both G1 and G2 have a local maximum in four clusters, indicating that by those methods it is preferred to separate the data into four clusters. The closeness to the vertex criteria increases after merging into four clusters indicating that the clusters are close to a vertex. Combining the information obtained with the $S$-values and the indices G1 and G2, and the closeness criteria we separate our data into four clusters using partition $\mathcal{P}_4$ as shown in Figure~\ref{ex_two_one}.
 
 \begin{figure}[t]
 \begin{center}
@@ -470,7 +465,7 @@ To decide the number of clusters we plot the $S$-values using different approach
 
 \subsection{Merging components in a mixture of multinomial distributions}\label{multinom_example}
 
-Merging approaches presented in this article rely on the vector of posterior probabilities which can be calculated for any finite mixture model. Therefore, the merging generic approach introduced in Section~\ref{generic_merging} can be used for any family of \fmm, for example a finite mixture of multinomial distribution.
+Merging approaches presented in this article rely on the vector of posterior probabilities which can be calculated from any finite mixture model. Therefore, the merging generic approach introduced in Section~\ref{generic_merging} can be used for any family of \fmm, for example a finite mixture of multinomial distribution.
 
 Pigs dataset can be obtained from package \emph{zCompositions} R package \citep{palarea2015zcompositions}. The dataset contains count data of behavioural observations of a group of 29 sows. In different moments the pigs were recorded during five minutes and its current activity was registered. For each pig six locations were considered: straw bed (BED), half in the straw bed (HALF.BED), dunging passage (PASSAGE), half in the dunging passage (HALF.PASS), feeder (FEEDER) and half in the feeder (HALF.FEED).
 
@@ -542,7 +537,7 @@ To decide the number of clusters we plot the $S$-values Figure~\ref{multinomial_
 
 \section{Final remarks}\label{remarks}
 
-\textcolor{red}{NO HO MIRARE FINS QUE LA RESTA ESTIGUI FET} When \fmm is used in clustering the question \textit{``is a cluster determined by a unique component?''} emerges. Different authors have proposed scenarios where it seems reasonable to argue that a cluster can be better modelled by more than one single component, or equivalently, modelled by a \fmm itself. In this scenarios, the approaches proposed in this article can be of interest.
+ When \fmm is used in clustering the question \textit{``is a cluster determined by a unique component?''} emerges. Different authors have proposed scenarios where it seems reasonable to argue that a cluster can be better modelled by more than one single component, or equivalently, modelled by a \fmm itself. In this scenarios, the approaches proposed in this article can be of interest.
 
 In literature different approaches have been considered to merge the components of a \fmm. Some of them are specific to a particular type of mixture (methods related to Gaussian mixtures) and some others are independent of the type of mixture (to cite generic approaches). 
 
