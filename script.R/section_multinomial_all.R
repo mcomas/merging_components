@@ -67,8 +67,10 @@ d = (pigs.g <- pigs %>% mutate(
     HALF.PASS = mean(HALF.PASS/TOTAL),
     FEEDER = mean(FEEDER/TOTAL),
     HALF.FEED = mean(HALF.FEED/TOTAL)) %>%
-  gather(key=Variable, value=Frequency, -Comp)
-
+  gather(key=Variable, value=Frequency, -Comp) %>%
+  mutate(
+    Variable = factor(Variable, levels = c('BED', 'HALF.BED', 'PASSAGE', 'HALF.PASS', 'FEEDER', 'HALF.FEED'))
+  )
 ggplot() +
   geom_bar(data = d, aes(x=Variable, y=Frequency, fill=Comp), color='black', stat = 'identity') +
   facet_wrap(~Comp, ncol=3) +
