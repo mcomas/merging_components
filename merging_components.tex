@@ -468,7 +468,7 @@ Pigs dataset can be obtained from the \emph{zCompositions}  \citep{palarea2015zc
 
 We used \emph{mixtools} \citep{benaglia2009mixtools} to fit a multinomial mixture. Six components were identified as optimum according to the BIC criterion. Table~\ref{multinomial_pars} shows the parameters of each the components. Using these parameters we can compute the posterior probability matrix $\text{\textbf{T}}_{\mathcal{P}_6}$. Each observation is classified into one cluster following Equation~\ref{map_criteria} or Equation~\ref{cluster_criteria} with partition $\mathcal{P}_6 = \{\{1\}, \{2\}, \{3\}, \{4\}, \{5\}, \{6\}\}$. In Figure~\ref{multinomial_mixture} we can see the bar plot for the observations classified into the same cluster.
 
-\begin{table}[hpdb]
+\begin{table}[hp]
 \caption{Parameters of a finite mixture of multinomial distributions adjusted to the Pigs data set. For component $j$, the mixing proportions are denoted by $\pi_j$ and the multinomial probabilities by $\left(\theta_{j1}, \dots, \theta_{j6}\right)$.}
 \centering
 \begin{tabular}{rrrrrrrr}
@@ -486,7 +486,7 @@ We used \emph{mixtools} \citep{benaglia2009mixtools} to fit a multinomial mixtur
 \label{multinomial_pars}
 \end{table}
 
-\begin{figure}[hpdb]
+\begin{figure}[hpb]
 \begin{center}
 \begin{tabular}{cc}
   \includegraphics[width=0.95\textwidth]{figures/multinomial_mixt_all.pdf} \\
